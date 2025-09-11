@@ -1,0 +1,49 @@
+---
+layout: base.njk
+title: "Reservas y contacto"
+description: "Solicita disponibilidad para Casa Bardena Negra o reserva desde Rurive."
+permalink: "/reservas/"
+---
+
+<section style="margin-top:2rem" class="grid cols-2">
+  <div class="card">
+    <h1>Solicitar disponibilidad</h1>
+    <form name="reserva" method="POST" action="/gracias/" data-netlify="true" netlify-honeypot="bot-field" accept-charset="UTF-8">
+      <input type="hidden" name="form-name" value="reserva" />
+      <div class="sr-only">
+        <label>Si ves este campo, déjalo vacío<input type="text" name="bot-field"></label>
+      </div>
+
+      <div class="grid cols-2">
+        <p><label>Nombre<br><input required name="nombre" type="text" placeholder="Tu nombre"></label></p>
+        <p><label>Email<br><input required name="email" type="email" placeholder="tucorreo@ejemplo.com"></label></p>
+      </div>
+      <div class="grid cols-2">
+        <p><label>Entrada<br><input required name="checkin" type="date"></label></p>
+        <p><label>Salida<br><input required name="checkout" type="date"></label></p>
+      </div>
+      <div class="grid cols-3">
+        <p><label>Adultos<br><input name="adultos" type="number" min="1" value="2"></label></p>
+        <p><label>Niños<br><input name="ninos" type="number" min="0" value="0"></label></p>
+        <p><label>Teléfono (opcional)<br><input name="telefono" type="tel" placeholder=""></label></p>
+      </div>
+      <p><label>Mensaje (opcional)<br><textarea name="mensaje" rows="4" placeholder="Cuéntanos detalles de tu estancia o dudas"></textarea></label></p>
+      <p style="margin-top:.6rem"><button class="btn" type="submit">Enviar consulta</button></p>
+
+      <p class="legal" style="margin-top:.6rem">Al enviar aceptas el tratamiento de tus datos para gestionar la solicitud. Consulta la <a href="/privacidad/">privacidad</a>.</p>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>¿Prefieres reservar ya?</h2>
+    <p>Puedes hacerlo directamente desde Rurive:</p>
+    <p><a class="btn" href="{{ site.bookingHref }}" target="_blank" rel="noopener">Ir a Rurive</a></p>
+
+    <h3 style="margin-top:1rem">Familias</h3>
+    <ul>
+      <li>Bienvenidos bebés y niños. Cuna disponible bajo petición.</li>
+      <li>Capacidad estándar: 8 personas (opción +2 en sofá cama).</li>
+      <li>Indica edades para preparar la casa (trona, cuna...).</li>
+    </ul>
+  </div>
+</section>

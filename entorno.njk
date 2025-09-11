@@ -1,0 +1,32 @@
+---
+layout: base.njk
+title: "Entorno · Bardenas, Tudela y Sendaviva"
+description: "A 10 minutos de Bardenas Reales, 15 de Tudela y 23 de Sendaviva. Ideas de planes cerca de Fustiñana."
+permalink: "/entorno/"
+---
+
+<section class="grid cols-2" style="align-items:start;margin-top:2rem">
+  <div class="card">
+    <h1>Explora la Ribera de Navarra</h1>
+    <p>Nuestra ubicación en <strong>Fustiñana</strong> es perfecta para descubrir el sur de Navarra.</p>
+    <ul>
+      <li><strong>Bardenas Reales</strong> · ≈10 min</li>
+      <li><strong>Tudela</strong> · ≈15 min</li>
+      <li><strong>Sendaviva</strong> · ≈23 min</li>
+    </ul>
+    <p>Además, te recomendamos rutas por la <em>Laguna de Lor</em>, visitas a <em>Olite</em> y escapadas al <em>Moncayo</em>.</p>
+  </div>
+  <div class="figure">
+    <img src="https://placehold.co/900x600/e8dcca/2a2a2a?text=Bardenas+Reales" alt="Paisaje de Bardenas Reales">
+  </div>
+</section>
+
+<section style="margin-top:2rem">
+  <div class="card">
+    <h2>Cómo llegar</h2>
+    <p>{{ site.address.streetAddress }}, {{ site.address.postalCode }} {{ site.address.addressLocality }} ({{ site.address.addressRegion }})</p>
+    <iframe title="Mapa de Fustiñana"
+      style="width:100%;height:360px;border:1px solid rgba(0,0,0,.1);border-radius:12px"
+      src="https://www.openstreetmap.org/export/embed.html?bbox={{ site.geo.lng-0.02 }},{{ site.geo.lat-0.02 }},{{ site.geo.lng+0.02 }},{{ site.geo.lat+0.02 }}&amp;layer=mapnik&amp;marker={{ site.geo.lat }},{{ site.geo.lng }}"></iframe>
+  </div>
+</section>

@@ -1,0 +1,94 @@
+{
+  "name": "Casa Bardena Negra",
+  "shortName": "Bardena Negra",
+  "url": "https://tu-dominio.example",
+  "brandColor": "#7a5c2e",
+  "bookingHref": "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra",
+  "contactHref": "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra",
+  "address": {
+    "streetAddress": "Calle Virgen de la Peña 44",
+    "addressLocality": "Fustiñana",
+    "postalCode": "31510",
+    "addressRegion": "Navarra",
+    "addressCountry": "ES"
+  },
+  "geo": {
+    "lat": 42.022199404183,
+    "lng": -1.487488746965
+  },
+  "license": "UVTR1391",
+  "capacity": {
+    "standard": 8,
+    "max": 10
+  },
+  "bedrooms": [
+    {
+      "name": "Planta baja",
+      "type": "doble",
+      "beds": [
+        {
+          "type": "Matrimonio",
+          "size": "150"
+        }
+      ]
+    },
+    {
+      "name": "Arriba - Dormitorio 1",
+      "type": "doble",
+      "beds": [
+        {
+          "type": "Matrimonio"
+        }
+      ]
+    },
+    {
+      "name": "Arriba - Dormitorio 2",
+      "type": "doble",
+      "beds": [
+        {
+          "type": "Matrimonio"
+        }
+      ]
+    },
+    {
+      "name": "Arriba - Dormitorio 3",
+      "type": "doble",
+      "beds": [
+        {
+          "type": "2x90",
+          "together": true
+        }
+      ]
+    }
+  ],
+  "amenities": [
+    "Wi‑Fi",
+    "Aire acondicionado en todas las habitaciones",
+    "Calefacción",
+    "Cocina equipada (lavavajillas, microondas)",
+    "Salón-comedor amplio",
+    "2 baños completos",
+    "Jardín y terraza",
+    "Barbacoa",
+    "Cuna bajo petición",
+    "Zona de juegos infantil",
+    "TV de pantalla plana",
+    "Lavadora"
+  ],
+  "rules": {
+    "quietHours": "22:00–08:00",
+    "noParties": true,
+    "pets": "Consultar antes de reservar",
+    "smoking": "Prohibido en el interior"
+  },
+  "nearby": {
+    "bardenas": "≈10 min",
+    "tudela": "≈15 min",
+    "sendaviva": "≈23 min"
+  },
+  "sameAs": [
+    "https://www.escapadarural.com/casa-rural/navarra/casa-bardena-negra",
+    "https://www.booking.com/hotel/es/casa-bardena-negra-comodo-alojamiento-para-visitar-las-bardenas-y-sendaviva.html",
+    "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra"
+  ]
+}

@@ -1,0 +1,29 @@
+[build]
+  command = "npm run build"
+  publish = "_site"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--no-audit --no-fund --loglevel=error"
+
+[functions]
+  node_bundler = "esbuild"
+
+[functions."submission-created"]
+  external_node_modules = ["nodemailer"]
+
+# Pretty URLs para legales
+[[redirects]]
+  from = "/privacidad.html"
+  to = "/privacidad/"
+  status = 301
+
+[[redirects]]
+  from = "/legal.html"
+  to = "/legal/"
+  status = 301
+
+[[redirects]]
+  from = "/cookies.html"
+  to = "/cookies/"
+  status = 301
