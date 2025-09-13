@@ -97,3 +97,21 @@ footer a{color:#fff}
   .hero .inner{justify-content:center; text-align:center; padding:0 16px}
   .hero .actions .btn{display:block; width:100%; max-width:320px; margin:10px auto 0}
 }
+
+/* CTA final centrada */
+.cta-card{
+  max-width: 980px;         /* ancho cómodo */
+  margin: 0 auto;           /* centra la card dentro del container */
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:.8rem;
+}
+.cta-actions{ display:flex; gap:.6rem; }
+
+@media (max-width: 960px){
+  .cta-card{ justify-content:center; text-align:center; }
+  .cta-actions{ width:100%; justify-content:center; }
+  .cta-actions .btn{ width:100%; max-width:320px; }
+}
