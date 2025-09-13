@@ -97,28 +97,3 @@ footer a{color:#fff}
   .hero .inner{justify-content:center; text-align:center; padding:0 16px}
   .hero .actions .btn{display:block; width:100%; max-width:320px; margin:10px auto 0}
 }
-
-/* === CTA final centrada (override) === */
-.cta-wrap{                 /* contenedor que centra la tarjeta */
-  display:flex;
-  justify-content:center;
-}
-
-.cta-card{                 /* la tarjeta en sí */
-  width:min(980px, 100%);  /* ancho máximo y responsivo */
-  margin:0;                /* no dependemos de margin:auto */
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  gap:.8rem;
-}
-
-.cta-text{ flex:1 1 320px; }
-.cta-actions{ display:flex; gap:.6rem; flex:0 0 auto; }
-
-@media (max-width: 960px){
-  .cta-card{ justify-content:center; text-align:center; }
-  .cta-actions{ width:100%; justify-content:center; }
-  .cta-actions .btn{ width:100%; max-width:320px; }
-}
