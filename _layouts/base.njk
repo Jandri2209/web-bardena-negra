@@ -8,28 +8,25 @@ title: ""
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
   <meta name="description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
+
+  <!-- Fuentes estilo hotel -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:wght@500;700&family=Gilda+Display&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="/assets/styles.css"/>
-  <script defer src="/assets/main.js"></script>
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-  <meta property="og:site_name" content="{{ site.name }}"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="{% if title %}{{ title }} · {% endif %}{{ site.name }}"/>
-  <meta property="og:description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
-  <meta name="theme-color" content="{{ site.brandColor }}">
-  <style>/* micro-utility */ .sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
+  <meta name="theme-color" content="{{ site.brandColor or '#a37d4c' }}">
 </head>
 <body>
   <header class="site-header">
     <div class="container nav">
       <a href="/" class="brand" aria-label="{{ site.name }} — Inicio">
         <span class="mark">BN</span>
-        <span>{{ site.shortName }}</span>
+        <span class="font-primary" style="letter-spacing:.04em">{{ site.shortName }}</span>
       </a>
       <nav>
-        <a href="/#casa">La casa</a>
+        <a href="/">Inicio</a>
+        <a href="/la-casa/">La casa</a>
         <a href="/entorno/">Entorno</a>
         <a href="/reservas/" class="cta">Reservar</a>
       </nav>
@@ -47,22 +44,22 @@ title: ""
           <strong>{{ site.name }}</strong><br>
           {{ site.address.streetAddress }}<br>
           {{ site.address.postalCode }} {{ site.address.addressLocality }} ({{ site.address.addressRegion }}), España
-          <div class="legal" style="margin-top:.6rem">Licencia turística: {{ site.license }}</div>
+          <div style="margin-top:.6rem">Licencia turística: {{ site.license }}</div>
         </div>
         <div>
-          <div><span class="badge">Capacidad</span> Hasta {{ site.capacity.standard }} personas <small>(+2 en sofá cama bajo petición)</small></div>
-          <div style="margin-top:.4rem"><span class="badge">Niños</span> Bienvenidos · Cuna disponible</div>
-          <div style="margin-top:.4rem"><span class="badge">Climatización</span> A/A en todas las habitaciones</div>
+          <div>Capacidad estándar: {{ site.capacity.standard }} <small>(+2 en sofá cama)</small></div>
+          <div>A/A en todas las habitaciones · Cuna disponible</div>
         </div>
         <div>
-          <div class="legal">Reserva segura desde:</div>
+          <div>Reserva desde:</div>
           <p style="margin:.3rem 0 0"><a class="btn alt" href="{{ site.bookingHref }}" target="_blank" rel="noopener">Rurive</a></p>
-          <p class="legal" style="margin-top:.8rem"><a href="/privacidad/">Privacidad</a> · <a href="/legal/">Aviso legal</a> · <a href="/cookies/">Cookies</a></p>
+          <p style="margin-top:.8rem"><a href="/privacidad/">Privacidad</a> · <a href="/legal/">Aviso legal</a> · <a href="/cookies/">Cookies</a></p>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -79,13 +76,11 @@ title: ""
     },
     "geo": { "@type": "GeoCoordinates", "latitude": {{ site.geo.lat }}, "longitude": {{ site.geo.lng }} },
     "amenityFeature": [
-      {"@type":"LocationFeatureSpecification","name":"Wi‑Fi","value":true},
+      {"@type":"LocationFeatureSpecification","name":"Wi-Fi","value":true},
       {"@type":"LocationFeatureSpecification","name":"Aire acondicionado en todas las habitaciones","value":true},
       {"@type":"LocationFeatureSpecification","name":"Cuna disponible","value":true},
       {"@type":"LocationFeatureSpecification","name":"Jardín y barbacoa","value":true}
-    ],
-    "slogan": "Tu base para explorar las Bardenas Reales",
-    "sameAs": {{ site.sameAs | dump }}
+    ]
   }
   </script>
 </body>

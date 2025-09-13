@@ -1,50 +1,160 @@
 ---
 layout: base.njk
-title: "Tu refugio junto a las Bardenas"
+title: "Casa Rural BArdena Negra - Tu refugio junto a las Bardenas"
 description: "Casa completa para 8 (+2) en Fustiñana. A/A en todas las habitaciones, jardín con barbacoa y cocina equipada. A 10 min de Bardenas y 23 min de Sendaviva."
 permalink: "/"
 ---
-
-<section class="hero">
-  <p class="kicker">Fustiñana · Navarra</p>
-  <h1>Casa Bardena Negra</h1>
-  <p style="max-width:60ch">Alojamiento rural acogedor en el corazón de la Ribera, ideal para escapadas en familia o con amigos.
-  Disfruta del <strong>desierto de las Bardenas</strong>, <strong>Tudela</strong> y <strong>Sendaviva</strong> a un paso.</p>
-  <p style="margin-top:1rem">
-    <a href="/reservas/" class="btn">Solicitar reserva</a>
-    <a href="/entorno/" class="btn alt" style="margin-left:.5rem">Descubrir entorno</a>
-  </p>
-</section>
-
-<section id="casa" class="grid cols-2" style="align-items:start;margin-top:2rem">
-  <div class="figure">
-    <img src="https://placehold.co/900x600/eaddcf/2a2a2a?text=Foto+principal+Casa+Bardena+Negra" alt="Fachada de Casa Bardena Negra">
-  </div>
-  <div class="card">
-    <h2>La casa</h2>
-    <p>Casa completa para <strong>8 personas</strong> (hasta <strong>+2</strong> en sofá cama bajo petición).
-      Distribución: en planta baja 1 dormitorio de matrimonio; en planta superior 2 dormitorios de matrimonio y 1 dormitorio con dos camas de 90 unidas.
-      Dos baños completos, salón-comedor luminoso y cocina equipada.</p>
-    <ul>
-      <li>A/A en todas las habitaciones · Wi‑Fi</li>
-      <li>Jardín, terraza y barbacoa</li>
-      <li>Cuna y equipamiento infantil bajo petición</li>
-    </ul>
-    <p style="margin-top:.6rem"><a class="btn alt" href="/la-casa/">Ver detalles y equipamiento</a></p>
+<!-- HERO -->
+<section class="hero" style="background-image:url('/images/hero.webp')">
+  <div class="inner container">
+    <div>
+      <p class="kicker">Fustiñana · Navarra</p>
+      <h1 class="font-primary">Casa Bardena Negra</h1>
+      <p style="color:#fff;opacity:.95;max-width:60ch;margin-top:.5rem">
+        Casa rural completa para familias y amigos, a un paso de las <strong>Bardenas Reales</strong>, <strong>Tudela</strong> y <strong>Sendaviva</strong>.
+      </p>
+      <div class="actions">
+        <a href="/reservas/" class="btn">Solicitar reserva</a>
+        <a href="{{ site.bookingHref }}" target="_blank" rel="noopener" class="btn alt" style="margin-left:.6rem">Reservar en Rurive</a>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="grid cols-3" style="margin-top:2rem">
-  <div class="card">
-    <h3>10′ Bardenas Reales</h3>
-    <p>Explora pistas y miradores del Parque Natural de Bardenas Reales.</p>
+<!-- BADGES RESUMEN -->
+<section class="container" style="margin-top:1.8rem">
+  <div class="grid cols-3" style="gap:.75rem">
+    <div class="card" style="display:flex;align-items:center;gap:.75rem">
+      <span class="badge-dot" style="width:12px;height:12px;border-radius:50%;background:var(--accent)"></span>
+      <div><strong>8 (+2)</strong> plazas · <strong>4</strong> dormitorios · <strong>2</strong> baños</div>
+    </div>
+    <div class="card" style="display:flex;align-items:center;gap:.75rem">
+      <span class="badge-dot" style="width:12px;height:12px;border-radius:50%;background:var(--accent)"></span>
+      <div><strong>A/A</strong> en todas las habitaciones · <strong>Wi-Fi</strong></div>
+    </div>
+    <div class="card" style="display:flex;align-items:center;gap:.75rem">
+      <span class="badge-dot" style="width:12px;height:12px;border-radius:50%;background:var(--accent)"></span>
+      <div><strong>Jardín</strong>, terraza y <strong>barbacoa</strong></div>
+    </div>
   </div>
-  <div class="card">
-    <h3>15′ Tudela</h3>
-    <p>Casco antiguo, catedral y gastronomía de la Ribera de Navarra.</p>
+</section>
+
+<!-- LA CASA -->
+<section id="casa" class="container" style="margin-top:2.2rem">
+  <div class="grid cols-3">
+    <div class="card" style="grid-column: span 2;">
+      <h2 class="font-primary" style="font-size:2rem">La casa</h2>
+      <p>Vivienda completa y luminosa, pensada para descansar y como base para explorar la Ribera de Navarra.</p>
+      <div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:.75rem">
+        <div>
+          <h3 class="font-primary" style="font-size:1.25rem;margin:.25rem 0 .4rem">Distribución</h3>
+          <ul class="list" style="margin:0;padding-left:1.1rem">
+            <li>Planta baja: <strong>1 dormitorio de matrimonio</strong>.</li>
+            <li>Planta superior: <strong>2 dormitorios de matrimonio</strong> + <strong>1 dormitorio con dos camas de 90 unidas</strong>.</li>
+            <li>Dos <strong>baños</strong> completos con ducha.</li>
+            <li>Sofá-cama (<em>+2</em> plazas bajo petición).</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-primary" style="font-size:1.25rem;margin:.25rem 0 .4rem">Equipamiento</h3>
+          <ul class="list" style="margin:0;padding-left:1.1rem">
+            <li><strong>Aire acondicionado</strong> en todas las habitaciones y calefacción.</li>
+            <li><strong>Cocina completa</strong> (lavavajillas, microondas, horno/vitro, menaje).</li>
+            <li><strong>Wi-Fi</strong> y TV de pantalla plana.</li>
+            <li><strong>Lavadora</strong>. <strong>Jardín</strong>, terraza y <strong>barbacoa</strong>.</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:1rem">
+        <a href="/la-casa/" class="btn alt">Ver detalles y galería</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="font-primary" style="font-size:1.25rem;margin:.25rem 0 .4rem">Para familias</h3>
+      <ul class="list" style="margin:0;padding-left:1.1rem">
+        <li>Niños bienvenidos · <strong>cuna</strong> bajo petición.</li>
+        <li>Juegos de mesa y zona exterior.</li>
+        <li>Horario de tranquilidad <strong>22:00–08:00</strong>.</li>
+        <li>Mascotas: <strong>consultar</strong> antes de reservar.</li>
+      </ul>
+    </div>
   </div>
+</section>
+
+<!-- GALERÍA DESTACADA (3 fotos) -->
+<section class="container" style="margin-top:2rem">
+  <div class="grid cols-3">
+    <figure class="figure" style="border-radius:8px;overflow:hidden">
+      <img src="/images/salon-sofa-cama.jpg" alt="Salón-comedor de Casa Bardena Negra" style="display:block;width:100%;height:auto">
+    </figure>
+    <figure class="figure" style="border-radius:8px;overflow:hidden">
+      <img src="/images/cocina-equipada.jpg" alt="Cocina totalmente equipada" style="display:block;width:100%;height:auto">
+    </figure>
+    <figure class="figure" style="border-radius:8px;overflow:hidden">
+      <img src="/images/terraza.jpg" alt="Jardín con terraza y barbacoa" style="display:block;width:100%;height:auto">
+    </figure>
+  </div>
+  <p style="text-align:center;margin-top:.8rem"><a href="/la-casa/" class="btn alt">Abrir galería completa</a></p>
+</section>
+
+<!-- ENTORNO -->
+<section id="entorno" class="container" style="margin-top:2.2rem">
+  <div class="grid cols-3">
+    <div class="card">
+      <h2 class="font-primary" style="font-size:1.75rem">Bardenas Reales</h2>
+      <p>Un paisaje semidesértico único en Europa. Miradores, pistas y rutas 4×4/BTT. <strong>≈10 min</strong> desde la casa.</p>
+    </div>
+    <div class="card">
+      <h2 class="font-primary" style="font-size:1.75rem">Tudela</h2>
+      <p>Historia y gastronomía de la Ribera: catedral, plaza de los fueros y verduras de temporada. <strong>≈15 min</strong>.</p>
+    </div>
+    <div class="card">
+      <h2 class="font-primary" style="font-size:1.75rem">Sendaviva</h2>
+      <p>Parque familiar con atracciones y espectáculos para todas las edades. <strong>≈23 min</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS Y COMODIDADES -->
+<section class="container" style="margin-top:2.2rem">
   <div class="card">
-    <h3>23′ Sendaviva</h3>
-    <p>Parque familiar con atracciones, espectáculos y fauna.</p>
+    <h2 class="font-primary" style="font-size:1.75rem;margin-bottom:.6rem">Servicios y comodidades</h2>
+    <div class="grid" style="grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem">
+      <div>✓ Aire acondicionado en todas las habitaciones</div>
+      <div>✓ Wi-Fi de cortesía</div>
+      <div>✓ Cocina equipada (lavavajillas, microondas)</div>
+      <div>✓ Lavadora</div>
+      <div>✓ Jardín y barbacoa</div>
+      <div>✓ Ropa de cama y toallas</div>
+      <div>✓ Cuna bajo petición</div>
+      <div>✓ Fácil aparcamiento en la zona</div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO RESERVAR -->
+<section class="container" style="margin-top:2.2rem">
+  <div class="card">
+    <h2 class="font-primary" style="font-size:1.75rem;margin-bottom:.6rem">Cómo reservar</h2>
+    <ol style="margin:0;padding-left:1.2rem">
+      <li><strong>Envíanos tu consulta</strong> desde <a href="/reservas/">Reservas</a> (fechas, nº de personas y dudas).</li>
+      <li><strong>Te respondemos</strong> con disponibilidad y tarifa final.</li>
+      <li>Si lo prefieres, puedes <strong>reservar directamente</strong> en <a href="{{ site.bookingHref }}" target="_blank" rel="noopener">Rurive</a>.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="container" style="margin:2.2rem 0">
+  <div class="card" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem">
+    <div>
+      <h2 class="font-primary" style="margin:0;font-size:1.6rem">¿Listo para tu escapada?</h2>
+      <p style="margin:.25rem 0 0">Dinos tus fechas y te confirmamos al momento.</p>
+    </div>
+    <div>
+      <a href="/reservas/" class="btn">Solicitar reserva</a>
+      <a href="{{ site.bookingHref }}" target="_blank" rel="noopener" class="btn alt" style="margin-left:.6rem">Reservar en Rurive</a>
+    </div>
   </div>
 </section>
