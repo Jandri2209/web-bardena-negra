@@ -9,7 +9,7 @@ title: ""
   <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
   <meta name="description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
 
-  <!-- Fuentes estilo hotel -->
+  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:wght@500;700&family=Gilda+Display&display=swap" rel="stylesheet">
@@ -18,13 +18,18 @@ title: ""
   <meta name="theme-color" content="{{ site.brandColor or '#a37d4c' }}">
 </head>
 <body>
-  <header class="site-header">
+  <header class="site-header" id="siteHeader">
     <div class="container nav">
       <a href="/" class="brand" aria-label="{{ site.name }} — Inicio">
         <span class="mark">BN</span>
         <span class="font-primary" style="letter-spacing:.04em">{{ site.shortName }}</span>
       </a>
-      <nav>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" id="navMenu">
         <a href="/">Inicio</a>
         <a href="/la-casa/">La casa</a>
         <a href="/entorno/">Entorno</a>
@@ -33,7 +38,8 @@ title: ""
     </div>
   </header>
 
-  <main id="main" class="container">
+  <!-- quitamos .container del main para permitir secciones full-bleed -->
+  <main id="main">
     {{ content | safe }}
   </main>
 
@@ -74,14 +80,30 @@ title: ""
       "addressRegion": "{{ site.address.addressRegion }}",
       "addressCountry": "ES"
     },
-    "geo": { "@type": "GeoCoordinates", "latitude": {{ site.geo.lat }}, "longitude": {{ site.geo.lng }} },
-    "amenityFeature": [
-      {"@type":"LocationFeatureSpecification","name":"Wi-Fi","value":true},
-      {"@type":"LocationFeatureSpecification","name":"Aire acondicionado en todas las habitaciones","value":true},
-      {"@type":"LocationFeatureSpecification","name":"Cuna disponible","value":true},
-      {"@type":"LocationFeatureSpecification","name":"Jardín y barbacoa","value":true}
-    ]
+    "geo": { "@type": "GeoCoordinates", "latitude": {{ site.geo.lat }}, "longitude": {{ site.geo.lng }} }
   }
+  </script>
+
+  <!-- Header scroll + menú -->
+  <script>
+    (function(){
+      const header = document.getElementById('siteHeader');
+      const toggle = document.getElementById('navToggle');
+      const menu   = document.getElementById('navMenu');
+
+      function onScroll(){ header.classList.toggle('is-scrolled', window.scrollY > 10); }
+      window.addEventListener('scroll', onScroll); onScroll();
+
+      toggle && toggle.addEventListener('click', () => {
+        const open = header.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      // Cierra el menú al navegar
+      menu && menu.addEventListener('click', (e)=>{
+        if(e.target.tagName === 'A'){ header.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+      });
+    })();
   </script>
 </body>
 </html>
