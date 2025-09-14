@@ -1,0 +1,57 @@
+---
+layout: base.njk
+title: "Inventario de equipamiento (interno)"
+description: "Listado de equipamiento para control de entradas y salidas."
+permalink: "/equipamiento/"
+noindex: true
+---
+
+<section class="container" style="margin-top:1rem">
+  <div class="card printable">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+      <div>
+        <h1 class="font-primary" style="margin:.2rem 0">Inventario de equipamiento</h1>
+        <p style="margin:.2rem 0;color:var(--muted)">Uso interno · Imprime o usa en el móvil</p>
+      </div>
+      <div class="no-print">
+        <button class="btn" onclick="window.print()">Imprimir</button>
+      </div>
+    </div>
+
+    <div class="inv-meta">
+      <div><strong>Fecha:</strong> <span id="invDate"></span></div>
+      <div><strong>Turno:</strong> <span contenteditable="true" class="editable">Limpieza / Revisión</span></div>
+      <div><strong>Observaciones:</strong> <span contenteditable="true" class="editable">—</span></div>
+    </div>
+
+    {% for categoria, lista in equipamiento -%}
+      <h2 class="font-primary inv-h2">{{ categoria }}</h2>
+      <ul class="inv-grid">
+        {%- for it in lista -%}
+        <li class="inv-item">
+          <label>
+            <input type="checkbox" class="chk">
+            <span class="txt">{{ it.item }}</span>
+          </label>
+        </li>
+        {%- endfor -%}
+      </ul>
+    {%- endfor %}
+
+    <div class="inv-firmas">
+      <div><strong>Revisado por:</strong> ________________________</div>
+      <div><strong>Hora:</strong> __________</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Fecha actual en cabecera (no se guarda; solo visual)
+  document.addEventListener('DOMContentLoaded', () => {
+    const el = document.getElementById('invDate');
+    if (el) {
+      const d = new Date();
+      el.textContent = d.toLocaleDateString(undefined, { year:'numeric', month:'2-digit', day:'2-digit' });
+    }
+  });
+</script>

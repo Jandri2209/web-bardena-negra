@@ -97,3 +97,100 @@ footer a{color:#fff}
   .hero .inner{justify-content:center; text-align:center; padding:0 16px}
   .hero .actions .btn{display:block; width:100%; max-width:320px; margin:10px auto 0}
 }
+
+/* ---- Hero de página (más bajo que el home) ---- */
+.page-hero{
+  position:relative; height:40vh; min-height:260px; background-size:cover; background-position:center;
+}
+.page-hero .overlay{position:absolute; inset:0; background:rgba(0,0,0,.35); z-index:2}
+.page-hero .inner{position:relative; z-index:3; display:flex; flex-direction:column; justify-content:flex-end; height:100%; padding:40px 0}
+
+/* ---- Grids auxiliares que faltaban ---- */
+.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:960px){ .grid.cols-2{grid-template-columns:1fr} }
+
+/* ---- Iconos de equipamiento ---- */
+.features{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.8rem; list-style:none; padding:0; margin:0}
+@media (max-width:960px){ .features{grid-template-columns:repeat(2, minmax(0,1fr))} }
+.feature{
+  display:flex; align-items:center; gap:.7rem; padding:.8rem 1rem;
+  border:1px solid rgba(0,0,0,.06); border-radius:10px; background:#fff;
+  box-shadow:0 10px 22px -20px rgba(0,0,0,.45);
+}
+.icon-24{width:32px; height:32px; border-radius:999px; background:#efe7dc; display:inline-flex; align-items:center; justify-content:center; flex:0 0 32px}
+.icon-24 svg{width:18px; height:18px; stroke:var(--accent); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+
+/* ---- Galería ---- */
+.figure{border-radius:10px; overflow:hidden; box-shadow:0 10px 30px -22px rgba(0,0,0,.35); background:#f3eee6}
+.figure img{display:block; width:100%; height:auto}
+.gallery-grid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:1rem}
+@media (max-width:960px){ .gallery-grid{grid-template-columns:1fr 1fr} }
+@media (max-width:640px){ .gallery-grid{grid-template-columns:1fr} }
+
+
+/* Inventario de equipamiento */
+.printable{padding:1.25rem}
+.inv-meta{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.75rem;
+  padding:.6rem 0; border-bottom:1px dashed rgba(0,0,0,.15); margin-bottom:1rem;
+}
+.editable{padding:.1rem .3rem; border:1px dashed rgba(0,0,0,.15); border-radius:4px}
+.inv-h2{margin:1.1rem 0 .4rem}
+.inv-grid{
+  list-style:none; padding:0; margin:0 0 .6rem 0;
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.45rem .9rem;
+}
+.inv-item label{display:flex; align-items:center; gap:.55rem; padding:.35rem .5rem; border:1px solid rgba(0,0,0,.07); border-radius:8px; background:#fff}
+.inv-item .chk{width:18px; height:18px}
+.inv-item .txt{user-select:none}
+.inv-firmas{
+  display:flex; gap:2rem; flex-wrap:wrap; margin-top:.9rem; border-top:1px dashed rgba(0,0,0,.15); padding-top:.8rem;
+}
+
+/* Responsive */
+@media (max-width: 960px){
+  .inv-meta{grid-template-columns:1fr}
+  .inv-grid{grid-template-columns:1fr}
+}
+
+/* Print */
+@media print{
+  .no-print{display:none !important}
+  header.site-header, footer.site-footer{display:none !important}
+  body{background:#fff}
+  .card{box-shadow:none; border:1px solid #000; border-color:#bbb}
+  .container{max-width:none; padding:0}
+  .printable{padding:0}
+}
+
+
+/* ===== Lightbox simple (sin dependencias) ===== */
+.lb-backdrop{
+  position:fixed; inset:0; z-index:2000;
+  background:rgba(0,0,0,.92);
+  display:none; align-items:center; justify-content:center;
+  padding:24px;
+}
+.lb-backdrop.open{ display:flex; }
+.lb-figure{ position:relative; max-width:min(96vw,1400px); max-height:90vh; }
+.lb-figure img{ display:block; max-width:100%; max-height:90vh; border-radius:10px; }
+.lb-caption{ color:#eaeaea; text-align:center; margin-top:.6rem; font-size:.95rem }
+
+.lb-btn{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:44px; height:44px; border-radius:999px; border:0; cursor:pointer;
+  background:rgba(255,255,255,.15); color:#fff; font-size:24px; line-height:44px;
+}
+.lb-btn:hover{ background:rgba(255,255,255,.28) }
+.lb-prev{ left:-60px }
+.lb-next{ right:-60px }
+
+.lb-close{
+  position:absolute; top:22px; right:22px; width:40px; height:40px;
+  border-radius:999px; border:0; background:rgba(255,255,255,.18); color:#fff; font-size:24px; cursor:pointer;
+}
+.lb-close:hover{ background:rgba(255,255,255,.32) }
+
+@media (max-width:960px){
+  .lb-prev{ left:8px } .lb-next{ right:8px }
+}

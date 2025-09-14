@@ -1,0 +1,35 @@
+{
+  "Climatización": [
+    { "item": "Aire acondicionado en todas las habitaciones" },
+    { "item": "Calefacción" }
+  ],
+  "Conectividad y ocio": [
+    { "item": "Wi-Fi" },
+    { "item": "TV de pantalla plana" },
+    { "item": "Juegos de mesa" }
+  ],
+  "Cocina": [
+    { "item": "Lavavajillas" },
+    { "item": "Microondas" },
+    { "item": "Horno/Vitrocerámica" },
+    { "item": "Menaje completo" }
+  ],
+  "Baño y ropa": [
+    { "item": "Toallas" },
+    { "item": "Ropa de cama" }
+  ],
+  "Lavandería": [
+    { "item": "Lavadora" }
+  ],
+  "Exterior": [
+    { "item": "Jardín" },
+    { "item": "Terraza" },
+    { "item": "Barbacoa" }
+  ],
+  "Familias": [
+    { "item": "Cuna (bajo petición)" }
+  ],
+  "Aparcamiento": [
+    { "item": "Fácil aparcamiento en la zona" }
+  ]
+}

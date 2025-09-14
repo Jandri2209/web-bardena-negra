@@ -8,7 +8,7 @@ title: ""
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
   <meta name="description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
-
+  {% if noindex %}<meta name="robots" content="noindex">{% endif %}
   <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -104,6 +104,82 @@ title: ""
         if(e.target.tagName === 'A'){ header.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
       });
     })();
+  </script>
+  <!-- Lightbox (global) -->
+  <div id="lightbox" class="lb-backdrop" aria-hidden="true" role="dialog" aria-label="Vista de imagen">
+    <div class="lb-figure">
+      <button class="lb-close" aria-label="Cerrar">×</button>
+      <button class="lb-btn lb-prev" aria-label="Anterior">‹</button>
+      <img id="lbImg" alt="">
+      <figcaption id="lbCap" class="lb-caption"></figcaption>
+      <button class="lb-btn lb-next" aria-label="Siguiente">›</button>
+    </div>
+  </div>
+
+  <script>
+  /* ===== Lightbox JS (ligero) ===== */
+  (function(){
+    const overlay = document.getElementById('lightbox');
+    const img = document.getElementById('lbImg');
+    const cap = document.getElementById('lbCap');
+    const prevBtn = overlay.querySelector('.lb-prev');
+    const nextBtn = overlay.querySelector('.lb-next');
+    const closeBtn = overlay.querySelector('.lb-close');
+
+    let items = [];  // {href, caption, group}
+    let idx = 0, group = null;
+
+    function qsAll(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+
+    function collect(groupName){
+      const links = qsAll('a.lb[data-group="'+groupName+'"]');
+      return links.map(a => ({ href:a.getAttribute('href'), caption:a.dataset.caption||'', el:a, group:groupName }));
+    }
+
+    function openAt(i){
+      idx = i;
+      const it = items[idx];
+      img.src = it.href;
+      img.alt = it.caption || '';
+      cap.textContent = it.caption || '';
+      overlay.classList.add('open');
+      overlay.removeAttribute('aria-hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function close(){
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+      img.src = '';
+    }
+    function next(){ if(items.length){ openAt((idx+1)%items.length); } }
+    function prev(){ if(items.length){ openAt((idx-1+items.length)%items.length); } }
+
+    // Delegación: clic en cualquier <a class="lb">
+    document.addEventListener('click', function(e){
+      const a = e.target.closest('a.lb');
+      if(!a) return;
+      e.preventDefault();
+      group = a.dataset.group || 'default';
+      items = collect(group);
+      const i = items.findIndex(it => it.el === a);
+      openAt(Math.max(0,i));
+    });
+
+    overlay.addEventListener('click', (e)=>{
+      if(e.target === overlay) close();
+    });
+    closeBtn.addEventListener('click', close);
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+
+    document.addEventListener('keydown', (e)=>{
+      if(!overlay.classList.contains('open')) return;
+      if(e.key === 'Escape') close();
+      if(e.key === 'ArrowRight') next();
+      if(e.key === 'ArrowLeft') prev();
+    }, true);
+  })();
   </script>
 </body>
 </html>
