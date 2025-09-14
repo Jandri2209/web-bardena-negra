@@ -53,6 +53,8 @@ permalink: "/entorno/"
   <p>Calle Virgen de la Peña 44, 31510 Fustiñana (Navarra)</p>
   <div class="figure" style="overflow:hidden">
     <!-- tu iframe o mapa aquí; ocupa todo el ancho con estilo .figure -->
-    <!-- ejemplo: <iframe src="..." width="100%" height="420" style="border:0" loading="lazy"></iframe> -->
+    <iframe title="Mapa de Fustiñana"
+      style="width:100%;height:360px;border:1px solid rgba(0,0,0,.1);border-radius:12px"
+      src="https://www.openstreetmap.org/export/embed.html?bbox={{ site.geo.lng-0.02 }},{{ site.geo.lat-0.02 }},{{ site.geo.lng+0.02 }},{{ site.geo.lat+0.02 }}&amp;layer=mapnik&amp;marker={{ site.geo.lat }},{{ site.geo.lng }}"></iframe>
   </div>
 </section>

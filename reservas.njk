@@ -8,11 +8,22 @@ permalink: "/reservas/"
 <section class="container prose">
   <div class="card">
     <h1>Solicitar disponibilidad</h1>
-    <form name="reserva" method="POST" action="/gracias/" data-netlify="true" netlify-honeypot="bot-field" accept-charset="UTF-8">
-      <input type="hidden" name="form-name" value="reserva" />
-      <div class="sr-only">
-        <label>Si ves este campo, déjalo vacío<input type="text" name="bot-field"></label>
-      </div>
+    <form name="reserva"
+      method="POST"
+      action="/gracias/"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      accept-charset="UTF-8">
+
+  <!-- Requerido por Netlify -->
+  <input type="hidden" name="form-name" value="reserva">
+
+  <!-- Honeypot oculto (no borrar) -->
+  <p class="sr-only" aria-hidden="true">
+    <label>Si ves este campo, déjalo vacío
+      <input type="text" name="bot-field" tabindex="-1" autocomplete="off">
+    </label>
+  </p>
 
       <div class="grid cols-2">
         <p><label>Nombre<br><input required name="nombre" type="text" placeholder="Tu nombre"></label></p>
