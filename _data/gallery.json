@@ -1,0 +1,40 @@
+{
+  "Interior": [
+    { "src": "/images/vista-salon.jpg",            "alt": "Vista del salón-comedor" },
+    { "src": "/images/salon-sofa-cama.jpg",        "alt": "Salón con sofá cama" },
+    { "src": "/images/salon-cocina.jpg",           "alt": "Salón abierto a cocina" },
+    { "src": "/images/mesa-salon.jpg",             "alt": "Zona de comedor en el salón" },
+
+    { "src": "/images/cocina-equipada.jpg",        "alt": "Cocina totalmente equipada" },
+
+    { "src": "/images/habitacion-grande-arriba.jpg","alt": "Dormitorio principal (planta superior)" },
+    { "src": "/images/habitacion-1-arriba.jpg",    "alt": "Dormitorio de matrimonio (arriba)" },
+    { "src": "/images/habitacion-2-arriba.jpg",    "alt": "Dormitorio de matrimonio (arriba)" },
+    { "src": "/images/habitacion-1-2-arriba.jpg",  "alt": "Dormitorio con dos camas de 90 unidas" },
+    { "src": "/images/habitacion-arriba.jpg",      "alt": "Dormitorio luminoso (arriba)" },
+    { "src": "/images/habitacion-arriba-2.jpg",    "alt": "Dormitorio superior, otra vista" },
+    { "src": "/images/habitacion-abajo.jpg",       "alt": "Dormitorio de matrimonio (planta baja)" },
+    { "src": "/images/habitacion-abajo-pasillo.jpg","alt": "Dormitorio planta baja y pasillo" },
+
+    { "src": "/images/pasillo-arriba.jpg",         "alt": "Pasillo superior" },
+    { "src": "/images/pasillo-arriba-2.jpg",       "alt": "Pasillo superior, otra vista" },
+
+    { "src": "/images/bathroom-arriba.jpg",        "alt": "Baño planta superior con ducha" },
+    { "src": "/images/bathroom-arriba-2.jpg",      "alt": "Baño superior, detalle" },
+    { "src": "/images/bathroom-abajo.jpg",         "alt": "Baño planta baja con ducha" },
+    { "src": "/images/bathroom-abajo-2.jpg",       "alt": "Baño planta baja, otra vista" },
+    { "src": "/images/ducha-bathroom-abajo.jpg",   "alt": "Ducha en baño de planta baja" }
+  ],
+  "Exterior": [
+    { "src": "/images/terraza.jpg",                "alt": "Terraza principal" },
+    { "src": "/images/terraza-casa.jpg",           "alt": "Terraza y fachada" },
+    { "src": "/images/mesa-terraza.jpg",           "alt": "Mesa exterior en la terraza" }
+  ],
+  "Entorno": [
+    { "src": "/images/bardenas.jpg",               "alt": "Bardenas Reales — paisaje" },
+    { "src": "/images/castildetierra-experience.jpg","alt": "Bardenas — Castildetierra" },
+    { "src": "/images/plaza-tudela.webp",   "alt": "Tudela — Plaza de los Fueros" },
+    { "src": "/images/sendaviva-acto.jpg",         "alt": "Sendaviva — espectáculo" },
+    { "src": "/images/sendaviva-atraccion.jpg",    "alt": "Sendaviva — atracción" }
+  ]
+}

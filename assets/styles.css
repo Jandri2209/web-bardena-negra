@@ -194,3 +194,12 @@ footer a{color:#fff}
 @media (max-width:960px){
   .lb-prev{ left:8px } .lb-next{ right:8px }
 }
+
+/* Filtros de galería */
+.gallery-filters{display:flex;flex-wrap:wrap;gap:.5rem;margin:.5rem 0 1rem}
+.chip{
+  border:1px solid rgba(0,0,0,.1); background:#fff; padding:.4rem .8rem; border-radius:999px; cursor:pointer;
+  font-weight:600; letter-spacing:.02em;
+}
+.chip.is-active{border-color:var(--accent); color:#fff; background:var(--accent)}
+.gallery-h2{margin:1rem 0 .6rem}

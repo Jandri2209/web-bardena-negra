@@ -1,0 +1,56 @@
+---
+layout: base.njk
+title: "Galería de fotos"
+description: "Imágenes de la casa: interior, exterior y entorno."
+permalink: "/galeria/"
+---
+
+<section class="page-hero full-bleed" style="background-image:url('/images/interior-hero.webp')">
+  <div class="overlay" aria-hidden="true"></div>
+  <div class="inner container">
+    <h1 class="font-primary" style="color:#fff;margin:0">Galería</h1>
+    <p style="color:#fff;opacity:.9;margin:.4rem 0 0">Interior, exterior y entorno de Casa Bardena Negra.</p>
+  </div>
+</section>
+
+<section class="container" style="margin-top:1.4rem">
+  <!-- Filtros (opcionales) -->
+  <div class="gallery-filters no-print">
+    <button class="chip is-active" data-filter="*">Todas</button>
+    {% for cat, lista in gallery %}
+      <button class="chip" data-filter="{{ cat | slug }}">{{ cat }}</button>
+    {% endfor %}
+  </div>
+
+  <!-- Grupos por categoría -->
+  {% for cat, lista in gallery %}
+    <h2 class="font-primary gallery-h2" data-cat-title="{{ cat | slug }}">{{ cat }}</h2>
+    <div class="gallery-grid" data-cat="{{ cat | slug }}">
+      {% for img in lista %}
+        <figure class="figure">
+          <a class="lb" data-group="{{ cat | slug }}" data-caption="{{ img.alt | safe }}" href="{{ img.src }}">
+            <img loading="lazy" src="{{ img.thumb or img.src }}" alt="{{ img.alt | safe }}" sizes="(max-width:960px) 100vw, 33vw">
+          </a>
+        </figure>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</section>
+
+<script>
+  // Filtros simples: muestran/ocultan categorías completas
+  (function(){
+    const chips = document.querySelectorAll('.gallery-filters .chip');
+    const grids = document.querySelectorAll('.gallery-grid');
+    const titles = document.querySelectorAll('[data-cat-title]');
+
+    function setActive(key){
+      chips.forEach(c => c.classList.toggle('is-active', c.dataset.filter === key || (key==='*' && c.dataset.filter==='*')));
+      grids.forEach(g => g.style.display = (key==='*' || g.dataset.cat === key) ? 'grid' : 'none');
+      titles.forEach(t => t.style.display = (key==='*' || t.getAttribute('data-cat-title') === key) ? '' : 'none');
+    }
+
+    chips.forEach(c => c.addEventListener('click', () => setActive(c.dataset.filter)));
+    setActive('*'); // por defecto: todas
+  })();
+</script>
