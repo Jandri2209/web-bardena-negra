@@ -3,9 +3,11 @@ layout: base.njk
 title: "Aviso Legal"
 permalink: "/legal/"
 ---
-<div class="card" style="margin-top:2rem">
-  <h1>Aviso Legal</h1>
-  <p>Este sitio ofrece información de la <strong>{{ site.name }}</strong> ({{ site.address.addressLocality }}, Navarra). Los contenidos tienen carácter informativo.</p>
-  <p><strong>Licencia turística:</strong> {{ site.license }}</p>
-  <p>Para reservas y contrataciones, por ahora se canaliza a través de <a href="{{ site.bookingHref }}" target="_blank" rel="noopener">Rurive</a>.</p>
-</div>
+<section class="container prose">
+  <div class="card" style="margin-top:2rem">
+    <h1>Aviso Legal</h1>
+    <p>Este sitio ofrece información de la <strong>{{ site.name }}</strong> ({{ site.address.addressLocality }}, Navarra). Los contenidos tienen carácter informativo.</p>
+    <p><strong>Licencia turística:</strong> {{ site.license }}</p>
+    <p>Para reservas y contrataciones, por ahora se canaliza a través de <a href="{{ site.bookingHref }}" target="_blank" rel="noopener">Rurive</a>.</p>
+  </div>
+</section>

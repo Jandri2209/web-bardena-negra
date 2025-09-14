@@ -40,17 +40,19 @@ permalink: "/galeria/"
 <script>
   // Filtros simples: muestran/ocultan categorías completas
   (function(){
-    const chips = document.querySelectorAll('.gallery-filters .chip');
-    const grids = document.querySelectorAll('.gallery-grid');
+    const chips  = document.querySelectorAll('.gallery-filters .chip');
+    const grids  = document.querySelectorAll('.gallery-grid');
     const titles = document.querySelectorAll('[data-cat-title]');
 
     function setActive(key){
       chips.forEach(c => c.classList.toggle('is-active', c.dataset.filter === key || (key==='*' && c.dataset.filter==='*')));
       grids.forEach(g => g.style.display = (key==='*' || g.dataset.cat === key) ? 'grid' : 'none');
       titles.forEach(t => t.style.display = (key==='*' || t.getAttribute('data-cat-title') === key) ? '' : 'none');
+      document.body.dataset.lbScope = (key === '*') ? 'all' : 'group';
     }
 
     chips.forEach(c => c.addEventListener('click', () => setActive(c.dataset.filter)));
     setActive('*'); // por defecto: todas
   })();
 </script>
+

@@ -1,32 +1,58 @@
 ---
 layout: base.njk
-title: "Entorno · Bardenas, Tudela y Sendaviva"
-description: "A 10 minutos de Bardenas Reales, 15 de Tudela y 23 de Sendaviva. Ideas de planes cerca de Fustiñana."
+title: "Entorno · Qué ver cerca"
+description: "Bardenas Reales, Tudela y Sendaviva a un paso."
 permalink: "/entorno/"
 ---
 
-<section class="grid cols-2" style="align-items:start;margin-top:2rem">
-  <div class="card">
-    <h1>Explora la Ribera de Navarra</h1>
-    <p>Nuestra ubicación en <strong>Fustiñana</strong> es perfecta para descubrir el sur de Navarra.</p>
-    <ul>
-      <li><strong>Bardenas Reales</strong> · ≈10 min</li>
-      <li><strong>Tudela</strong> · ≈15 min</li>
-      <li><strong>Sendaviva</strong> · ≈23 min</li>
-    </ul>
-    <p>Además, te recomendamos rutas por la <em>Laguna de Lor</em>, visitas a <em>Olite</em> y escapadas al <em>Moncayo</em>.</p>
-  </div>
-  <div class="figure">
-    <img src="https://placehold.co/900x600/e8dcca/2a2a2a?text=Bardenas+Reales" alt="Paisaje de Bardenas Reales">
+<section class="page-hero full-bleed noimg tierra sm">
+  <div class="overlay" aria-hidden="true"></div>
+  <div class="inner container">
+    <h1 class="font-primary">Explora la Ribera de Navarra</h1>
+    <p class="page-lead">Nuestra ubicación en <strong>Fustiñana</strong> es perfecta para descubrir el sur de Navarra.</p>
   </div>
 </section>
 
-<section style="margin-top:2rem">
-  <div class="card">
-    <h2>Cómo llegar</h2>
-    <p>{{ site.address.streetAddress }}, {{ site.address.postalCode }} {{ site.address.addressLocality }} ({{ site.address.addressRegion }})</p>
-    <iframe title="Mapa de Fustiñana"
-      style="width:100%;height:360px;border:1px solid rgba(0,0,0,.1);border-radius:12px"
-      src="https://www.openstreetmap.org/export/embed.html?bbox={{ site.geo.lng-0.02 }},{{ site.geo.lat-0.02 }},{{ site.geo.lng+0.02 }},{{ site.geo.lat+0.02 }}&amp;layer=mapnik&amp;marker={{ site.geo.lat }},{{ site.geo.lng }}"></iframe>
+<section class="container section">
+  <div class="grid cols-2" style="align-items:start">
+    <div class="card">
+      <h2 class="font-primary section-title" style="margin-top:0">Imprescindibles</h2>
+      <ul>
+        <li><strong>Bardenas Reales</strong> — ≈10 min</li>
+        <li><strong>Tudela</strong> — ≈15 min</li>
+        <li><strong>Sendaviva</strong> — ≈23 min</li>
+      </ul>
+      <p style="margin-top:.6rem">Además, rutas por la <em>Laguna de Lor</em>, visitas a <em>Olite</em> y escapadas al <em>Moncayo</em>.</p>
+    </div>
+
+    <figure class="figure">
+      <img src="/images/bardenas.jpg" alt="Bardenas Reales" />
+    </figure>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="grid cols-3">
+    <div class="card">
+      <h3 class="font-primary" style="margin:.2rem 0 .4rem">Bardenas Reales</h3>
+      <p>Paisaje semidesértico único para rutas a pie, en bici o en coche.</p>
+    </div>
+    <div class="card">
+      <h3 class="font-primary" style="margin:.2rem 0 .4rem">Tudela</h3>
+      <p>Centro histórico, Plaza de los Fueros y verduras con Denominación.</p>
+    </div>
+    <div class="card">
+      <h3 class="font-primary" style="margin:.2rem 0 .4rem">Sendaviva</h3>
+      <p>Parque familiar con atracciones, espectáculos y animales.</p>
+    </div>
+  </div>
+</section>
+
+<section class="container section">
+  <h2 class="font-primary section-title">Cómo llegar</h2>
+  <p>Calle Virgen de la Peña 44, 31510 Fustiñana (Navarra)</p>
+  <div class="figure" style="overflow:hidden">
+    <!-- tu iframe o mapa aquí; ocupa todo el ancho con estilo .figure -->
+    <!-- ejemplo: <iframe src="..." width="100%" height="420" style="border:0" loading="lazy"></iframe> -->
   </div>
 </section>
