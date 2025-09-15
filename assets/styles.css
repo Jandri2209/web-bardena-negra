@@ -292,3 +292,16 @@ header .nav{ min-height: var(--header-h); }
 .page-hero + .container,
 .page-hero + section.container{ margin-top: 1rem; }
 
+/* Páginas sin hero: añade aire arriba automáticamente */
+main > section.container.prose:first-of-type {
+  padding-top: calc(var(--header-h) + 16px);
+}
+
+/* Evita doble separación si el primer bloque es una .card con margen superior */
+main > section.container.prose:first-of-type .card:first-child {
+  margin-top: 0 !important;
+}
+
+/* Si navegas con anclas (#…), evita que el título quede oculto por el header */
+:target { scroll-margin-top: calc(var(--header-h) + 12px); }
+
