@@ -29,7 +29,7 @@ title: ""
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="nav-links" id="navMenu">
+      <nav class="nav-links" id="navMenu" role="navigation" aria-label="Navegación principal">
         <a href="/">Inicio</a>
 
         <!-- La casa (link + caret que abre submenú) -->
@@ -37,6 +37,7 @@ title: ""
           <a href="/la-casa/" class="nav-link" id="link-casa">La casa</a>
           <button class="sub-toggle"
                   aria-label="Abrir submenú de La Casa"
+                  aria-haspopup="menu"
                   aria-expanded="false"
                   aria-controls="submenu-casa">
             <span class="chev" aria-hidden="true">▾</span>
@@ -228,6 +229,38 @@ title: ""
         const anyOpen = document.querySelector('.has-submenu.sub-open');
         if (!anyOpen) return;
         if (!anyOpen.contains(e.target)) closeAll();
+      });
+    })();
+  </script>
+  <script>
+    (function(){
+      const item = document.querySelector('.has-submenu');
+      if(!item) return;
+
+      const mqDesktop = window.matchMedia('(min-width: 961px)');
+      let leaveTimer = null;
+
+      function open(){ item.classList.add('sub-open'); }
+      function close(){ item.classList.remove('sub-open'); }
+
+      // Sólo aplicamos la lógica de retardo en escritorio
+      function bindDesktopHover(){
+        item.addEventListener('mouseenter', () => {
+          clearTimeout(leaveTimer);
+          open();
+        });
+        item.addEventListener('mouseleave', () => {
+          clearTimeout(leaveTimer);
+          leaveTimer = setTimeout(close, 180);  // <-- ajusta el retardo aquí (ms)
+        });
+      }
+
+      if (mqDesktop.matches) bindDesktopHover();
+      mqDesktop.addEventListener?.('change', e => {
+        // Resetea al cambiar de breakpoint
+        clearTimeout(leaveTimer);
+        close();
+        if (e.matches) bindDesktopHover();
       });
     })();
   </script>
