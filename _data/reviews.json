@@ -1,0 +1,29 @@
+[
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Lara",
+    "date": "2025-08-25",
+    "text": "Me encantó todo, la casa preciosa, todo impecable, cálida y además la persona que lo gestiona un 10, estuvo al dedillo con todos los detalles, la cesta de bienvenida... una pasada, super contenta, volveremos a ir. Nada que objetar.",
+    "url": "https://www.booking.com/hotel/es/casa-bardena-negra-comodo-alojamiento-para-visitar-las-bardenas-y-sendaviva.es.html"
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "María De Los Angeles",
+    "date": "2025-08",
+    "text": "Es un alojamiento espectacular al que no le falta detalle. El pueblo nos gustó mucho… La casa es una maravilla. El detalle de la entrada es una pasada y se agradece mucho. Es una casa amplia, con camas cómodas, acceso muy bueno, jardín amplio y muy cómodo. Hemos estado encantados/as. Muchísimas gracias por todo. Sin duda, volveremos.",
+    "url": "https://www.airbnb.es/rooms/887673032385746221?source_impression_id=p3_1758046476_P3VxTFohg-Sjbr53"
+  },
+  {
+    "platform": "google",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Carlos LG",
+    "date": "",
+    "text": "Es la segunda vez que nos alojamos en esta casa... y no será la última. Es cómoda, muy bonita, con muchísimos detalles que hacen que la sientas como tu hogar. ¡¡Gracias!!",
+    "url": "https://www.google.com/search?q=Casa+Rural+Bardena+Negra"
+  }
+]

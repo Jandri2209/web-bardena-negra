@@ -20,6 +20,11 @@
   --earth:#d8cdb6;        /* fondo cálido */
   --earth-deep:#c8b293;   /* degradado más profundo */
 
+  /* Colores marca (reseñas) */
+  --brand-booking:#003580;
+  --brand-airbnb:#ff5a5f;
+  --brand-google:#4285f4;
+
   /* Dropdown (La Casa) */
   --menu-bg:#322416;                    /* marrón oscuro */
   --menu-border:rgba(163,125,76,.35);   /* borde dorado translúcido */
@@ -301,3 +306,27 @@ footer a{ color:#fff }
   .container{ max-width:none; padding:0 }
   .printable{ padding:0 }
 }
+
+/* ==========================
+   Reseñas (Home)
+   ========================== */
+.platform-badge{
+  display:inline-block;
+  padding:.15rem .5rem;
+  border-radius:999px;
+  font-size:.8rem;
+  color:#fff;
+}
+.platform-badge.booking{ background:var(--brand-booking) }
+.platform-badge.airbnb{  background:var(--brand-airbnb)  }
+.platform-badge.google{  background:var(--brand-google)  }
+
+/* Estrellas (si añades la clase "review-stars" al contenedor de estrellas) */
+.review-stars{ white-space:nowrap; font-size:1rem; letter-spacing:.02em }
+.review-stars .empty{ opacity:.3 }
+
+/* Grid 3 → 1 col en móvil (para el bloque de reseñas) */
+@media (max-width:960px){
+  .grid.cols-3{ grid-template-columns:1fr }
+}
+

@@ -112,7 +112,100 @@ permalink: "/"
     <div class="card"><h2 class="font-primary" style="font-size:1.75rem">Sendaviva</h2><p>Parque familiar para todas las edades. <strong>≈23 min</strong>.</p></div>
   </div>
 </section>
+<!-- RESEÑAS (desde /_data/reviews.json) -->
+<section class="container" id="resenas" style="margin-top:2.2rem">
+  <h2 class="font-primary" style="font-size:1.75rem;margin:0 0 .5rem">Reseñas</h2>
+  <p style="color:#4b5563;max-width:65ch;margin:.25rem 0 1rem">
+    Lo que dicen los huéspedes en Booking, Airbnb y Google.
+  </p>
 
+  {% if reviews and reviews.length %}
+    {# Media normalizada a /5 #}
+    {% set sum = 0 %}{% set count = 0 %}
+    {% for r in reviews %}
+      {% if r.rating and (r.ratingMax or 5) %}
+        {% set sum = sum + (r.rating / (r.ratingMax or 5) * 5) %}
+        {% set count = count + 1 %}
+      {% endif %}
+    {% endfor %}
+    {% set avg = (count and (sum / count)) or 0 %}
+
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem">
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div style="font-size:1.25rem">⭐</div>
+        <div>
+          <strong>{{ avg | round(1) }}</strong> / 5
+          <span style="color:#6b7280">media basada en {{ count }} valoraciones mostradas</span>
+        </div>
+      </div>
+      <div class="actions" style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <a class="btn alt" href="https://search.google.com/local/writereview?placeid=TU_PLACE_ID" target="_blank" rel="noopener">Deja tu reseña en Google</a>
+      </div>
+    </div>
+
+    <div class="grid cols-3" style="gap:.75rem">
+      {# Muestra hasta 3 reseñas; cambia 3->6 si quieres más #}
+      {% for r in reviews %}
+        {% if loop.index <= 3 %}
+          {% set max = r.ratingMax or 5 %}
+          {% set norm = (r.rating and max) ? (r.rating / max * 5) : 0 %}
+          {% set full = norm | round(0, 'floor') %}
+
+          <article class="card" style="display:flex;flex-direction:column;gap:.5rem">
+            <header style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
+              <div style="display:flex;align-items:center;gap:.5rem">
+                <span class="platform-badge {{ r.platform }}">{{ (r.platform or 'reseña') | capitalize }}</span>
+                <strong>{{ r.author or 'Anónimo' }}</strong>
+              </div>
+              {% if norm > 0 %}
+              <div class="review-stars" aria-label="{{ (norm | round(1)) }} de 5">
+                {% for i in [1,2,3,4,5] %}
+                  {% if i <= full %}<span>★</span>{% else %}<span class="empty">★</span>{% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+            </header>
+
+            {% if r.date %}
+              {% set prettyDate = (r.date | date("es-ES")) or r.date %}
+              <time datetime="{{ r.date }}" style="color:#6b7280;font-size:.9rem">{{ prettyDate }}</time>
+            {% endif %}
+
+            {% if r.text %}
+              <p style="margin:0;line-height:1.55">{{ r.text }}</p>
+            {% endif %}
+
+            <footer style="margin-top:.4rem;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:.85rem;color:#6b7280;text-transform:capitalize">{{ r.platform or '' }}</span>
+              {% if r.url %}
+                <a href="{{ r.url }}" class="btn alt" target="_blank" rel="noopener">Ver en {{ (r.platform or 'origen') | capitalize }}</a>
+              {% endif %}
+            </footer>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {# JSON-LD dentro del IF para disponer de avg y count #}
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"LodgingBusiness",
+      "name":"Casa Rural Bardena Negra",
+      "url":"{{ site and site.url or '' }}/",
+      "aggregateRating":{
+        "@type":"AggregateRating",
+        "ratingValue":"{{ avg | round(1) }}",
+        "bestRating":"5",
+        "reviewCount":"{{ count }}"
+      }
+    }
+    </script>
+
+  {% else %}
+    <div class="card">Pronto añadiremos reseñas verificadas de las plataformas.</div>
+  {% endif %}
+</section>
 <!-- CTA FINAL -->
 <section class="container" style="margin-top:2.2rem">
   <div class="card" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem">
