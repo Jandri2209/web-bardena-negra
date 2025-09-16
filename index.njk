@@ -119,7 +119,7 @@ permalink: "/"
     Lo que dicen los huéspedes en Booking, Airbnb y Google.
   </p>
 
-  {% if reviews and reviews.length %}
+  {% if reviews and (reviews | length) %}
     {# Media normalizada a /5 #}
     {% set sum = 0 %}{% set count = 0 %}
     {% for r in reviews %}
@@ -148,7 +148,11 @@ permalink: "/"
       {% for r in reviews %}
         {% if loop.index <= 3 %}
           {% set max = r.ratingMax or 5 %}
-          {% set norm = (r.rating and max) ? (r.rating / max * 5) : 0 %}
+          {% if r.rating and max %}
+            {% set norm = (r.rating / max * 5) %}
+          {% else %}
+            {% set norm = 0 %}
+          {% endif %}
           {% set full = norm | round(0, 'floor') %}
 
           <article class="card" style="display:flex;flex-direction:column;gap:.5rem">
