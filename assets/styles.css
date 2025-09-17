@@ -310,23 +310,37 @@ footer a{ color:#fff }
 /* ==========================
    Reseñas (Home)
    ========================== */
+/* Reseñas */
 .platform-badge{
-  display:inline-block;
-  padding:.15rem .5rem;
-  border-radius:999px;
-  font-size:.8rem;
-  color:#fff;
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.15rem .55rem; border-radius:999px; font-size:.8rem; color:#fff;
 }
-.platform-badge.booking{ background:var(--brand-booking) }
-.platform-badge.airbnb{  background:var(--brand-airbnb)  }
-.platform-badge.google{  background:var(--brand-google)  }
+.platform-badge .icon{
+  width:14px; height:14px;
+  background:var(--logo) no-repeat center/contain;
+  flex:0 0 14px;
+}
 
-/* Estrellas (si añades la clase "review-stars" al contenedor de estrellas) */
+/* Colores + logo por plataforma (si pones los SVG locales, se verán; si no, se queda solo el color) */
+.platform-badge.booking{ background:var(--brand-booking); --logo:url('/images/brands/booking.svg'); }
+.platform-badge.airbnb { background:var(--brand-airbnb);  --logo:url('/images/brands/airbnb.svg'); }
+.platform-badge.google { background:var(--brand-google);  --logo:url('/images/brands/google.svg'); }
+
+/* Estrellas compactas */
 .review-stars{ white-space:nowrap; font-size:1rem; letter-spacing:.02em }
 .review-stars .empty{ opacity:.3 }
 
-/* Grid 3 → 1 col en móvil (para el bloque de reseñas) */
-@media (max-width:960px){
-  .grid.cols-3{ grid-template-columns:1fr }
-}
+/* Panel de rating con barras */
+.rating-panel{ display:grid; grid-template-columns: 1fr 1fr; gap:1rem; align-items:center }
+@media (max-width:960px){ .rating-panel{ grid-template-columns:1fr } }
+
+.rating-big{ display:flex; align-items:center; gap:.8rem }
+.rating-big .value{ font-size:2rem; font-weight:700 }
+.rating-big .stars{ font-size:1.2rem; letter-spacing:.04em }
+
+.rating-bars{ display:flex; flex-direction:column; gap:.35rem }
+.rating-bars .row{ display:grid; grid-template-columns: 18px 1fr 24px; gap:.5rem; align-items:center }
+.rating-bars .track{ position:relative; height:8px; border-radius:999px; background:rgba(0,0,0,.08) }
+.rating-bars .fill{ position:absolute; inset:0; width:var(--p); border-radius:999px; background:var(--accent) }
+
 

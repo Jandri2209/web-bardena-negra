@@ -120,7 +120,7 @@ permalink: "/"
   </p>
 
   {% if reviews and (reviews | length) %}
-    {# Media normalizada a /5 #}
+    {# ==== Media normalizada a /5 ==== #}
     {% set sum = 0 %}{% set count = 0 %}
     {% for r in reviews %}
       {% if r.rating and (r.ratingMax or 5) %}
@@ -130,16 +130,49 @@ permalink: "/"
     {% endfor %}
     {% set avg = (count and (sum / count)) or 0 %}
 
-    <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem">
-      <div style="display:flex;align-items:center;gap:.75rem">
+    {# ==== Distribución 5→1 ==== #}
+    {% set c1=0 %}{% set c2=0 %}{% set c3=0 %}{% set c4=0 %}{% set c5=0 %}
+    {% for r in reviews %}
+      {% if r.rating and (r.ratingMax or 5) %}
+        {% set norm = (r.rating / (r.ratingMax or 5) * 5) %}
+        {% set stars = norm | round(0, 'floor') %}
+        {% if stars < 1 %}{% set stars = 1 %}{% endif %}
+        {% if stars > 5 %}{% set stars = 5 %}{% endif %}
+        {% if stars == 5 %}{% set c5 = c5 + 1 %}
+        {% elif stars == 4 %}{% set c4 = c4 + 1 %}
+        {% elif stars == 3 %}{% set c3 = c3 + 1 %}
+        {% elif stars == 2 %}{% set c2 = c2 + 1 %}
+        {% else %}{% set c1 = c1 + 1 %}{% endif %}
+      {% endif %}
+    {% endfor %}
+
+    <div class="card rating-panel" style="margin-bottom:1rem">
+      <div class="rating-big">
         <div style="font-size:1.25rem">⭐</div>
         <div>
-          <strong>{{ avg | round(1) }}</strong> / 5
-          <span style="color:#6b7280">media basada en {{ count }} valoraciones mostradas</span>
+          <div class="value">{{ avg | round(1) }} / 5</div>
+          <div style="color:#6b7280">{{ count }} valoración{% if count != 1 %}es{% endif %}</div>
         </div>
       </div>
-      <div class="actions" style="display:flex;gap:.5rem;flex-wrap:wrap">
-        <a class="btn alt" href="https://search.google.com/local/writereview?placeid=TU_PLACE_ID" target="_blank" rel="noopener">Deja tu reseña en Google</a>
+      <div class="rating-bars">
+        {% set p5 = (count and (c5 / count * 100)) or 0 %}
+        {% set p4 = (count and (c4 / count * 100)) or 0 %}
+        {% set p3 = (count and (c3 / count * 100)) or 0 %}
+        {% set p2 = (count and (c2 / count * 100)) or 0 %}
+        {% set p1 = (count and (c1 / count * 100)) or 0 %}
+        {% for label, pct, n in [
+          ['5', p5, c5],
+          ['4', p4, c4],
+          ['3', p3, c3],
+          ['2', p2, c2],
+          ['1', p1, c1]
+        ] %}
+        <div class="row">
+          <span>{{ label }}</span>
+          <div class="track"><div class="fill" style="--p: {{ (pct | round(0)) ~ '%' }}"></div></div>
+          <span style="text-align:right">{{ n }}</span>
+        </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -148,17 +181,16 @@ permalink: "/"
       {% for r in reviews %}
         {% if loop.index <= 3 %}
           {% set max = r.ratingMax or 5 %}
-          {% if r.rating and max %}
-            {% set norm = (r.rating / max * 5) %}
-          {% else %}
-            {% set norm = 0 %}
-          {% endif %}
+          {% if r.rating and max %}{% set norm = (r.rating / max * 5) %}{% else %}{% set norm = 0 %}{% endif %}
           {% set full = norm | round(0, 'floor') %}
 
           <article class="card" style="display:flex;flex-direction:column;gap:.5rem">
             <header style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
               <div style="display:flex;align-items:center;gap:.5rem">
-                <span class="platform-badge {{ r.platform }}">{{ (r.platform or 'reseña') | capitalize }}</span>
+                <span class="platform-badge {{ r.platform }}">
+                  <span class="icon" aria-hidden="true"></span>
+                  {{ (r.platform or 'reseña') | capitalize }}
+                </span>
                 <strong>{{ r.author or 'Anónimo' }}</strong>
               </div>
               {% if norm > 0 %}
@@ -190,7 +222,6 @@ permalink: "/"
       {% endfor %}
     </div>
 
-    {# JSON-LD dentro del IF para disponer de avg y count #}
     <script type="application/ld+json">
     {
       "@context":"https://schema.org",
