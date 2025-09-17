@@ -114,20 +114,21 @@
         e.target.textContent = 'Mostrar original';
       }
     });
-    // ===== Drawer de reseñas (filtrado por estrellas) =====
-    const drawer = document.getElementById('reviewsDrawer');
-    const listBox = drawer?.querySelector('.drawer-list');
-    const chips = drawer?.querySelectorAll('.drawer-filters .chip') || [];
-    const openAll = document.getElementById('open-all-reviews');
+    // ===== Modal de reseñas (filtrado por estrellas) =====
+    const modalBg = document.getElementById('reviewsModal');
+    const modal    = modalBg?.querySelector('.rev-modal');
+    const listBox  = modalBg?.querySelector('.drawer-list');
+    const chips    = modalBg?.querySelectorAll('.drawer-filters .chip') || [];
+    const btnOpen  = document.getElementById('open-all-reviews');
+    const btnClose = modalBg?.querySelector('.rev-modal-close');
     let currentFilter = 'all';
+    let lastFocus = null;
 
     function getAllCards() {
-    // Todas las tarjetas de las 3 columnas
     return Array.from(document.querySelectorAll('#reviewsByPlatform .review-card'));
     }
-
     function renderList() {
-    if (!drawer || !listBox) return;
+    if (!modalBg || !listBox) return;
     listBox.innerHTML = '';
     const cards = getAllCards().filter(c => {
         if (currentFilter === 'all') return true;
@@ -135,29 +136,51 @@
     });
     cards.forEach(c => {
         const clone = c.cloneNode(true);
-        clone.hidden = false; // mostrar siempre
+        clone.hidden = false;
         listBox.appendChild(clone);
     });
     }
 
-    function openDrawer(filter = 'all') {
+    function openModal(filter = 'all') {
     currentFilter = filter;
     chips.forEach(ch => ch.classList.toggle('is-active', ch.dataset.filter === filter));
-    drawer.hidden = false;
+    modalBg.hidden = false;
+    document.body.classList.add('modal-open');
     renderList();
-    drawer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    lastFocus = document.activeElement;
+    // Foco inicial
+    (btnClose || modal)?.focus();
+    // Pausar autoplay de columnas
+    document.dispatchEvent(new Event('reviews:modal-open'));
     }
 
-    function closeDrawer() { if (drawer) drawer.hidden = true; }
+    function closeModal() {
+    modalBg.hidden = true;
+    document.body.classList.remove('modal-open');
+    document.dispatchEvent(new Event('reviews:modal-close'));
+    if (lastFocus) lastFocus.focus();
+    }
 
-    // Botón "Ver todas"
-    openAll && openAll.addEventListener('click', () => openDrawer('all'));
+    // Abrir / Cerrar
+    btnOpen && btnOpen.addEventListener('click', () => openModal('all'));
+    btnClose && btnClose.addEventListener('click', closeModal);
+    // Cerrar clic fuera
+    modalBg && modalBg.addEventListener('click', e => { if (e.target === modalBg) closeModal(); });
+    // Esc
+    document.addEventListener('keydown', e => {
+    if (!modalBg || modalBg.hidden) return;
+    if (e.key === 'Escape') closeModal();
+    // Trap de tab
+    if (e.key === 'Tab') {
+        const f = modal.querySelectorAll('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])');
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    });
 
-    // Cerrar
-    drawer?.querySelector('.close-drawer')?.addEventListener('click', closeDrawer);
-
-    // Chips de filtro
-    drawer?.addEventListener('click', (e) => {
+    // Chips de filtro dentro del modal
+    modalBg?.addEventListener('click', (e) => {
     const chip = e.target.closest('.chip[data-filter]');
     if (!chip) return;
     currentFilter = chip.dataset.filter || 'all';
@@ -165,26 +188,32 @@
     renderList();
     });
 
-    // Click en barras del panel para abrir ya filtrado
+    // Click en barras del panel => abrir filtrado
     document.querySelector('.rating-bars')?.addEventListener('click', (e) => {
     const row = e.target.closest('.row[data-stars]');
-    if (row) openDrawer(row.dataset.stars);
+    if (row) openModal(row.dataset.stars);
     });
-
-    // Acceso por teclado en barras (Enter/Espacio)
+    // Acceso teclado en barras
     document.querySelector('.rating-bars')?.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     const row = e.target.closest('.row[data-stars]');
-    if (row) { e.preventDefault(); openDrawer(row.dataset.stars); }
+    if (row) { e.preventDefault(); openModal(row.dataset.stars); }
     });
 
-    // Click en estrellas de cualquier tarjeta => abre filtrado
+    // Click en estrellas de cualquier tarjeta => abrir filtrado por ese nº
     document.getElementById('reviewsByPlatform')?.addEventListener('click', (e) => {
     const stars = e.target.closest('.review-stars');
     if (!stars) return;
     const card = stars.closest('.review-card');
     const n = card?.dataset.stars;
-    if (n) openDrawer(String(n));
+    if (n) openModal(String(n));
+    });
+
+    // Señales para pausar/reanudar autoplay desde el modal
+    document.querySelectorAll('#reviewsByPlatform .platform-col').forEach(col => {
+    // Busca el setup de esa columna (parche simple: simulamos hover para pausar)
+    document.addEventListener('reviews:modal-open', () => col.dispatchEvent(new Event('mouseenter')));
+    document.addEventListener('reviews:modal-close', () => col.dispatchEvent(new Event('mouseleave')));
     });
   });
 })();

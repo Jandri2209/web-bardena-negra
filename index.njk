@@ -183,27 +183,6 @@ permalink: "/"
         </a>
       </div>
     </div>
-    <p style="text-align:center;margin:.75rem 0 1rem">
-      <button id="open-all-reviews" class="btn alt">Ver todas las reseñas</button>
-    </p>
-
-    <div id="reviewsDrawer" class="card" hidden>
-      <header style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.6rem">
-        <strong class="font-primary">Reseñas</strong>
-        <button type="button" class="link close-drawer">Cerrar</button>
-      </header>
-
-      <nav class="drawer-filters" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
-        <button class="chip is-active" data-filter="all">Todas</button>
-        <button class="chip" data-filter="5">5★</button>
-        <button class="chip" data-filter="4">4★</button>
-        <button class="chip" data-filter="3">3★</button>
-        <button class="chip" data-filter="2">2★</button>
-        <button class="chip" data-filter="1">1★</button>
-      </nav>
-
-      <div class="drawer-list" style="display:grid;gap:.6rem"></div>
-    </div>
     {# =========================
        Tres columnas: carrusel por plataforma
        ========================= #}
@@ -288,6 +267,29 @@ permalink: "/"
       {% endfor %}
     </div>
     <script src="/assets/review.js" defer></script>
+    <p style="text-align:center;margin:.75rem 0 1rem">
+      <button id="open-all-reviews" class="btn alt">Ver todas las reseñas</button>
+    </p>
+
+    <div id="reviewsModal" class="rev-modal-backdrop" hidden>
+      <div class="rev-modal" role="dialog" aria-modal="true" aria-labelledby="revModalTitle" tabindex="-1">
+        <header class="rev-modal-header">
+          <h3 id="revModalTitle" class="font-primary" style="margin:0">Reseñas</h3>
+          <button type="button" class="rev-modal-close" aria-label="Cerrar">×</button>
+        </header>
+
+        <nav class="drawer-filters" style="display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 .6rem">
+          <button class="chip is-active" data-filter="all">Todas</button>
+          <button class="chip" data-filter="5">5★</button>
+          <button class="chip" data-filter="4">4★</button>
+          <button class="chip" data-filter="3">3★</button>
+          <button class="chip" data-filter="2">2★</button>
+          <button class="chip" data-filter="1">1★</button>
+        </nav>
+
+        <div class="drawer-list" style="display:grid;gap:.6rem"></div>
+      </div>
+    </div>
     {# JSON-LD #}
     <script type="application/ld+json">
     {
