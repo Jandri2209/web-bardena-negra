@@ -352,6 +352,16 @@ footer a{ color:#fff }
 .platform-col .prev[hidden], .platform-col .next[hidden]{
   display:none !important;
 }
+/* Play/Pause bajo los dots */
+.platform-col .play-row{
+  display:flex; justify-content:center; margin-top:.35rem;
+}
+.platform-col .play-btn{
+  border:1px solid #e5e7eb; background:#fff; border-radius:999px;
+  padding:.35rem .8rem; font-weight:600;
+}
+.platform-col .play-btn.is-paused{ background:#f8fafc }
+
 
 /* En móvil: columnas en vertical */
 @media (max-width:960px){ #reviewsByPlatform{ grid-template-columns:1fr } }

@@ -11,9 +11,12 @@
     if (items.length === 1 && controls) controls.style.display = 'none';
 
     const autoplayMs = Number(col.dataset.autoplay || 0);
-    const wrap = col.dataset.wrap === 'true'; // ← wrap-around ON/OFF
-    let i = 0, timer = null, hovering = false, inView = true;
+    const wrap = col.dataset.wrap === 'true';
+    const wantPauseBtn = col.dataset.pause === 'true' && autoplayMs > 0;
 
+    let i = 0, timer = null, hovering = false, inView = true, paused = false;
+
+    // Dots
     const dots = items.map((_, idx) => {
       const b = document.createElement('button');
       b.type = 'button';
@@ -35,7 +38,6 @@
       if (wrap) {
         if (idx < 0) return items.length - 1;
         if (idx >= items.length) return 0;
-        return idx;
       }
       return Math.min(Math.max(idx, 0), items.length - 1);
     }
@@ -43,13 +45,13 @@
     function go(idx, user = false) {
       i = clampOrWrap(idx);
       render();
-      if (user && autoplayMs) restart();
+      if (user && autoplayMs && !paused) restart();
     }
 
     function step() { go(i + 1); }
-    function start() { if (!autoplayMs || timer || hovering || !inView) return; timer = setInterval(step, autoplayMs); }
-    function stop() { if (timer) { clearInterval(timer); timer = null; } }
-    function restart() { stop(); start(); }
+    function start() { if (!autoplayMs || timer || hovering || !inView || paused) return; timer = setInterval(step, autoplayMs); }
+    function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+    function restart(){ stop(); start(); }
 
     prev && prev.addEventListener('click', () => go(i - 1, true));
     next && next.addEventListener('click', () => go(i + 1, true));
@@ -66,6 +68,26 @@
         inView ? start() : stop();
       }, { threshold: 0.25 });
       io.observe(col);
+    }
+
+    // Play/Pause bajo los dots
+    if (wantPauseBtn) {
+      const row = document.createElement('div');
+      row.className = 'play-row';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'play-btn';
+      btn.setAttribute('aria-pressed', 'false');
+      btn.textContent = 'Pausar';
+      btn.addEventListener('click', () => {
+        paused = !paused;
+        btn.classList.toggle('is-paused', paused);
+        btn.setAttribute('aria-pressed', String(paused));
+        btn.textContent = paused ? 'Reanudar' : 'Pausar';
+        paused ? stop() : start();
+      });
+      row.appendChild(btn);
+      controls.after(row);
     }
 
     render();
