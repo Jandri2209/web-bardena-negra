@@ -1,61 +1,65 @@
 (function () {
   function setupCol(col) {
     const items = Array.from(col.querySelectorAll('.slides .review-card'));
+    if (!items.length) return;
+
     const prev = col.querySelector('.prev');
     const next = col.querySelector('.next');
     const dotsWrap = col.querySelector('.dots');
     const controls = col.querySelector('.controls');
 
-    if (!items.length) return;
-    if (items.length === 1 && controls) { controls.style.display = 'none'; }
+    if (items.length === 1 && controls) controls.style.display = 'none';
 
-    // Autoplay por columna (lee data-autoplay en la columna o 0 si no hay)
     const autoplayMs = Number(col.dataset.autoplay || 0);
+    const wrap = col.dataset.wrap === 'true'; // ← wrap-around ON/OFF
     let i = 0, timer = null, hovering = false, inView = true;
 
-    // Dots (una sola vez)
     const dots = items.map((_, idx) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'dot';
       b.setAttribute('aria-label', `Ir a reseña ${idx + 1}`);
       b.addEventListener('click', () => go(idx, true));
-      dotsWrap && dotsWrap.appendChild(b);
+      dotsWrap.appendChild(b);
       return b;
     });
 
     function render() {
-      items.forEach((el, idx) => (idx === i ? el.removeAttribute('hidden') : el.setAttribute('hidden', '')));
-      if (prev) prev.hidden = (i === 0);
-      if (next) next.hidden = (i === items.length - 1);
+      items.forEach((el, idx) => el.hidden = idx !== i);
+      if (prev) prev.hidden = !wrap && (i === 0);
+      if (next) next.hidden = !wrap && (i === items.length - 1);
       dots.forEach((d, idx) => d.classList.toggle('is-active', idx === i));
     }
 
+    function clampOrWrap(idx) {
+      if (wrap) {
+        if (idx < 0) return items.length - 1;
+        if (idx >= items.length) return 0;
+        return idx;
+      }
+      return Math.min(Math.max(idx, 0), items.length - 1);
+    }
+
     function go(idx, user = false) {
-      if (idx < 0 || idx >= items.length) return;
-      i = idx;
+      i = clampOrWrap(idx);
       render();
       if (user && autoplayMs) restart();
     }
 
-    // Autoplay: del último vuelve al primero (como el héroe)
-    function step() { i = (i + 1) % items.length; render(); }
+    function step() { go(i + 1); }
     function start() { if (!autoplayMs || timer || hovering || !inView) return; timer = setInterval(step, autoplayMs); }
     function stop() { if (timer) { clearInterval(timer); timer = null; } }
     function restart() { stop(); start(); }
 
-    // Controles
     prev && prev.addEventListener('click', () => go(i - 1, true));
     next && next.addEventListener('click', () => go(i + 1, true));
 
-    // Pausas
     col.addEventListener('mouseenter', () => { hovering = true; stop(); });
     col.addEventListener('mouseleave', () => { hovering = false; start(); });
     col.addEventListener('focusin', stop);
     col.addEventListener('focusout', start);
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
 
-    // Solo autoplay cuando está en viewport
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
         inView = entries.some(en => en.isIntersecting);
@@ -71,7 +75,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('#reviewsByPlatform .platform-col').forEach(setupCol);
 
-    // Toggle “Mostrar original / Mostrar traducción”
+    // Toggle traducciones
     document.addEventListener('click', (e) => {
       if (!e.target.matches('.toggle-trans')) return;
       const box = e.target.closest('.rev-body');

@@ -192,7 +192,7 @@ permalink: "/"
         {% set list = [] %}
         {% for r in reviews %}{% if r.platform == plat %}{% set _ = list.push(r) %}{% endif %}{% endfor %}
         {% if list | length %}
-          <section class="platform-col card" data-platform="{{ plat }}" data-autoplay="7000">
+          <section class="platform-col card" data-platform="{{ plat }}" data-autoplay="7000" data-wrap="true">
             <header class="plat-header" style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
               <span class="platform-badge {{ plat }}" aria-label="{{ plat | capitalize }}">
                 <span class="icon" aria-hidden="true"></span>
@@ -265,7 +265,7 @@ permalink: "/"
         {% endif %}
       {% endfor %}
     </div>
-    <script src="/assets/reviews.js" defer></script>
+    <script src="/assets/reviews.js?v=1" defer></script>
     {# JSON-LD #}
     <script type="application/ld+json">
     {
