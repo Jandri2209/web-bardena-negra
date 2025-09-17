@@ -326,53 +326,54 @@ footer a{ color:#fff }
 /* ==========================
    Reseñas (Home)
    ========================== */
-/* Reseñas */
-.platform-badge{
-  display:inline-flex; align-items:center; padding:0; border:0; background:transparent;
-  box-shadow:none; /* sin sombras para que manden los SVG */
-}
-.platform-badge .icon{
-  --s: 22px;            /* tamaño común; sube a 24 si lo quieres más grande */
-  width:var(--s); height:var(--s);
-  background:var(--logo) no-repeat center/contain;
-}
 
-/* Asigna cada SVG (los tuyos, con fondo o sin él) */
-.platform-badge.booking{ --logo: url('/images/brands/booking.svg'); }
-.platform-badge.airbnb { --logo: url('/images/brands/airbnb.svg'); }
-.platform-badge.google { --logo: url('/images/brands/google.svg'); }
+/* Badges con SVG */
+.platform-badge{ display:inline-flex; align-items:center; padding:0; border:0; background:transparent; box-shadow:none }
+.platform-badge .icon{ --s:22px; width:var(--s); height:var(--s); background:var(--logo) no-repeat center/contain }
+.platform-badge.booking{ --logo:url('/images/brands/booking.svg') }
+.platform-badge.airbnb { --logo:url('/images/brands/airbnb.svg') }
+.platform-badge.google { --logo:url('/images/brands/google.svg') }
 
-/* Dots y flechas por columna */
-.platform-col .dots{ display:flex; gap:.35rem }
-.platform-col .dot{ width:8px; height:8px; border-radius:999px; border:0; background:rgba(0,0,0,.18); cursor:pointer }
-.platform-col .dot.is-active{ background:var(--accent) }
+/* Controles (prev/dots/next) – siempre dentro de .controls */
+.platform-col .controls{ width:100% }
+.platform-col .controls .dots{
+  display:flex; flex-wrap:wrap; justify-content:center; align-items:center;
+  gap:.35rem; max-width:100%;
+}
+.platform-col .controls .dot{
+  width:10px; height:10px; border-radius:999px; border:1px solid #d1d5db;
+  background:#fff; opacity:.8; cursor:pointer;
+}
+.platform-col .controls .dot.is-active{
+  background:var(--accent); border-color:var(--accent); opacity:1; transform:scale(1.05);
+}
+.platform-col .controls .prev,
+.platform-col .controls .next{ flex:0 0 auto }
 .platform-col .prev:disabled, .platform-col .next:disabled{ opacity:.45; cursor:not-allowed }
 
-/* En móvil: columnas en vertical (ya tienes .grid.cols-3 → 1 col con @media) */
-@media (max-width:960px){
-  #reviewsByPlatform{ grid-template-columns:1fr; }
-}
+/* En móvil: columnas en vertical */
+@media (max-width:960px){ #reviewsByPlatform{ grid-template-columns:1fr } }
 
+/* Botón pequeño y enlaces de acción */
 .btn.sm{ padding:.45rem .7rem; font-size:.85rem }
 .link{ background:none;border:0;padding:0;cursor:pointer;color:var(--accent);text-decoration:underline }
 .link:focus-visible{ outline:2px solid var(--accent) }
-#reviewsByPlatform .dot{ width:8px;height:8px;border-radius:999px;border:1px solid rgba(0,0,0,.25);background:#fff }
-#reviewsByPlatform .dot.is-active{ background:var(--accent); border-color:var(--accent) }
 
-/* Estrellas compactas */
+/* Estrellas */
 .review-stars{ white-space:nowrap; font-size:1rem; letter-spacing:.02em }
 .review-stars .empty{ opacity:.3 }
 
-/* Panel de rating con barras */
-.rating-panel{ display:grid; grid-template-columns: 1fr 1fr; gap:1rem; align-items:center }
-@media (max-width:960px){ .rating-panel{ grid-template-columns:1fr } }
+/* Texto de reseña sin recortes */
+.review-card p{ max-height:none; overflow:visible; line-height:1.55 }
 
+/* Panel de rating */
+.rating-panel{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:center }
+@media (max-width:960px){ .rating-panel{ grid-template-columns:1fr } }
 .rating-big{ display:flex; align-items:center; gap:.8rem }
 .rating-big .value{ font-size:2rem; font-weight:700 }
-.rating-big .stars{ font-size:1.2rem; letter-spacing:.04em }
-
 .rating-bars{ display:flex; flex-direction:column; gap:.35rem }
-.rating-bars .row{ display:grid; grid-template-columns: 18px 1fr 24px; gap:.5rem; align-items:center }
+.rating-bars .row{ display:grid; grid-template-columns:18px 1fr 24px; gap:.5rem; align-items:center }
 .rating-bars .track{ position:relative; height:8px; border-radius:999px; background:rgba(0,0,0,.08) }
 .rating-bars .fill{ position:absolute; inset:0; width:var(--p); border-radius:999px; background:var(--accent) }
+
 
