@@ -192,7 +192,7 @@ permalink: "/"
         {% set list = [] %}
         {% for r in reviews %}{% if r.platform == plat %}{% set _ = list.push(r) %}{% endif %}{% endfor %}
         {% if list | length %}
-          <section class="platform-col card" data-platform="{{ plat }}">
+          <section class="platform-col card" data-platform="{{ plat }}" data-autoplay="7000">
             <header class="plat-header" style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
               <span class="platform-badge {{ plat }}" aria-label="{{ plat | capitalize }}">
                 <span class="icon" aria-hidden="true"></span>
@@ -265,59 +265,7 @@ permalink: "/"
         {% endif %}
       {% endfor %}
     </div>
-
-    {# =========================
-       JS: carrusel + toggle traducción
-       ========================= #}
-    <script>
-    (function(){
-      // Carruseles por columna
-      document.querySelectorAll('#reviewsByPlatform .platform-col').forEach(col=>{
-        const items = Array.from(col.querySelectorAll('.review-card'));
-        const prev = col.querySelector('.prev');
-        const next = col.querySelector('.next');
-        const dotsWrap = col.querySelector('.dots');
-        let i = 0;
-        function paint(){
-          items.forEach((el,idx)=> el.hidden = (idx !== i));
-          dotsWrap.innerHTML = '';
-          items.forEach((_,idx)=>{
-            const b = document.createElement('button');
-            b.type = 'button';
-            b.className = 'dot' + (idx===i ? ' is-active' : '');
-            b.setAttribute('aria-label','Ir a reseña '+(idx+1));
-            b.addEventListener('click',()=>{ i = idx; paint(); });
-            dotsWrap.appendChild(b);
-          });
-          prev.disabled = (i===0);
-          next.disabled = (i===items.length-1);
-          col.querySelector('.controls').style.display = (items.length>1) ? '' : 'none';
-        }
-        prev.addEventListener('click', ()=>{ if(i>0){ i--; paint(); } });
-        next.addEventListener('click', ()=>{ if(i<items.length-1){ i++; paint(); } });
-        paint();
-      });
-
-      // Toggle "Mostrar original / Mostrar traducción"
-      document.addEventListener('click', (e)=>{
-        if(!e.target.matches('.toggle-trans')) return;
-        const box = e.target.closest('.rev-body');
-        const es = box.querySelector('.rev-text.es');
-        const orig = box.querySelector('.rev-text.orig');
-        const showingEs = es && !es.hidden;
-        if (showingEs){
-          if(es) es.hidden = true;
-          if(orig) orig.hidden = false;
-          e.target.textContent = 'Mostrar traducción';
-        } else {
-          if(es) es.hidden = false;
-          if(orig) orig.hidden = true;
-          e.target.textContent = 'Mostrar original';
-        }
-      });
-    })();
-    </script>
-
+    <script src="/assets/reviews.js" defer></script>
     {# JSON-LD #}
     <script type="application/ld+json">
     {

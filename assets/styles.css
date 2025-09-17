@@ -349,7 +349,9 @@ footer a{ color:#fff }
 }
 .platform-col .controls .prev,
 .platform-col .controls .next{ flex:0 0 auto }
-.platform-col .prev:disabled, .platform-col .next:disabled{ opacity:.45; cursor:not-allowed }
+.platform-col .prev[hidden], .platform-col .next[hidden]{
+  display:none !important;
+}
 
 /* En móvil: columnas en vertical */
 @media (max-width:960px){ #reviewsByPlatform{ grid-template-columns:1fr } }
