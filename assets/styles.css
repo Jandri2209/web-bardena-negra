@@ -59,6 +59,12 @@ button.btn:disabled{ cursor:not-allowed; opacity:.6 }
 .btn:focus-visible{
   outline:2px solid #fff; outline-offset:2px; box-shadow:0 0 0 3px rgba(163,125,76,.35)
 }
+.btn .logo-google{
+  display:inline-block; width:18px; height:18px;
+  background:url('/images/brands/google.svg') no-repeat center/contain;
+  vertical-align:-3px;
+}
+
 
 /* Utilidades */
 .sr-only{
@@ -361,7 +367,6 @@ footer a{ color:#fff }
   padding:.35rem .8rem; font-weight:600;
 }
 .platform-col .play-btn.is-paused{ background:#f8fafc }
-
 
 /* En móvil: columnas en vertical */
 @media (max-width:960px){ #reviewsByPlatform{ grid-template-columns:1fr } }
