@@ -112,7 +112,8 @@ permalink: "/"
     <div class="card"><h2 class="font-primary" style="font-size:1.75rem">Sendaviva</h2><p>Parque familiar para todas las edades. <strong>≈23 min</strong>.</p></div>
   </div>
 </section>
-<!-- RESEÑAS (desde /_data/reviews.json) -->
+
+<!-- RESEÑAS -->
 <section class="container" id="resenas" style="margin-top:2.2rem">
   <h2 class="font-primary" style="font-size:1.75rem;margin:0 0 .5rem">Reseñas</h2>
   <p style="color:#4b5563;max-width:65ch;margin:.25rem 0 1rem">
@@ -120,7 +121,9 @@ permalink: "/"
   </p>
 
   {% if reviews and (reviews | length) %}
-    {# ==== Media normalizada a /5 ==== #}
+    {# =========================
+       Media normalizada a /5
+       ========================= #}
     {% set sum = 0 %}{% set count = 0 %}
     {% for r in reviews %}
       {% if r.rating and (r.ratingMax or 5) %}
@@ -130,18 +133,20 @@ permalink: "/"
     {% endfor %}
     {% set avg = (count and (sum / count)) or 0 %}
 
-    {# ==== Distribución 5→1 ==== #}
+    {# =========================
+       Distribución 5→1
+       ========================= #}
     {% set c1=0 %}{% set c2=0 %}{% set c3=0 %}{% set c4=0 %}{% set c5=0 %}
     {% for r in reviews %}
       {% if r.rating and (r.ratingMax or 5) %}
         {% set norm = (r.rating / (r.ratingMax or 5) * 5) %}
-        {% set stars = norm | round(0, 'floor') %}
+        {% set stars = norm | round(0,'floor') %}
         {% if stars < 1 %}{% set stars = 1 %}{% endif %}
         {% if stars > 5 %}{% set stars = 5 %}{% endif %}
         {% if stars == 5 %}{% set c5 = c5 + 1 %}
-        {% elif stars == 4 %}{% set c4 = c4 + 1 %}
-        {% elif stars == 3 %}{% set c3 = c3 + 1 %}
-        {% elif stars == 2 %}{% set c2 = c2 + 1 %}
+        {% elseif stars == 4 %}{% set c4 = c4 + 1 %}
+        {% elseif stars == 3 %}{% set c3 = c3 + 1 %}
+        {% elseif stars == 2 %}{% set c2 = c2 + 1 %}
         {% else %}{% set c1 = c1 + 1 %}{% endif %}
       {% endif %}
     {% endfor %}
@@ -161,9 +166,7 @@ permalink: "/"
         {% set p3 = (count and (c3 / count * 100)) or 0 %}
         {% set p2 = (count and (c2 / count * 100)) or 0 %}
         {% set p1 = (count and (c1 / count * 100)) or 0 %}
-        {% for label, pct, n in [
-          ['5', p5, c5], ['4', p4, c4], ['3', p3, c3], ['2', p2, c2], ['1', p1, c1]
-        ] %}
+        {% for label, pct, n in [['5', p5, c5], ['4', p4, c4], ['3', p3, c3], ['2', p2, c2], ['1', p1, c1]] %}
           <div class="row">
             <span>{{ label }}</span>
             <div class="track"><div class="fill" style="--p: {{ (pct | round(0)) ~ '%' }}"></div></div>
@@ -174,62 +177,148 @@ permalink: "/"
 
       <div class="rating-cta">
         <a class="btn"
-          href="https://search.google.com/local/writereview?placeid=ChIJ_X7SQE43Wg0RtvVYh9tlK1g&hl=es-ES&gl=ES"
-          target="_blank" rel="noopener">Deja tu reseña en Google</a>
+           href="https://search.google.com/local/writereview?placeid=ChIJ_X7SQE43Wg0RtvVYh9tlK1g&hl=es-ES&gl=ES"
+           target="_blank" rel="noopener">Deja tu reseña en Google</a>
       </div>
     </div>
-    <div class="grid cols-3" style="gap:.75rem">
-      {# Muestra hasta 3 reseñas; cambia 3->6 si quieres más #}
-      {% for r in reviews %}
-        {% if loop.index <= 3 %}
-          {% set max = r.ratingMax or 5 %}
-          {% if r.rating and max %}{% set norm = (r.rating / max * 5) %}{% else %}{% set norm = 0 %}{% endif %}
-          {% set full = norm | round(0, 'floor') %}
 
-          <article class="card" style="display:flex;flex-direction:column;gap:.5rem">
-            <header style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
-              <div style="display:flex;align-items:center;gap:.5rem">
-                <span class="platform-badge {{ r.platform }}" aria-label="{{ (r.platform or 'reseña') | capitalize }}">
-                  <span class="icon" aria-hidden="true"></span>
-                  <span class="sr-only">{{ (r.platform or 'reseña') | capitalize }}</span>
-                </span>
-                <strong>{{ r.author or 'Anónimo' }}</strong>
-              </div>
-              {% if norm > 0 %}
-              <div class="review-stars" aria-label="{{ (norm | round(1)) }} de 5">
-                {% for i in [1,2,3,4,5] %}
-                  {% if i <= full %}<span>★</span>{% else %}<span class="empty">★</span>{% endif %}
-                {% endfor %}
-              </div>
-              {% endif %}
+    {# =========================
+       Tres columnas: carrusel por plataforma
+       ========================= #}
+    {% set linkMap = reviewsLink or reviewLinks or {} %}
+    <div id="reviewsByPlatform" class="grid cols-3" style="gap:.75rem">
+      {% for plat in ['booking','airbnb','google'] %}
+        {# filtrar reseñas de esa plataforma #}
+        {% set list = [] %}
+        {% for r in reviews %}{% if r.platform == plat %}{% set _ = list.push(r) %}{% endif %}{% endfor %}
+        {% if list | length %}
+          <section class="platform-col card" data-platform="{{ plat }}">
+            <header class="plat-header" style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
+              <span class="platform-badge {{ plat }}" aria-label="{{ plat | capitalize }}">
+                <span class="icon" aria-hidden="true"></span>
+                <span class="sr-only">{{ plat | capitalize }}</span>
+              </span>
+              <strong>{{ plat | capitalize }}</strong>
+              <a href="{{ linkMap[plat] or '#' }}" class="btn alt sm"
+                 target="_blank" rel="noopener ugc nofollow"
+                 style="margin-left:auto">Ver en {{ plat | capitalize }}</a>
             </header>
 
-            {% if r.date %}
-              {% set prettyDate = (r.date | date("es-ES")) or r.date %}
-              <time datetime="{{ r.date }}" style="color:#6b7280;font-size:.9rem">{{ prettyDate }}</time>
-            {% endif %}
+            <div class="slides">
+              {% for r in list %}
+                {% set max = r.ratingMax or 5 %}
+                {% if r.rating and max %}{% set norm = (r.rating / max * 5) %}{% else %}{% set norm = 0 %}{% endif %}
+                {% set full = norm | round(0,'floor') %}
 
-            {% if r.text %}
-              <p style="margin:0;line-height:1.55">{{ r.text }}</p>
-            {% endif %}
+                <article class="review-card" {% if not loop.first %}hidden{% endif %}>
+                  <header style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
+                    <strong>{{ r.author or 'Anónimo' }}</strong>
+                    {% if norm > 0 %}
+                    <div class="review-stars" aria-label="{{ (norm | round(1)) }} de 5">
+                      {% for i in [1,2,3,4,5] %}
+                        {% if i <= full %}<span>★</span>{% else %}<span class="empty">★</span>{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </header>
 
-            <footer style="margin-top:.4rem;display:flex;align-items:center;justify-content:space-between">
-              <span style="font-size:.85rem;color:#6b7280;text-transform:capitalize">{{ r.platform or '' }}</span>
+                  {% if r.date %}
+                    {% set prettyDate = (r.date | date('es-ES')) or r.date %}
+                    <time datetime="{{ r.date }}" style="color:#6b7280;font-size:.9rem">{{ prettyDate }}</time>
+                  {% endif %}
 
-              {% if r.platform == 'google' %}
-                <a href="https://www.google.com/maps/place/?q=place_id:ChIJ_X7SQE43Wg0RtvVYh9tlK1g&hl=es-ES"
-                  class="btn alt" target="_blank" rel="noopener">Ver reseñas en Google</a>
-              {% elseif r.url %}
-                <a href="{{ r.url }}" class="btn alt" target="_blank" rel="noopener">
-                  Ver en {{ (r.platform or 'origen') | capitalize }}
-                </a>
-              {% endif %}
-            </footer>
-          </article>
+                  {# --- CUERPO CON TRADUCCIÓN --- #}
+                  {% set hasTrans = r.text_es and r.text and r.lang and r.lang != 'es' %}
+                  <div class="rev-body" style="margin-top:.2rem">
+                    {% if hasTrans %}
+                      <p class="rev-text es" style="margin:.2rem 0 0;line-height:1.55">{{ r.text_es }}</p>
+                      <p class="rev-text orig" style="margin:.2rem 0 0;line-height:1.55" hidden>{{ r.text }}</p>
+                      <div class="trans-note" style="color:#6b7280;font-size:.9rem;margin-top:.35rem">
+                        Traducido del {{ r.lang | upper }} ·
+                        <button type="button" class="link toggle-trans">Mostrar original</button>
+                      </div>
+                    {% else %}
+                      <p class="rev-text" style="margin:.2rem 0 0;line-height:1.55">{{ r.text_es or r.text }}</p>
+                      {% if r.lang and r.lang != 'es' and not r.text %}
+                        <div class="trans-note" style="color:#6b7280;font-size:.9rem;margin-top:.35rem">
+                          Idioma original: {{ r.lang | upper }}
+                        </div>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+
+                  <footer style="margin-top:.7rem;display:flex;align-items:center;justify-content:space-between">
+                    <span style="font-size:.85rem;color:#6b7280;text-transform:capitalize">
+                      {{ r.platform or '' }}{% if r.lang %} · {{ r.lang | upper }}{% endif %}
+                    </span>
+                  </footer>
+                </article>
+              {% endfor %}
+            </div>
+
+            <div class="controls" style="display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:.6rem">
+              <button class="btn alt prev" style="padding:.35rem .6rem" aria-label="Anterior">‹</button>
+              <div class="dots" aria-label="Paginación"></div>
+              <button class="btn alt next" style="padding:.35rem .6rem" aria-label="Siguiente">›</button>
+            </div>
+          </section>
         {% endif %}
       {% endfor %}
     </div>
 
+    {# =========================
+       JS: carrusel + toggle traducción
+       ========================= #}
+    <script>
+    (function(){
+      // Carruseles por columna
+      document.querySelectorAll('#reviewsByPlatform .platform-col').forEach(col=>{
+        const items = Array.from(col.querySelectorAll('.review-card'));
+        const prev = col.querySelector('.prev');
+        const next = col.querySelector('.next');
+        const dotsWrap = col.querySelector('.dots');
+        let i = 0;
+        function paint(){
+          items.forEach((el,idx)=> el.hidden = (idx !== i));
+          dotsWrap.innerHTML = '';
+          items.forEach((_,idx)=>{
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'dot' + (idx===i ? ' is-active' : '');
+            b.setAttribute('aria-label','Ir a reseña '+(idx+1));
+            b.addEventListener('click',()=>{ i = idx; paint(); });
+            dotsWrap.appendChild(b);
+          });
+          prev.disabled = (i===0);
+          next.disabled = (i===items.length-1);
+          col.querySelector('.controls').style.display = (items.length>1) ? '' : 'none';
+        }
+        prev.addEventListener('click', ()=>{ if(i>0){ i--; paint(); } });
+        next.addEventListener('click', ()=>{ if(i<items.length-1){ i++; paint(); } });
+        paint();
+      });
+
+      // Toggle "Mostrar original / Mostrar traducción"
+      document.addEventListener('click', (e)=>{
+        if(!e.target.matches('.toggle-trans')) return;
+        const box = e.target.closest('.rev-body');
+        const es = box.querySelector('.rev-text.es');
+        const orig = box.querySelector('.rev-text.orig');
+        const showingEs = es && !es.hidden;
+        if (showingEs){
+          if(es) es.hidden = true;
+          if(orig) orig.hidden = false;
+          e.target.textContent = 'Mostrar traducción';
+        } else {
+          if(es) es.hidden = false;
+          if(orig) orig.hidden = true;
+          e.target.textContent = 'Mostrar original';
+        }
+      });
+    })();
+    </script>
+
+    {# JSON-LD #}
     <script type="application/ld+json">
     {
       "@context":"https://schema.org",

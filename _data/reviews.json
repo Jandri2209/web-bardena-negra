@@ -5,25 +5,344 @@
     "ratingMax": 10,
     "author": "Lara",
     "date": "2025-08-25",
-    "text": "Me encantó todo, la casa preciosa, todo impecable, cálida y además la persona que lo gestiona un 10, estuvo al dedillo con todos los detalles, la cesta de bienvenida... una pasada, super contenta, volveremos a ir. Nada que objetar.",
-    "url": "https://www.booking.com/hotel/es/casa-bardena-negra-comodo-alojamiento-para-visitar-las-bardenas-y-sendaviva.es.html#tab-reviews"
+    "text": "Me encantó todo; la casa preciosa, impecable y cálida. La persona que lo gestiona, un 10, pendiente de todos los detalles (cesta de bienvenida incluida). Súper contenta, volveremos."
   },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Jose",
+    "date": "2025-08-10",
+    "text": "Todo está muy bien."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Juan",
+    "date": "2025-06-29",
+    "text": "Todo en general: limpieza, atención, etc. No lo pone en la web pero hay aire acondicionado en todas las habitaciones. No se puede poner ninguna pega."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Joana",
+    "date": "2025-05-22",
+    "text": "La casa es espectacular, mejor que en las fotos. Detalles por todas partes; cocina completísima. Atención antes y durante la estancia, una maravilla. Para repetir sin duda."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Jose",
+    "date": "2025-05-04",
+    "text": "Atención excelente desde antes de llegar. Casa muy limpia, ordenada, completa y detalle de bienvenida genial. Jardín/patio acogedor con buena barbacoa."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Marta",
+    "date": "2024-12-08",
+    "text": "La casa es fantástica, muy cómoda y con todo lo necesario para un fin de semana tranquilo."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Rebeca",
+    "date": "2024-11-03",
+    "text": "La limpieza y la decoración, muy acogedora."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Gorka",
+    "date": "2024-10-23",
+    "text": "Habitaciones y baños espaciosos; todo muy limpio. Cocina con todo lo necesario y más. Ubicación fantástica para rutas en bici por las Bardenas. Por decir algo, poca zona de trabajo en la cocina."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Iñaki",
+    "date": "2024-06-09",
+    "text": "Una maravilla de casa, todo impecable y con todo lo necesario. Habitaciones y baños amplios. Atención genial. Detalle de bienvenida. Ojalá algo de sombra en el patio cuando hace mucho sol."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Maria",
+    "date": "2024-04-15",
+    "text": "Casa preciosa, amplia y decorada con gusto. Patio grande; ubicación muy buena y pueblo tranquilo. Gestión cercana. Admiten perros (en nuestro caso cobraron suplemento por 3; mejor informarlo). Aun así, repetiríamos."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Nieves",
+    "date": "2024-03-29",
+    "text": "Tal y como en las fotos. Habitaciones amplias y cómodas. Zonas comunes con todo lo necesario. Todo limpísimo. Fuimos con niños y un bebé y no echamos nada en falta. El patio es un plus."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Pedro",
+    "date": "2024-01-01",
+    "text": "Alojamiento bonito, cómodo y decorado con mimo. Propietaria y gestor pendientes en todo momento. Todo nuevo, limpio y bien organizado. Habitaciones muy bien estructuradas. Todo perfecto."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Kike",
+    "date": "2023-12-10",
+    "text": "Todo perfecto: casa preciosa, súper limpia e impecable; atención igual de buena. Nada que objetar."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Juanpablo",
+    "date": "2023-11-12",
+    "text": "Preciosa casa con todo lo necesario para disfrutar cómodamente en familia de los atractivos de la zona. Personal muy amable y dispuesto a ayudar."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Ana",
+    "date": "2023-11-04",
+    "text": "Nos encantó la casa. Tenía todo lo que podíamos necesitar; además de cómoda y bonita."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Maialen",
+    "date": "2023-11-03",
+    "text": "Casa nueva, al detalle."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Esteban",
+    "date": "2023-10-02",
+    "text": "Ubicación perfecta para Bardenas, Tudela y alrededores. Casa amplia, cómoda y recién reformada. Jardín amplio para mascotas. Pueblo pequeño pero con servicios suficientes."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "Ana",
+    "date": "2023-07-31",
+    "text": "Todo: habitaciones, cocina y terraza. Mobiliario suficiente para todos; nos vamos muy contentos. Nada negativo."
+  },
+  {
+    "platform": "booking",
+    "rating": 10,
+    "ratingMax": 10,
+    "author": "María",
+    "date": "2023-06-05",
+    "text": "Casa excelente, súper cuidada y no falta de nada. Atención muy buena; dejan la casa por encima de las expectativas. Ideal con niños, muy cerca de Sendaviva. Nada que objetar."
+  },
+
+  { "platform": "booking",
+    "rating": 10, "ratingMax": 10, "author": "Nikolay", "date": "2024-08-26",
+    "lang": "en",
+    "text": "Exceptionally stylish, clean and comfortable property. Nice surprises at arrival. Ideal parking right by the door. Very convenient location for Bardenas. Backyard with BBQ. Friendly and responsive owner. Minor hot water issue solved in no time.",
+    "text_es": "Propiedad con estilo, muy limpia y cómoda. Bonitos detalles de bienvenida. Aparcamiento ideal en la puerta. Ubicación perfecta para Bardenas. Patio con barbacoa. Anfitrión atento. Un pequeño problema de agua caliente se resolvió enseguida."
+  },
+  { "platform": "booking",
+    "rating": 9, "ratingMax": 10, "author": "Rensvoosterhout77", "date": "2025-07-27",
+    "lang": "nl",
+    "text": "Zeer ruim huis, alles schoon en netjes. Prachtig ingericht, alle gemakken voorzien, perfect voor een uitstap naar Bardenas Reales. Hele vriendelijke host Jesus. Niets.",
+    "text_es": "Casa muy amplia, todo limpio y ordenado. Decoración preciosa y con todas las comodidades; perfecta para visitar las Bardenas. Anfitrión muy amable. Nada que objetar."
+  },
+  { "platform": "booking",
+    "rating": 9, "ratingMax": 10, "author": "Valérie", "date": "2025-06-07",
+    "lang": "fr",
+    "text": "Maison de ville très fonctionnelle, 4 grandes chambres et 2 grandes salles de bains. Décoration cosy. Tout était très propre et comme neuf. Merci pour les petites attentions. Rien. L’espace cuisine/repas un peu juste pour 8, mais en s’organisant ça fonctionne.",
+    "text_es": "Casa de pueblo muy funcional, 4 habitaciones grandes y 2 baños. Decoración acogedora, todo muy limpio y como nuevo. Gracias por los detalles. Nada malo. La zona de cocina/comedor es algo justa para 8, pero organizándose funciona."
+  },
+  { "platform": "booking",
+    "rating": 9, "ratingMax": 10, "author": "Elodie", "date": "2025-05-01",
+    "lang": "fr",
+    "text": "La maison est confortable, grande, bien équipée et parfaitement propre. Literie très confortable, linge impeccable. On s’y sent comme chez soi. Accès aux Bardenas proches et commerces à proximité. Rien, tout était top.",
+    "text_es": "Casa confortable, grande, bien equipada y perfectamente limpia. Camas muy cómodas y ropa impecable. Te sientes como en casa. Bardenas y comercios cerca. Todo perfecto."
+  },
+  { "platform": "booking",
+    "rating": 10, "ratingMax": 10, "author": "Alex", "date": "2025-04-13",
+    "lang": "fr",
+    "text": "Superbe, confortable, bien fini et de belles attentions. Merci.",
+    "text_es": "Magnífica, confortable, bien acabada y con bonitos detalles. Gracias."
+  },
+  { "platform": "booking",
+    "rating": 10, "ratingMax": 10, "author": "David", "date": "2023-05-22",
+    "lang": "fr",
+    "text": "Maison rénovée avec goût et fonctionnelle, très bien équipée. Lits confortables, Wi-Fi, stationnement facile devant. Cour ensoleillée avec salon de jardin. Quartier très calme, à 10 min de Tudela. Aucun problème.",
+    "text_es": "Casa renovada con gusto y funcional, muy bien equipada. Camas cómodas, Wi-Fi, aparcamiento fácil en la puerta. Patio soleado con mobiliario. Barrio muy tranquilo, a 10 min de Tudela. Ningún problema."
+  },
+  { "platform": "booking", "rating": 10, "ratingMax": 10, "author": "Sonia", "date": "2025-07-13", "text": "" },
+  { "platform": "booking", "rating": 10, "ratingMax": 10, "author": "Nerea", "date": "2023-09-11", "text": "" },
+  { "platform": "booking", "rating": 9, "ratingMax": 10, "author": "Patricia", "date": "2023-08-13", "text": "" },
+  { "platform": "booking", "rating": 10, "ratingMax": 10, "author": "Philipp", "date": "2025-04-06", "text": "" },
+  { "platform": "booking", "rating": 10, "ratingMax": 10, "author": "Thaïs", "date": "2024-06-06", "text": "" },
+  { "platform": "booking", "rating": 10, "ratingMax": 10, "author": "Justine", "date": "2024-05-04", "text": "" },
+
   {
     "platform": "airbnb",
     "rating": 5,
     "ratingMax": 5,
     "author": "María De Los Angeles",
-    "date": "2025-08",
-    "text": "Es un alojamiento espectacular al que no le falta detalle. El pueblo nos gustó mucho… La casa es una maravilla. El detalle de la entrada es una pasada y se agradece mucho. Es una casa amplia, con camas cómodas, acceso muy bueno, jardín amplio y muy cómodo. Hemos estado encantados/as. Muchísimas gracias por todo. Sin duda, volveremos.",
-    "url": "https://www.airbnb.es/rooms/887673032385746221/reviews?locale=es"
+    "date": "2025-08-01",
+    "text": "Es un alojamiento espectacular al que no le falta detalle. El pueblo nos gustó mucho y, a pesar de estar en fiestas, desde la casa no se oía nada. La casa es una maravilla; detalle de la entrada muy agradecido. Casa amplia, camas cómodas, acceso muy bueno, jardín grande y cómodo. Hemos estado encantados/as. Muchísimas gracias por todo. Sin duda, volveremos."
   },
   {
-    "platform": "google",
+    "platform": "airbnb",
+    "rating": 4,
+    "ratingMax": 5,
+    "author": "Sandra",
+    "date": "2024-10-01",
+    "text": "Estancia muy agradable; detalles de bienvenida que se agradecen. Respuestas rápidas y buena disposición del anfitrión."
+  },
+  {
+    "platform": "airbnb",
     "rating": 5,
     "ratingMax": 5,
-    "author": "Carlos LG",
-    "date": "",
-    "text": "Es la segunda vez que nos alojamos en esta casa... y no será la última. Es cómoda, muy bonita, con muchísimos detalles que hacen que la sientas como tu hogar. ¡¡Gracias!!",
-    "url": "https://www.google.com/maps/place/?q=place_id:ChIJ_X7SQE43Wg0RtvVYh9tlK1g&hl=es-ES"
-  }
+    "author": "María",
+    "date": "2024-12-01",
+    "text": "Buena."
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Cristina",
+    "date": "2024-05-01",
+    "text": "Excelente fin de semana. Casa perfecta, muy bien decorada, cómoda e impecable. Juguetes para nuestro peque y una cesta con productos riquísimos. Jesús muy atento; conocimos a Eva y su marido. Recomendamos a todo el mundo esta casa. ¡Repetiremos seguro!"
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Camille",
+    "date": "2024-10-01",
+    "lang": "fr",
+    "text": "Maison à l’ambiance apaisante, très joliment décorée: on s’y sent comme chez soi! Merci Jesus pour tous les petits détails qui rendent le séjour si agréable et ressourçant! La région : un bijou !",
+    "text_es": "Casa con ambiente relajante y muy bien decorada; te sientes como en casa. Gracias Jesús por los pequeños detalles que hacen la estancia tan agradable. La zona es una joya."
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Eulalia",
+    "date": "2023-10-01",
+    "text": "Fuimos en familia y nos encantó. Casa súper cuidada, acceso fácil y entrada autónoma. Wi-Fi excelente y varios espacios para teletrabajar. Trato con Jesús de 10; cunas, tronas, recomendaciones y detalle de bienvenida. Alojamiento 100% recomendable."
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Aleksandras",
+    "date": "2024-07-01",
+    "lang": "en",
+    "text": "This is, by far, the best Airbnb we have been to in a long time, if not the best ever. Very spacious and clean house, fully equipped, and communication with the host was quick and easy. The welcome with bread, olive oil, juice and snacks was the best surprise. Bravo!",
+    "text_es": "El mejor Airbnb en mucho tiempo, si no el mejor. Casa muy espaciosa y limpia, totalmente equipada; comunicación con el anfitrión rápida y sencilla. Bienvenida con pan, aceite, zumo y aperitivos. ¡Bravo!"
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Lorenzo",
+    "date": "2024-10-01",
+    "lang": "fr",
+    "text": "Le logement est parfait et nous pensons revenir...",
+    "text_es": "El alojamiento es perfecto y estamos pensando en volver."
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Bryan",
+    "date": "2024-05-01",
+    "lang": "fr",
+    "text": "Le logement est identique à la description et aux photos. La décoration y est soignée avec des matériaux de bonnes qualité. Le logement est impeccable. Idéalement situé pour visiter le désert des Bardenas et ses environs. Week-end parfait 🤩",
+    "text_es": "Alojamiento idéntico a la descripción y fotos. Decoración cuidada con materiales de calidad. Ubicación ideal para visitar las Bardenas. Fin de semana perfecto."
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Juan Pablo",
+    "date": "2023-09-01",
+    "text": "ESPECTACULAR. Casa preciosa y espaciosa; ideal para desconectar. Jesús, excelente anfitrión (desayuno, juegos, detalles para niños). Todo como nuevo. Entradas/salidas flexibles y trato súper cordial. ¡Gracias!"
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Camélia",
+    "date": "2023-10-01",
+    "lang": "fr",
+    "text": "Nous avons passé un super séjour dans la maison de Jesus ! Déjà avant notre arrivée, Jesus a eu une communication impeccable, très chaleureux, arrivée flexible, instructions claire. La maison était vraiment très agréable, joliment décorée, espace extérieur bien sympathique, très bien équipée, les lits très confortables. Idéal pour aller visiter la région des Bardenas. Jesus a toujours été très réactif par message. Merci beaucoup ! Je recommande sans hésitation !",
+    "text_es": "Estancia estupenda. Comunicación impecable y llegada flexible. Casa muy agradable, bien decorada, exterior genial y bien equipada; camas muy cómodas. Ideal para visitar Bardenas. Jesús muy atento. ¡Muy recomendable!"
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Janusz",
+    "date": "2024-09-01",
+    "lang": "pl",
+    "text": "Wszystko było super👍 apartament ładny,przestronny,duże podwórko. Blisko do sklepów, parking przy wejściu do apartamentu.Gospodarz bardzo sympatyczny szczegółowo opisał nam jak zwiedzić park Bardenas Reales. Jesus bardzo szybko odpowiada na pytania z naszej strony.Dostaliśmy powitalny koszyk z łakociami.Wszystko było czyste.Bardzo fajny pobyt- polecamy tego gospodarza.👌. Co prawda oficjalny wjazd do Bardenas Reales i na 35 kilometrową pętlę znajduje się w Arguedas, ale kilka kilometrów na południe od Fustiñany, w bok od drogi nr 126  jest nieoficjalny, ale legalny, jeszcze jeden wjazd do parku. Zalety to zero turystów i równie piękne widoki jak te na pętli.",
+    "text_es": "Todo genial: apartamento bonito y espacioso con patio grande. Cerca de tiendas y aparcamiento en la puerta. Anfitrión muy amable, nos explicó cómo visitar Bardenas. Cesta de bienvenida. Muy limpio. Recomendable."
+  },
+  {
+    "platform": "airbnb",
+    "rating": 5,
+    "ratingMax": 5,
+    "author": "Katia",
+    "date": "2024-04-01",
+    "lang": "fr",
+    "text": "Accueil parfait, merci",
+    "text_es": "Bienvenida perfecta, gracias"
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "VANESA SANCHEZ SARNAGO",
+    "text": "Vivienda completamente rehabilitada, todo nuevo y muy limpio, cuidada al detalle. Perfecta para ir en grupo y con niños. Detalle de bienvenida."
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "Carlos LG",
+    "text": "Segunda vez que nos alojamos... y no será la última. Cómoda, muy bonita y con muchísimos detalles que la hacen sentir como tu hogar. ¡Gracias!"
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "Nicole Camposeco",
+    "text": "Experiencia increíble. La casa muy bonita y decorada en Navidad; un detalle precioso. 100% recomendada."
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "Gemma Aznar Aina",
+    "text": "Casa preciosa al último detalle, limpieza de 10, sitio tranquilo, detalle de bienvenida. Volveremos."
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "olga Aznar",
+    "text": "Increíble la casa, más bonita que en las fotos; súper acogedora y limpísima. Repetiremos."
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "Olga Sada Aguirre",
+    "text": "Casa rural con 4 habitaciones y gran patio para disfrutar. Calle tranquila y bien comunicada, servicios cerca."
+  },
+  { "platform": "google", "rating": 4, "ratingMax": 5, "author": "María Pilar Lostado",
+    "text": "Excelente casa, muy bonita; tranquilidad y muy cerca de Bardenas, Senda Viva y Tudela. Volveremos."
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "EM LV",
+    "text": "Preciosa casa en la puerta sur de la Bardena Negra. Cerca de Senda Viva. Bien ubicada con todos los servicios a un paso."
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "Fran Abad Gonzalez",
+    "text": "Maravillosa estancia… totalmente recomendable."
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "Isabel Aina",
+    "text": "Superlimpio y estancia acogedora."
+  },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "Fusti Sergio", "text": "" },
+  { "platform": "google", "rating": 5, "ratingMax": 5, "author": "Pablo Marin", "text": "" }
 ]
