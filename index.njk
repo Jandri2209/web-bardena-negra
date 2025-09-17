@@ -154,6 +154,7 @@ permalink: "/"
           <div style="color:#6b7280">{{ count }} valoración{% if count != 1 %}es{% endif %}</div>
         </div>
       </div>
+
       <div class="rating-bars">
         {% set p5 = (count and (c5 / count * 100)) or 0 %}
         {% set p4 = (count and (c4 / count * 100)) or 0 %}
@@ -161,21 +162,22 @@ permalink: "/"
         {% set p2 = (count and (c2 / count * 100)) or 0 %}
         {% set p1 = (count and (c1 / count * 100)) or 0 %}
         {% for label, pct, n in [
-          ['5', p5, c5],
-          ['4', p4, c4],
-          ['3', p3, c3],
-          ['2', p2, c2],
-          ['1', p1, c1]
+          ['5', p5, c5], ['4', p4, c4], ['3', p3, c3], ['2', p2, c2], ['1', p1, c1]
         ] %}
-        <div class="row">
-          <span>{{ label }}</span>
-          <div class="track"><div class="fill" style="--p: {{ (pct | round(0)) ~ '%' }}"></div></div>
-          <span style="text-align:right">{{ n }}</span>
-        </div>
+          <div class="row">
+            <span>{{ label }}</span>
+            <div class="track"><div class="fill" style="--p: {{ (pct | round(0)) ~ '%' }}"></div></div>
+            <span style="text-align:right">{{ n }}</span>
+          </div>
         {% endfor %}
       </div>
-    </div>
 
+      <div class="rating-cta">
+        <a class="btn"
+          href="https://search.google.com/local/writereview?placeid=ChIJ_X7SQE43Wg0RtvVYh9tlK1g&hl=es-ES&gl=ES"
+          target="_blank" rel="noopener">Deja tu reseña en Google</a>
+      </div>
+    </div>
     <div class="grid cols-3" style="gap:.75rem">
       {# Muestra hasta 3 reseñas; cambia 3->6 si quieres más #}
       {% for r in reviews %}
@@ -246,12 +248,6 @@ permalink: "/"
   {% else %}
     <div class="card">Pronto añadiremos reseñas verificadas de las plataformas.</div>
   {% endif %}
-  <a class="btn alt"
-   href="https://search.google.com/local/writereview?placeid=ChIJ_X7SQE43Wg0RtvVYh9tlK1g"
-   target="_blank" rel="noopener">
-  Deja tu reseña en Google
-</a>
-
 </section>
 <!-- CTA FINAL -->
 <section class="container" style="margin-top:2.2rem">

@@ -328,19 +328,19 @@ footer a{ color:#fff }
    ========================== */
 /* Reseñas */
 .platform-badge{
-  display:inline-flex; align-items:center;
-  padding:.25rem .55rem; border-radius:999px;
-  font-size:0; /* oculta texto visual si se te escapa */
-  color:#fff;
+  display:inline-flex; align-items:center; padding:0; border:0; background:transparent;
+  box-shadow:none; /* sin sombras para que manden los SVG */
 }
 .platform-badge .icon{
-  width:20px; height:20px; /* <-- más grande */
+  --s: 22px;            /* tamaño común; sube a 24 si lo quieres más grande */
+  width:var(--s); height:var(--s);
   background:var(--logo) no-repeat center/contain;
-  flex:0 0 20px;
 }
-.platform-badge.booking{ background:var(--brand-booking); --logo:url('/images/brands/booking.svg'); }
-.platform-badge.airbnb { background:var(--brand-airbnb);  --logo:url('/images/brands/airbnb.svg'); }
-.platform-badge.google { background:var(--brand-google);  --logo:url('/images/brands/google.svg'); }
+
+/* Asigna cada SVG (los tuyos, con fondo o sin él) */
+.platform-badge.booking{ --logo: url('/images/brands/booking.svg'); }
+.platform-badge.airbnb { --logo: url('/images/brands/airbnb.svg'); }
+.platform-badge.google { --logo: url('/images/brands/google.svg'); }
 
 /* Estrellas compactas */
 .review-stars{ white-space:nowrap; font-size:1rem; letter-spacing:.02em }
