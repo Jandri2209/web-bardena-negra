@@ -413,7 +413,7 @@ footer a{ color:#fff }
   box-shadow:0 30px 80px rgba(0,0,0,.45);
 }
 .rev-modal-header{
-  position:sticky; top:0; background:#fff;
+  background:#fff;
   display:flex; align-items:center; justify-content:space-between;
   padding-bottom:.4rem; margin-bottom:.4rem;
   border-bottom:1px solid rgba(0,0,0,.06);
