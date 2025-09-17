@@ -187,9 +187,9 @@ permalink: "/"
           <article class="card" style="display:flex;flex-direction:column;gap:.5rem">
             <header style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
               <div style="display:flex;align-items:center;gap:.5rem">
-                <span class="platform-badge {{ r.platform }}">
+                <span class="platform-badge {{ r.platform }}" aria-label="{{ (r.platform or 'reseña') | capitalize }}">
                   <span class="icon" aria-hidden="true"></span>
-                  {{ (r.platform or 'reseña') | capitalize }}
+                  <span class="sr-only">{{ (r.platform or 'reseña') | capitalize }}</span>
                 </span>
                 <strong>{{ r.author or 'Anónimo' }}</strong>
               </div>
@@ -213,8 +213,14 @@ permalink: "/"
 
             <footer style="margin-top:.4rem;display:flex;align-items:center;justify-content:space-between">
               <span style="font-size:.85rem;color:#6b7280;text-transform:capitalize">{{ r.platform or '' }}</span>
-              {% if r.url %}
-                <a href="{{ r.url }}" class="btn alt" target="_blank" rel="noopener">Ver en {{ (r.platform or 'origen') | capitalize }}</a>
+
+              {% if r.platform == 'google' %}
+                <a href="https://www.google.com/maps/place/?q=place_id:ChIJ_X7SQE43Wg0RtvVYh9tlK1g&hl=es-ES"
+                  class="btn alt" target="_blank" rel="noopener">Ver reseñas en Google</a>
+              {% elseif r.url %}
+                <a href="{{ r.url }}" class="btn alt" target="_blank" rel="noopener">
+                  Ver en {{ (r.platform or 'origen') | capitalize }}
+                </a>
               {% endif %}
             </footer>
           </article>
@@ -240,6 +246,12 @@ permalink: "/"
   {% else %}
     <div class="card">Pronto añadiremos reseñas verificadas de las plataformas.</div>
   {% endif %}
+  <a class="btn alt"
+   href="https://search.google.com/local/writereview?placeid=ChIJ_X7SQE43Wg0RtvVYh9tlK1g"
+   target="_blank" rel="noopener">
+  Deja tu reseña en Google
+</a>
+
 </section>
 <!-- CTA FINAL -->
 <section class="container" style="margin-top:2.2rem">
