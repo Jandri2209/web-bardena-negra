@@ -167,7 +167,7 @@ permalink: "/"
         {% set p2 = (count and (c2 / count * 100)) or 0 %}
         {% set p1 = (count and (c1 / count * 100)) or 0 %}
         {% for label, pct, n in [['5', p5, c5], ['4', p4, c4], ['3', p3, c3], ['2', p2, c2], ['1', p1, c1]] %}
-          <div class="row">
+          <div class="row" data-stars="{{ label }}" role="button" tabindex="0" aria-label="Ver reseñas de {{ label }} estrellas">
             <span>{{ label }}</span>
             <div class="track"><div class="fill" style="--p: {{ (pct | round(0)) ~ '%' }}"></div></div>
             <span style="text-align:right">{{ n }}</span>
@@ -183,7 +183,27 @@ permalink: "/"
         </a>
       </div>
     </div>
+    <p style="text-align:center;margin:.75rem 0 1rem">
+      <button id="open-all-reviews" class="btn alt">Ver todas las reseñas</button>
+    </p>
 
+    <div id="reviewsDrawer" class="card" hidden>
+      <header style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.6rem">
+        <strong class="font-primary">Reseñas</strong>
+        <button type="button" class="link close-drawer">Cerrar</button>
+      </header>
+
+      <nav class="drawer-filters" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
+        <button class="chip is-active" data-filter="all">Todas</button>
+        <button class="chip" data-filter="5">5★</button>
+        <button class="chip" data-filter="4">4★</button>
+        <button class="chip" data-filter="3">3★</button>
+        <button class="chip" data-filter="2">2★</button>
+        <button class="chip" data-filter="1">1★</button>
+      </nav>
+
+      <div class="drawer-list" style="display:grid;gap:.6rem"></div>
+    </div>
     {# =========================
        Tres columnas: carrusel por plataforma
        ========================= #}
@@ -212,7 +232,7 @@ permalink: "/"
                 {% if r.rating and max %}{% set norm = (r.rating / max * 5) %}{% else %}{% set norm = 0 %}{% endif %}
                 {% set full = norm | round(0,'floor') %}
 
-                <article class="review-card" {% if not loop.first %}hidden{% endif %}>
+                <article class="review-card" data-stars="{{ full }}" {% if not loop.first %}hidden{% endif %}>
                   <header style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
                     <strong>{{ r.author or 'Anónimo' }}</strong>
                     {% if norm > 0 %}

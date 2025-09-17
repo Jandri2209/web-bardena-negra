@@ -114,5 +114,77 @@
         e.target.textContent = 'Mostrar original';
       }
     });
+    // ===== Drawer de reseñas (filtrado por estrellas) =====
+    const drawer = document.getElementById('reviewsDrawer');
+    const listBox = drawer?.querySelector('.drawer-list');
+    const chips = drawer?.querySelectorAll('.drawer-filters .chip') || [];
+    const openAll = document.getElementById('open-all-reviews');
+    let currentFilter = 'all';
+
+    function getAllCards() {
+    // Todas las tarjetas de las 3 columnas
+    return Array.from(document.querySelectorAll('#reviewsByPlatform .review-card'));
+    }
+
+    function renderList() {
+    if (!drawer || !listBox) return;
+    listBox.innerHTML = '';
+    const cards = getAllCards().filter(c => {
+        if (currentFilter === 'all') return true;
+        return String(c.dataset.stars || '') === String(currentFilter);
+    });
+    cards.forEach(c => {
+        const clone = c.cloneNode(true);
+        clone.hidden = false; // mostrar siempre
+        listBox.appendChild(clone);
+    });
+    }
+
+    function openDrawer(filter = 'all') {
+    currentFilter = filter;
+    chips.forEach(ch => ch.classList.toggle('is-active', ch.dataset.filter === filter));
+    drawer.hidden = false;
+    renderList();
+    drawer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeDrawer() { if (drawer) drawer.hidden = true; }
+
+    // Botón "Ver todas"
+    openAll && openAll.addEventListener('click', () => openDrawer('all'));
+
+    // Cerrar
+    drawer?.querySelector('.close-drawer')?.addEventListener('click', closeDrawer);
+
+    // Chips de filtro
+    drawer?.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip[data-filter]');
+    if (!chip) return;
+    currentFilter = chip.dataset.filter || 'all';
+    chips.forEach(ch => ch.classList.toggle('is-active', ch === chip));
+    renderList();
+    });
+
+    // Click en barras del panel para abrir ya filtrado
+    document.querySelector('.rating-bars')?.addEventListener('click', (e) => {
+    const row = e.target.closest('.row[data-stars]');
+    if (row) openDrawer(row.dataset.stars);
+    });
+
+    // Acceso por teclado en barras (Enter/Espacio)
+    document.querySelector('.rating-bars')?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const row = e.target.closest('.row[data-stars]');
+    if (row) { e.preventDefault(); openDrawer(row.dataset.stars); }
+    });
+
+    // Click en estrellas de cualquier tarjeta => abre filtrado
+    document.getElementById('reviewsByPlatform')?.addEventListener('click', (e) => {
+    const stars = e.target.closest('.review-stars');
+    if (!stars) return;
+    const card = stars.closest('.review-card');
+    const n = card?.dataset.stars;
+    if (n) openDrawer(String(n));
+    });
   });
 })();

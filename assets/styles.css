@@ -393,4 +393,6 @@ footer a{ color:#fff }
 .rating-bars .track{ position:relative; height:8px; border-radius:999px; background:rgba(0,0,0,.08) }
 .rating-bars .fill{ position:absolute; inset:0; width:var(--p); border-radius:999px; background:var(--accent) }
 
+.rating-bars .row[role="button"] { cursor: pointer; }
+.review-stars { cursor: pointer; }
 
