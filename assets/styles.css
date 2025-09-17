@@ -64,7 +64,7 @@ button.btn:disabled{ cursor:not-allowed; opacity:.6 }
   background:url('/images/brands/google.svg') no-repeat center/contain;
   vertical-align:-3px;
 }
-
+button { cursor: pointer; }
 
 /* Utilidades */
 .sr-only{
