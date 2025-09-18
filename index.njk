@@ -214,12 +214,19 @@ permalink: "/"
                 <article class="review-card" data-stars="{{ full }}" {% if not loop.first %}hidden{% endif %}>
                   <header style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
                     <strong>{{ r.author or 'Anónimo' }}</strong>
-                    {% if norm > 0 %}
-                    <div class="review-stars" aria-label="{{ (norm | round(1)) }} de 5">
-                      {% for i in [1,2,3,4,5] %}
-                        {% if i <= full %}<span>★</span>{% else %}<span class="empty">★</span>{% endif %}
-                      {% endfor %}
-                    </div>
+                    {% if r.platform == 'booking' and r.rating %}
+                      {# Nota 0–10 al estilo Booking #}
+                      <span class="score-badge booking"
+                            aria-label="{{ (r.rating | round(1)) }} de {{ max or 10 }}">
+                        {{ r.rating | round(1) }}
+                      </span>
+                    {% elseif norm > 0 %}
+                      {# Estrellas (Airbnb/Google) #}
+                      <div class="review-stars" aria-label="{{ (norm | round(1)) }} de 5">
+                        {% for i in [1,2,3,4,5] %}
+                          {% if i <= full %}<span>★</span>{% else %}<span class="empty">★</span>{% endif %}
+                        {% endfor %}
+                      </div>
                     {% endif %}
                   </header>
 
