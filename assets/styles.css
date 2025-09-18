@@ -336,7 +336,6 @@ body.no-hero header.site-header.open{ background:rgba(10,10,10,.82); box-shadow:
 .page-hero + section.container{ margin-top:1rem }
 
 /* Extensiones mínimas */
-.page-hero.full-bleed { width:100%; margin:0 }        /* Por si usas la clase */
 .page-hero .kicker{
   letter-spacing:.06em; text-transform:uppercase; font-weight:600;
   opacity:.9; margin:0 0 .25rem; color:#fff;

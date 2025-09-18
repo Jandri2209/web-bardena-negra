@@ -42,7 +42,7 @@ permalink: "/entorno/tudela/"
     </p>
 
     <p class="mt-6">
-      <a class="btn" href="/reservas/">¿Te alojas con nosotros? Consulta nuestra disponibilidad.</a>
+      <a class="btn" href="/reservas/">¿Te alojas con nosotros?</a>
       <a class="btn alt" href="/entorno/">← Volver a Entorno</a>
     </p>
   </div>

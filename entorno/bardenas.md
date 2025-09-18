@@ -4,14 +4,6 @@ title: "Bardenas Reales: qué ver, rutas y consejos"
 description: "Cómo visitar las Bardenas Reales desde la casa: rutas esenciales (Castildetierra, circuito de la Blanca), mejores horas, seguridad y avisos oficiales."
 permalink: "/entorno/bardenas/"
 ---
-
----
-layout: base.njk
-title: "Bardenas Reales: qué ver, rutas y consejos"
-description: "Cómo visitar las Bardenas Reales desde la casa: rutas esenciales (Castildetierra, circuito de la Blanca), mejores horas, seguridad y avisos oficiales."
-permalink: "/entorno/bardenas/"
----
-
 <!-- HERO con imagen de fondo -->
 <section class="page-hero full-bleed tierra sm"
          style="background-image:url('/images/bardenas.jpg')"
@@ -60,7 +52,7 @@ permalink: "/entorno/bardenas/"
     </ol>
 
     <p class="mt-6">
-      <a class="btn" href="/reservas/">¿Te alojas con nosotros? Consulta nuestra disponibilidad.</a>
+      <a class="btn" href="/reservas/">¿Te alojas con nosotros?</a>
       <a class="btn alt" href="/entorno/">← Volver a Entorno</a>
     </p>
   </div>
