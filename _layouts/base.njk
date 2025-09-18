@@ -103,15 +103,20 @@ title: ""
       <!-- Col 3: Mapa -->
       <div class="f-col">
         <h5 class="font-primary" style="margin:0 0 .4rem">Dónde estamos</h5>
-        <div class="f-map">
-          <iframe
-            title="Mapa de Casa Bardena Negra"
-            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=Calle+Virgen+de+la+Pe%C3%B1a+44,+31510+Fusti%C3%B1ana,+Navarra&output=embed">
-          </iframe>
+        <div class="f-map" data-consent="maps"
+            data-src="https://www.google.com/maps?q=Calle+Virgen+de+la+Pe%C3%B1a+44,+31510+Fusti%C3%B1ana,+Navarra&output=embed"
+            data-title="Mapa de Casa Bardena Negra">
+          <div class="map-placeholder">
+            <button class="btn alt sm" data-open-cc>Preferencias de cookies</button>
+            <p class="map-note">
+              Para ver el mapa, activa “Funcionales (mapas)”.
+            </p>
+          </div>
         </div>
         <p style="margin:.5rem 0 0">
-          <a class="link" href="https://maps.google.com/?q=Calle+Virgen+de+la+Pe%C3%B1a+44,+Fusti%C3%B1ana" target="_blank" rel="noopener">Abrir en Google Maps</a>
+          <a class="link" href="https://maps.google.com/?q=Calle+Virgen+de+la+Pe%C3%B1a+44,+Fusti%C3%B1ana" target="_blank" rel="noopener">
+            Abrir en Google Maps
+          </a>
         </p>
       </div>
     </div>
@@ -121,7 +126,8 @@ title: ""
       <nav class="f-legal">
         <a href="/privacidad/">Privacidad</a> ·
         <a href="/legal/">Aviso legal</a> ·
-        <a href="/cookies/">Cookies</a>
+        <a href="/cookies/">Cookies</a> ·
+        <a href="#" data-open-cc>Preferencias de cookies</a>
       </nav>
     </div>
   </footer>
@@ -389,5 +395,121 @@ title: ""
     window.addEventListener('scroll', onScroll, { passive: true });
   })();
   </script>
+<!-- Cookies: Modal preferencias -->
+<div id="cc" class="cc-backdrop" aria-hidden="true" role="dialog" aria-label="Preferencias de cookies">
+  <div class="cc-modal">
+    <header>Preferencias de cookies</header>
+    <div class="cc-body">
+      <p class="cc-note">
+        Usamos cookies <strong>técnicas</strong> para que la web funcione. Con tu permiso activaremos:
+      </p>
+
+      <div class="cc-switch">
+        <div>
+          <div class="label">Funcionales (mapas)</div>
+          <div class="desc">Mostrar Google Maps embebido.</div>
+        </div>
+        <input type="checkbox" id="cc-func">
+      </div>
+
+      <div class="cc-switch">
+        <div>
+          <div class="label">Analítica</div>
+          <div class="desc">Medición de uso con Google Analytics 4.</div>
+        </div>
+        <input type="checkbox" id="cc-ana">
+      </div>
+
+      <p class="cc-note">
+        Puedes cambiar tu elección en cualquier momento desde “Preferencias de cookies”.
+      </p>
+    </div>
+    <div class="cc-actions">
+      <button class="btn cc-outline" id="cc-reject">Rechazar todo</button>
+      <button class="btn alt" id="cc-save">Guardar y continuar</button>
+      <button class="btn" id="cc-accept">Aceptar todo</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const STORE_KEY = 'cc-v1';
+  const modal = document.getElementById('cc');
+  const func = document.getElementById('cc-func');
+  const ana  = document.getElementById('cc-ana');
+  const q = (sel,root=document) => root.querySelector(sel);
+  const qa = (sel,root=document) => Array.from(root.querySelectorAll(sel));
+
+  function open(){ modal.classList.add('open'); modal.removeAttribute('aria-hidden'); }
+  function close(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
+
+  function get(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)||''); } catch(e){ return null; } }
+  function set(v){ localStorage.setItem(STORE_KEY, JSON.stringify(v)); }
+
+  function apply(v){
+    if (v.funcional) loadMaps();
+    if (v.analitica) loadGA();
+  }
+
+  // === Google Maps (solo si hay consentimiento funcional) ===
+  function loadMaps(){
+    qa('[data-consent="maps"]').forEach(box=>{
+      if (box.dataset.loaded) return;
+      const src = box.dataset.src;
+      const title = box.dataset.title || 'Mapa';
+      const ifr = document.createElement('iframe');
+      ifr.src = src; ifr.title = title;
+      ifr.loading = 'lazy';
+      ifr.referrerPolicy = 'no-referrer-when-downgrade';
+      ifr.style.width='100%'; ifr.style.border='0';
+      box.innerHTML = ''; box.appendChild(ifr);
+      box.dataset.loaded = '1';
+    });
+  }
+
+  // === Google Analytics 4 (solo si hay consentimiento analítica) ===
+  function loadGA(){
+    if (window.__gaLoaded) return;
+    const GA_ID = '{{ site.gaId or "" }}';
+    if (!GA_ID || GA_ID.indexOf('G-') !== 0) return;
+    window.__gaLoaded = true;
+    const s1 = document.createElement('script');
+    s1.async = true;
+    s1.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    const s2 = document.createElement('script');
+    s2.text = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${GA_ID}', { anonymize_ip: true });
+    `;
+    document.head.appendChild(s1);
+    document.head.appendChild(s2);
+  }
+
+  // Botones del modal
+  q('#cc-accept').addEventListener('click', ()=>{
+    const v = { funcional:true, analitica:true, date: Date.now() };
+    set(v); apply(v); close();
+  });
+  q('#cc-save').addEventListener('click', ()=>{
+    const v = { funcional:func.checked, analitica:ana.checked, date: Date.now() };
+    set(v); apply(v); close();
+  });
+  q('#cc-reject').addEventListener('click', ()=>{
+    const v = { funcional:false, analitica:false, date: Date.now() };
+    set(v); apply(v); close();
+  });
+
+  // Enlace “Preferencias de cookies”
+  qa('[data-open-cc]').forEach(el=> el.addEventListener('click', (e)=>{ e.preventDefault(); open(); }));
+
+  // Prefill switches si ya había elección
+  const curr = get();
+  if (curr){ func.checked = !!curr.funcional; ana.checked = !!curr.analitica; apply(curr); }
+  else { open(); } // primera visita => mostrar modal
+
+})();
+</script>
 </body>
 </html>

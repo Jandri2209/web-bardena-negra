@@ -495,6 +495,48 @@ footer.site-footer a:hover{ text-decoration:underline }
 .f-legal a{ color:#dcdcdc }
 
 
+/* ===== Cookie Consent (modal) ===== */
+.cc-backdrop{
+  position:fixed; inset:0; z-index:3000;
+  background:rgba(0,0,0,.6);
+  display:none; align-items:center; justify-content:center;
+}
+.cc-backdrop.open{ display:flex }
+.cc-modal{
+  background:#fff; color:#0a0a0a; width:min(680px, calc(100% - 32px));
+  border-radius:12px; box-shadow:0 20px 50px -20px rgba(0,0,0,.5);
+}
+.cc-modal header{
+  padding:16px 20px; border-bottom:1px solid #eee;
+  font-family:"Gilda Display", Georgia, serif; font-size:1.25rem;
+}
+.cc-body{ padding:16px 20px }
+.cc-note{ font-size:.92rem; color:#555 }
+.cc-actions{
+  padding:12px 20px 16px; border-top:1px solid #eee;
+  display:flex; gap:.5rem; justify-content:flex-end;
+}
+
+/* switches (sencillos) */
+.cc-switch{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:1rem; padding:.55rem .75rem; border:1px solid #eee; border-radius:8px; margin:.5rem 0;
+}
+.cc-switch .label{ font-weight:700 }
+.cc-switch .desc{ font-size:.9rem; color:#555 }
+.cc-switch input{ width:44px; height:22px }
+
+/* botón outline a juego */
+.btn.cc-outline{ background:transparent; color:var(--accent); border:1px solid var(--accent) }
+
+/* Placeholder del mapa (mientras no hay consentimiento) */
+.f-map{ position:relative; border-radius:10px; overflow:hidden; box-shadow:0 20px 40px -28px rgba(0,0,0,.7); border:1px solid rgba(255,255,255,.08); height:240px; display:flex; align-items:center; justify-content:center }
+.f-map iframe{ display:block; width:100%; height:100%; border:0 }
+.map-placeholder{ text-align:center; padding:1rem }
+.map-note{ margin:.45rem 0 0; font-size:.9rem; opacity:.85; color:#dcdcdc }
+@media (max-width:960px){ .f-map{ height:220px } }
+
+
 /* ==========================
    13) Print
    ========================== */
