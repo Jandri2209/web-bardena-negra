@@ -555,8 +555,28 @@ footer.site-footer a:hover{ text-decoration:underline }
 }
 .cc-banner p{ margin:0; flex:1 }
 .cc-banner .actions{ display:flex; gap:.5rem }
-.btn.cc-outline{ background:transparent; border-color:#fff; color:#fff }
-.btn.cc-outline:hover{ background:rgba(255,255,255,.12); text-decoration:none }
+/* Banner (fondo oscuro) */
+.cc-banner .btn.cc-outline{
+  background:transparent;
+  border:1px solid #fff;
+  color:#fff;
+}
+.cc-banner .btn.cc-outline:hover{
+  background:rgba(255,255,255,.12);
+  text-decoration:none;
+}
+
+/* Modal (fondo claro) */
+.cc-modal .btn.cc-outline{
+  background:transparent;
+  border:1px solid var(--accent);
+  color:var(--accent);
+}
+.cc-modal .btn.cc-outline:hover{
+  background:rgba(163,125,76,.12);
+  text-decoration:none;
+}
+
 
 /* Placeholder del mapa cuando no hay consentimiento */
 .map-placeholder{
