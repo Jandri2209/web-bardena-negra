@@ -111,7 +111,7 @@ title: ""
     </div>
 
     <div class="container footer-bottom">
-      <div>© {{ collections and collections.all | length ? (now | date('yyyy')) : '2025' }} Casa Bardena Negra</div>
+      <div>© {% if collections and (collections.all | length) %}{{ now | date('yyyy') }}{% else %}2025{% endif %} Casa Bardena Negra</div>
       <nav class="f-legal">
         <a href="/privacidad/">Privacidad</a> ·
         <a href="/legal/">Aviso legal</a> ·
