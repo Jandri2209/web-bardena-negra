@@ -48,8 +48,21 @@ title: ""
             <a href="/equipamiento/" role="menuitem">Equipamiento</a>
           </div>
         </div>
-
-        <a href="/entorno/">Entorno</a>
+        <div class="nav-item has-submenu">
+          <a href="/entorno/" class="nav-link" id="link-entorno">Entorno</a>
+          <button class="sub-toggle"
+                  aria-label="Abrir submenú de Entorno"
+                  aria-haspopup="menu"
+                  aria-expanded="false"
+                  aria-controls="submenu-entorno">
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
+          <div class="submenu" id="submenu-entorno" role="menu" aria-labelledby="link-entorno">
+            <a href="/entorno/bardenas/"  role="menuitem">Bardenas Reales</a>
+            <a href="/entorno/tudela/"    role="menuitem">Tudela</a>
+            <a href="/entorno/sendaviva/" role="menuitem">Sendaviva</a>
+          </div>
+        </div>
         <a href="/reservas/" class="cta">Reservar</a>
       </nav>
     </div>
@@ -252,7 +265,7 @@ title: ""
   })();
   </script>
   <script>
-    // Submenú "La Casa" (clic en caret en móvil, hover ya lo hace el CSS en desktop)
+    // Submenús: toggle por clic en caret (móvil y accesible) — ya funcionaba con querySelectorAll
     (function(){
       const toggles = document.querySelectorAll('.sub-toggle');
 
@@ -276,11 +289,49 @@ title: ""
         });
       });
 
-      // Cierra al hacer click fuera
+      // Cierra TODOS si haces click fuera
       document.addEventListener('click', (e)=>{
-        const anyOpen = document.querySelector('.has-submenu.sub-open');
-        if (!anyOpen) return;
-        if (!anyOpen.contains(e.target)) closeAll();
+        document.querySelectorAll('.has-submenu.sub-open').forEach(item=>{
+          if(!item.contains(e.target)){
+            item.classList.remove('sub-open');
+            const btn = item.querySelector('.sub-toggle');
+            btn && btn.setAttribute('aria-expanded','false');
+          }
+        });
+      });
+    })();
+
+    // Hover suave en ESCRITORIO para TODOS los submenús
+    (function(){
+      const items = document.querySelectorAll('.has-submenu');
+      const mqDesktop = window.matchMedia('(min-width: 961px)');
+      const timers = new WeakMap();
+
+      function bind(){
+        items.forEach(item=>{
+          item.addEventListener('mouseenter', ()=>{
+            const t = timers.get(item); if(t) clearTimeout(t);
+            item.classList.add('sub-open');
+          });
+          item.addEventListener('mouseleave', ()=>{
+            const t = setTimeout(()=> item.classList.remove('sub-open'), 180);
+            timers.set(item, t);
+          });
+        });
+      }
+
+      function closeAll(){
+        items.forEach(i=>{
+          i.classList.remove('sub-open');
+          const btn = i.querySelector('.sub-toggle');
+          btn && btn.setAttribute('aria-expanded','false');
+        });
+      }
+
+      if(mqDesktop.matches) bind();
+      mqDesktop.addEventListener?.('change', e=>{
+        closeAll();
+        // (los listeners ya están; no hace falta rebind)
       });
     })();
   </script>
