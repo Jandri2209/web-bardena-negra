@@ -425,6 +425,26 @@ footer a{ color:#fff }
 }
 body.modal-open{ overflow:hidden; }
 
+/* Contenedor derecha: logo + nota/estrellas */
+.rev-meta-right{
+  display:flex; align-items:center; gap:.35rem;
+}
+
+/* Logos de plataforma (se verán en el modal; ocultos en las columnas) */
+.plat-logo{
+  --s:18px; width:var(--s); height:var(--s);
+  background:var(--logo) no-repeat center/contain;
+  display:inline-block;
+}
+.plat-logo.booking{ --logo:url('/images/brands/booking.svg') }
+.plat-logo.airbnb { --logo:url('/images/brands/airbnb.svg') }
+.plat-logo.google { --logo:url('/images/brands/google.svg') }
+
+/* Por defecto NO mostramos el logo en las columnas */
+.review-card .plat-logo{ display:none }
+/* En el modal, sí se muestra */
+.rev-modal .review-card .plat-logo{ display:inline-block }
+
 /* Nota estilo Booking (0–10) */
 .score-badge{
   display:inline-flex; align-items:center; justify-content:center;
