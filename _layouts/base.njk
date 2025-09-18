@@ -71,9 +71,15 @@ title: ""
         </address>
 
         <div class="f-contact">
-          <a class="brand-pill mail" href="mailto:{{ site.email or 'casaruralbardenanegra@gmail.com' }}">Email</a>
-          <a class="brand-pill ig" href="{{ site.instagram or 'https://www.instagram.com/casa_rural_bardena_negra' }}" target="_blank" rel="noopener">Instagram</a>
-          <a class="brand-pill phone" href="tel:+34699399285">699 39 92 85</a>
+          <a class="brand-pill" href="mailto:{{ site.email or 'casaruralbardenanegra@gmail.com' }}">
+            <i data-lucide="mail" aria-hidden="true"></i><span>Email</span>
+          </a>
+          <a class="brand-pill" href="{{ site.instagram or 'https://www.instagram.com/casa_rural_bardena_negra' }}" target="_blank" rel="noopener">
+            <i data-lucide="instagram" aria-hidden="true"></i><span>Instagram</span>
+          </a>
+          <a class="brand-pill" href="tel:+34699399285">
+            <i data-lucide="phone" aria-hidden="true"></i><span>699 39 92 85</span>
+          </a>
         </div>
       </div>
 
@@ -302,6 +308,12 @@ title: ""
         if (e.matches) bindDesktopHover();
       });
     })();
+  </script>
+  <script src="/assets/lucide.min.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.lucide) lucide.createIcons();
+    });
   </script>
 </body>
 </html>
