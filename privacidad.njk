@@ -7,11 +7,62 @@ permalink: "/privacidad/"
 <section class="container prose">
   <div class="card" style="margin-top:2rem">
     <h1>Privacidad</h1>
-    <p><strong>Responsable:</strong> Casa Bardena Negra (gestión a través de Rurive mientras se define el canal de contacto).</p>
-    <p><strong>Finalidad:</strong> atender y gestionar tu consulta/reserva.</p>
-    <p><strong>Base jurídica:</strong> tu consentimiento.</p>
-    <p><strong>Cesiones:</strong> no se cederán datos a terceros salvo obligación legal. La infraestructura web se sirve desde Netlify.</p>
-    <p><strong>Conservación:</strong> el tiempo necesario para gestionar la solicitud o hasta que solicites su supresión.</p>
-    <p><strong>Derechos:</strong> acceso, rectificación, supresión y otros. Puedes ejercerlos contactando a través de <a href="{{ site.contactHref }}" target="_blank" rel="noopener">Rurive</a>.</p>
+
+    <p><strong>Responsable:</strong> {{ site.name }} (en {{ site.address.addressLocality }}, {{ site.address.addressRegion }}).<br>
+    Contacto: <a href="mailto:{{ site.email or 'casaruralbardenanegra@gmail.com' }}">{{ site.email or 'casaruralbardenanegra@gmail.com' }}</a> · Tel: <a href="tel:+34699399285">699 39 92 85</a></p>
+
+    <h2>Qué datos tratamos</h2>
+    <ul>
+      <li><strong>Datos de contacto</strong> que nos facilitas en formularios (nombre, email, teléfono y mensaje/fechas).</li>
+      <li><strong>Datos de reserva</strong> si nos escribes con intención de contratar (fechas, número de personas, preferencias).</li>
+      <li><strong>Datos técnicos mínimos</strong> de navegación (dirección IP y huella básica anti-abuso a través de reCAPTCHA).</li>
+    </ul>
+
+    <h2>Finalidades y base jurídica</h2>
+    <ul>
+      <li><strong>Atender consultas y gestionar disponibilidad</strong> (art. 6.1.a RGPD – consentimiento del interesado y, cuando proceda, 6.1.b – ejecución de medidas precontractuales).</li>
+      <li><strong>Prevención de abuso y spam</strong> en formularios mediante Google reCAPTCHA (interés legítimo, art. 6.1.f RGPD).</li>
+      <li><strong>Obligaciones legales</strong> si finalmente hay contratación/estancia (art. 6.1.c RGPD).</li>
+    </ul>
+
+    <h2>Origen</h2>
+    <p>Los datos proceden del propio interesado (formulario o email directo). No compramos listas ni fuentes de terceros.</p>
+
+    <h2>Cesiones y encargados</h2>
+    <p>No cedemos tus datos a terceros salvo obligación legal. Para poder prestar el servicio utilizamos proveedores (encargados de tratamiento) que actúan por cuenta del Responsable:</p>
+    <ul>
+      <li><strong>Netlify, Inc.</strong> (hosting/CDN y función serverless de envío de correo) – Puede implicar transferencias internacionales con cláusulas contractuales tipo.</li>
+      <li><strong>Proveedor de email</strong> (para recibir tu mensaje y responderte).</li>
+      <li><strong>Google LLC</strong> – reCAPTCHA y <em>Google Maps</em> (si usas el mapa embebido). Google actúa como proveedor independiente de ciertos servicios.</li>
+      <li><strong>Plataformas de reserva externas</strong> (cuando decides reservar allí): <a href="{{ site.bookingHref }}" target="_blank" rel="noopener">Rurive</a>, <a href="{{ reviewsLink.booking or '#' }}" target="_blank" rel="noopener nofollow ugc">Booking</a>, <a href="{{ reviewsLink.airbnb or '#' }}" target="_blank" rel="noopener nofollow ugc">Airbnb</a>, <a href="https://www.escapadarural.com/casa-rural/navarra/casa-bardena-negra" target="_blank" rel="noopener nofollow ugc">EscapadaRural</a>. En estos casos ellos son responsables de sus propios tratamientos.</li>
+    </ul>
+
+    <h2>Transferencias internacionales</h2>
+    <p>El uso de Netlify y servicios de Google puede suponer transferencias internacionales de datos. Se basan en cláusulas contractuales tipo de la Comisión Europea u otros mecanismos válidos conforme al RGPD.</p>
+
+    <h2>Conservación</h2>
+    <ul>
+      <li><strong>Consultas sin contratación:</strong> hasta 12 meses o hasta que solicites su supresión.</li>
+      <li><strong>Reservas/estancias:</strong> durante los plazos legales (fiscales/contables y normativa turística aplicable).</li>
+      <li><strong>Logs técnicos anti-abuso (reCAPTCHA):</strong> el tiempo estrictamente necesario para la seguridad.</li>
+    </ul>
+
+    <h2>Derechos</h2>
+    <p>Puedes ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad enviando un email a <a href="mailto:{{ site.email or 'casaruralbardenanegra@gmail.com' }}">{{ site.email or 'casaruralbardenanegra@gmail.com' }}</a>. Tienes derecho a presentar una reclamación ante la <a href="https://www.aepd.es" target="_blank" rel="noopener">AEPD</a>.</p>
+
+    <h2>Menores</h2>
+    <p>Los formularios del sitio no van dirigidos a menores de 14 años. No recopilamos conscientemente información de menores.</p>
+
+    <h2>Seguridad</h2>
+    <p>Aplicamos medidas técnicas y organizativas proporcionales al riesgo (canales cifrados TLS, controles de acceso, copias, minimización de datos).</p>
+
+    <h2>Servicios de terceros en la web</h2>
+    <ul>
+      <li><strong>Google reCAPTCHA</strong> protege los formularios contra spam/abuso. <em>Este sitio está protegido por reCAPTCHA y se aplican la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidad</a> y los <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Términos de Servicio</a> de Google</em>.</li>
+      <li><strong>Google Maps embebido</strong> para ubicar la casa. Al cargar el mapa, Google puede establecer cookies técnicas o de preferencias.</li>
+      <li><strong>Plataformas externas</strong> (Rurive/Booking/Airbnb/EscapadaRural) gestionan su propia contratación y políticas.</li>
+    </ul>
+
+    <p style="margin-top:1rem;color:#6b7280">Última actualización: {{ now | date('yyyy-MM-dd') }}</p>
   </div>
 </section>

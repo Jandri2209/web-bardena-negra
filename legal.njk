@@ -6,8 +6,32 @@ permalink: "/legal/"
 <section class="container prose">
   <div class="card" style="margin-top:2rem">
     <h1>Aviso Legal</h1>
-    <p>Este sitio ofrece información de la <strong>{{ site.name }}</strong> ({{ site.address.addressLocality }}, Navarra). Los contenidos tienen carácter informativo.</p>
-    <p><strong>Licencia turística:</strong> {{ site.license }}</p>
-    <p>Para reservas y contrataciones, por ahora se canaliza a través de <a href="{{ site.bookingHref }}" target="_blank" rel="noopener">Rurive</a>.</p>
+
+    <h2>Identificación</h2>
+    <p>El sitio web <strong>{{ site.url }}</strong> (en adelante, “el Sitio”) es titularidad de <strong>{{ site.name }}</strong>, ubicado en {{ site.address.streetAddress }}, {{ site.address.postalCode }} {{ site.address.addressLocality }} ({{ site.address.addressRegion }}), España. Licencia turística: <strong>{{ site.license }}</strong>.</p>
+    <p>Contacto: <a href="mailto:{{ site.email or 'casaruralbardenanegra@gmail.com' }}">{{ site.email or 'casaruralbardenanegra@gmail.com' }}</a> · Tel: <a href="tel:+34699399285">699 39 92 85</a></p>
+
+    <h2>Condiciones de uso</h2>
+    <p>El acceso y navegación en el Sitio implica la aceptación de este Aviso Legal. Si no estás de acuerdo, por favor, no utilices el Sitio.</p>
+
+    <h2>Contenidos</h2>
+    <p>La información tiene carácter general e informativo. Nos esforzamos por mantenerla actualizada, si bien podría contener imprecisiones o errores tipográficos. Nos reservamos el derecho a modificar contenidos sin previo aviso.</p>
+
+    <h2>Contratación y reservas</h2>
+    <p>La contratación puede realizarse directamente o a través de plataformas externas. En particular, puede reservarse mediante <a href="{{ site.bookingHref }}" target="_blank" rel="noopener">Rurive</a> y, si lo prefieres, mediante <a href="{{ reviewsLink.booking or '#' }}" target="_blank" rel="noopener nofollow ugc">Booking</a>, <a href="{{ reviewsLink.airbnb or '#' }}" target="_blank" rel="noopener nofollow ugc">Airbnb</a> o <a href="https://www.escapadarural.com/casa-rural/navarra/casa-bardena-negra" target="_blank" rel="noopener nofollow ugc">EscapadaRural</a>. Cada plataforma aplica sus propias condiciones.</p>
+
+    <h2>Propiedad intelectual</h2>
+    <p>Los textos, fotografías y diseño del Sitio están protegidos por derechos de propiedad intelectual e industrial. No se autoriza su reproducción, distribución o comunicación pública salvo autorización expresa.</p>
+
+    <h2>Enlaces</h2>
+    <p>Los enlaces a sitios de terceros se facilitan para tu comodidad. No somos responsables de sus contenidos ni de los tratamientos de datos que realicen. Revisa sus condiciones y políticas.</p>
+
+    <h2>Responsabilidad</h2>
+    <p>El Sitio se ofrece “tal cual”. No podemos garantizar la ausencia de interrupciones o errores de acceso, si bien adoptamos medidas razonables para su disponibilidad y seguridad.</p>
+
+    <h2>Ley aplicable</h2>
+    <p>Este Aviso Legal se rige por la legislación española. Para la resolución de conflictos, las partes se someten a los juzgados y tribunales del domicilio del usuario cuando la normativa de consumidores lo prevea; en otro caso, a los de {{ site.address.addressLocality }}.</p>
+
+    <p style="margin-top:1rem;color:#6b7280">Última actualización: {{ now | date('yyyy-MM-dd') }}</p>
   </div>
 </section>
