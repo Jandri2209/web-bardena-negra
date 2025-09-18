@@ -879,3 +879,36 @@ body.modal-open{ overflow:hidden; }
   .faq-icon{ transition: none; }
 }
 
+/* ==== Entorno (layout y componentes) ==== */
+.hero-plain { padding: 3rem 0 1.5rem; background: linear-gradient(#b7ae9d, #b7ae9d) top/100% 120px no-repeat; }
+.hero-plain .lead { opacity:.9; margin-top:.25rem; }
+
+.entorno-subnav { display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; margin-top:1rem; }
+.entorno-subnav a{ padding:.5rem .75rem; border-radius:999px; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.04); border:1px solid #eee; font-weight:600; }
+
+.entorno-grid{ display:grid; gap:2rem; margin-top:1.25rem; }
+@media (min-width: 1024px){
+  .entorno-grid{ grid-template-columns: 1fr 460px; align-items:start; }
+}
+.map-card{ display:flex; align-items:center; justify-content:center; }
+.map-ribera{ width:100%; max-width:420px; height:auto; border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,.06); }
+
+.cards-3{ display:grid; gap:1rem; margin:1.25rem auto; }
+@media (min-width: 768px){ .cards-3{ grid-template-columns: repeat(3,1fr); } }
+
+.text-link{ border-bottom:1px solid currentColor; }
+
+/* Tabs (CSS-only) */
+.tabs{ --c:#166534; }
+.tabs input{ position:absolute; left:-9999px; }
+.tabs label{ display:inline-block; padding:.4rem .8rem; margin-right:.4rem; border:1px solid #e5e5e5; border-radius:999px; cursor:pointer; }
+#tab1:checked ~ label[for="tab1"], #tab2:checked ~ label[for="tab2"]{ background:var(--c); color:#fff; border-color:var(--c); }
+.tab-content{ display:none; margin-top:1rem; }
+#tab1:checked ~ .tab-content[data-for="tab1"],
+#tab2:checked ~ .tab-content[data-for="tab2"]{ display:block; }
+
+/* Mapa consent-aware */
+.map-embed .leaflet-slot{ aspect-ratio: 16/9; width:100%; border-radius:12px; background:#f3f3f3; }
+.embed-placeholder{ text-align:center; padding:1rem; }
+.embed-placeholder .actions{ display:flex; gap:.5rem; justify-content:center; margin-top:.5rem; }
+

@@ -1,62 +1,155 @@
 ---
 layout: base.njk
-title: "Entorno · Qué ver cerca"
-description: "Bardenas Reales, Tudela y Sendaviva a un paso."
+title: "Explora la Ribera de Navarra"
+description: "Guía práctica desde la casa: Bardenas Reales, Tudela y Sendaviva. Itinerarios 1–2 días, mapa, consejos y enlaces oficiales."
 permalink: "/entorno/"
 ---
 
-<section class="page-hero full-bleed noimg tierra sm">
-  <div class="overlay" aria-hidden="true"></div>
-  <div class="inner container">
-    <h1 class="font-primary">Explora la Ribera de Navarra</h1>
-    <p class="page-lead">Nuestra ubicación en <strong>Fustiñana</strong> es perfecta para descubrir el sur de Navarra.</p>
+<section class="hero hero-plain">
+  <div class="container text-center">
+    <h1>Explora la Ribera de Navarra</h1>
+    <p class="lead">Base perfecta para descubrir <strong>Bardenas Reales</strong>, <strong>Tudela</strong> y <strong>Sendaviva</strong>.</p>
+
+    <!-- Subnavegación anclada -->
+    <nav class="entorno-subnav" aria-label="Secciones de la guía">
+      <a href="#imprescindibles">Imprescindibles</a>
+      <a href="#destinos">Destinos</a>
+      <a href="#itinerarios">Itinerarios</a>
+      <a href="#mapa">Mapa</a>
+      <a href="#consejos">Consejos</a>
+      <a href="#faq">FAQ</a>
+    </nav>
   </div>
 </section>
 
-<section class="container section">
-  <div class="grid cols-2" style="align-items:start">
-    <div class="card">
-      <h2 class="font-primary section-title" style="margin-top:0">Imprescindibles</h2>
-      <ul>
-        <li><strong>Bardenas Reales</strong> — ≈10–15 min</li>
-        <li><strong>Tudela</strong> — ≈15 min</li>
-        <li><strong>Sendaviva</strong> — ≈23 min</li>
-      </ul>
-      <p>También puedes acercarte a la <em>Laguna de Lor</em>, <em>Olite</em> o el <em>Moncayo</em>.</p>
+<section id="imprescindibles" class="container entorno-grid">
+  <div class="card prose">
+    <h2>Imprescindibles</h2>
+    <ul>
+      <li><strong>Bardenas Reales</strong> — ≈10–15 min</li>
+      <li><strong>Tudela</strong> — ≈15 min</li>
+      <li><strong>Sendaviva</strong> — ≈23 min</li>
+    </ul>
+    <p>También puedes acercarte a la <em>Laguna de Lor</em>, <em>Olite</em> o el <em>Moncayo</em>.</p>
+  </div>
+
+  <!-- Mapa estático de la Ribera (ligero). Puedes sustituir por tu SVG/WebP -->
+  <figure class="card map-card">
+    <img src="/images/mapa-ribera.webp?v=2" alt="Mapa de la Ribera de Navarra" class="map-ribera" loading="lazy" decoding="async">
+  </figure>
+</section>
+
+<section id="destinos" class="container cards-3">
+  <article class="card">
+    <h3>Bardenas Reales</h3>
+    <p>Paisaje semidesértico único; rutas a pie, bici y coche. 10–15 min.</p>
+    <p><a href="/entorno/bardenas/" class="text-link">Ver guía →</a> · <a href="https://bardenasreales.es/" target="_blank" rel="noopener">Web oficial</a></p>
+  </article>
+
+  <article class="card">
+    <h3>Tudela</h3>
+    <p>Casco histórico, Plaza de los Fueros y verduras con D.O. ≈15 min.</p>
+    <p><a href="/entorno/tudela/" class="text-link">Ver guía →</a> · <a href="https://www.tudela.es/" target="_blank" rel="noopener">Ayto.</a></p>
+  </article>
+
+  <article class="card">
+    <h3>Sendaviva</h3>
+    <p>Parque familiar con atracciones, espectáculos y animales. ≈23 min.</p>
+    <p><a href="/entorno/sendaviva/" class="text-link">Ver guía →</a> · <a href="https://sendaviva.com/" target="_blank" rel="noopener">Oficial</a></p>
+  </article>
+</section>
+
+<section id="itinerarios" class="container">
+  <div class="card">
+    <h2>Itinerarios sugeridos</h2>
+
+    <!-- Tabs CSS-only -->
+    <div class="tabs">
+      <input type="radio" name="plan" id="tab1" checked>
+      <label for="tab1">1 día</label>
+      <input type="radio" name="plan" id="tab2">
+      <label for="tab2">2 días (familias)</label>
+
+      <div class="tab-content" data-for="tab1">
+        <ol>
+          <li><strong>Mañana:</strong> circuito perimetral de la Bardena Blanca + foto en Castildetierra.</li>
+          <li><strong>Mediodía:</strong> comida en <a href="/entorno/tudela/">Tudela</a> (verduras).</li>
+          <li><strong>Tarde:</strong> paseo por Tudela o atardecer fotográfico en Bardenas.</li>
+        </ol>
+      </div>
+
+      <div class="tab-content" data-for="tab2">
+        <ol>
+          <li><strong>Día 1:</strong> Bardenas (paradas cortas + miradores) · tarde en Tudela.</li>
+          <li><strong>Día 2:</strong> <a href="/entorno/sendaviva/">Sendaviva</a> (llegar a primera hora) · merienda en el entorno de Arguedas.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mapa" class="container">
+  <div class="card">
+    <h2>Cómo llegar</h2>
+    <p>Calle Virgen de la Peña 4A, 31500 Fustiñana (Navarra)</p>
+
+    <!-- Contenedor “consent-aware” -->
+    <div class="map-embed" data-requires="functional">
+      <div class="map-embed__inner">
+        <div id="leaflet-map" class="leaflet-slot" aria-label="Mapa"></div>
+        <div class="embed-placeholder" hidden>
+          <p>Para ver el mapa interactivo necesitas activar las cookies funcionales.</p>
+          <div class="actions">
+            <button class="btn" data-open-cookie-prefs>Configurar cookies</button>
+            <a class="btn alt" href="https://www.openstreetmap.org/directions?to=42.0129%2C-1.5319" target="_blank" rel="noopener">Abrir en OpenStreetMap</a>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <figure class="figure">
-      <img src="/images/ribera-navarra.png" alt="Ribera de Navarra" />
-    </figure>
   </div>
 </section>
 
-<section class="container section">
-  <div class="grid cols-3">
-    <a class="card card-link" href="/entorno/bardenas/">
-      <h3 class="font-primary">Bardenas Reales</h3>
-      <p>Paisaje semidesértico único; rutas a pie, bici y coche. ≈10–15 min.</p>
-      <span class="more">Ver guía →</span>
-    </a>
-    <a class="card card-link" href="/entorno/tudela/">
-      <h3 class="font-primary">Tudela</h3>
-      <p>Casco histórico, Plaza de los Fueros y verduras con D.O. ≈15 min.</p>
-      <span class="more">Ver guía →</span>
-    </a>
-    <a class="card card-link" href="/entorno/sendaviva/">
-      <h3 class="font-primary">Sendaviva</h3>
-      <p>Parque familiar con atracciones, espectáculos y animales. ≈23 min.</p>
-      <span class="more">Ver guía →</span>
-    </a>
+<section id="consejos" class="container">
+  <div class="card prose">
+    <h2>Consejos rápidos</h2>
+    <ul>
+      <li><strong>Mejor hora:</strong> mañanas y atardeceres (luz y temperatura).</li>
+      <li><strong>Equipo:</strong> agua, gorra, crema, calzado cerrado. Tras lluvias el barro se adhiere mucho.</li>
+      <li><strong>Respeta pistas y normas</strong> del Parque Natural de Bardenas.</li>
+      <li><strong>Plan en verano:</strong> combina Bardenas temprano + descanso + <a href="/entorno/sendaviva/">Sendaviva</a>.</li>
+    </ul>
   </div>
 </section>
 
-<section class="container section">
-  <h2 class="font-primary section-title">Cómo llegar</h2>
-  <p>Calle Virgen de la Peña 44, 31510 Fustiñana (Navarra)</p>
-  <div class="figure">
-    <iframe title="Mapa de Fustiñana"
-      style="width:100%;height:360px;border:1px solid rgba(0,0,0,.1);border-radius:12px"
-      src="https://www.openstreetmap.org/export/embed.html?bbox={{ site.geo.lng-0.02 }},{{ site.geo.lat-0.02 }},{{ site.geo.lng+0.02 }},{{ site.geo.lat+0.02 }}&amp;layer=mapnik&amp;marker={{ site.geo.lat }},{{ site.geo.lng }}"></iframe>
+<section id="faq" class="container">
+  <div class="card">
+    <h2>Preguntas frecuentes</h2>
+    <details>
+      <summary>¿Se puede visitar Bardenas con niños?</summary>
+      <p>Sí. Recomendamos el circuito en coche con paradas cortas y paseos fáciles cerca de Castildetierra.</p>
+    </details>
+    <details>
+      <summary>¿Dónde aparcar en Bardenas?</summary>
+      <p>Hay zonas señalizadas en los principales puntos. Evita salirte de las pistas.</p>
+    </details>
+    <details>
+      <summary>¿Hay restaurantes cerca?</summary>
+      <p>En Tudela (15 min) encontrarás amplia oferta para todos los gustos.</p>
+    </details>
   </div>
 </section>
+<script src="/assets/entorno.js" defer></script>
+<!-- JSON-LD: lista de destinos -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ItemList",
+  "name":"Entorno - puntos de interés",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Bardenas Reales","url":"{{ site.url }}/entorno/bardenas/"},
+    {"@type":"ListItem","position":2,"name":"Tudela","url":"{{ site.url }}/entorno/tudela/"},
+    {"@type":"ListItem","position":3,"name":"Sendaviva","url":"{{ site.url }}/entorno/sendaviva/"}
+  ]
+}
+</script>

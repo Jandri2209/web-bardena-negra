@@ -5,7 +5,7 @@ description: "Parque familiar junto a Bardenas con atracciones, espectáculos y 
 permalink: "/entorno/sendaviva/"
 ---
 <section class="page-hero full-bleed tierra sm"
-         style="background-image:url('/images/sendaviva.jpg')"
+         style="background-image:url('/images/sendaviva-atracción.jpg')"
          aria-label="Sendaviva: parque familiar junto a Bardenas">
   <div class="overlay" aria-hidden="true"></div>
   <div class="inner container">
