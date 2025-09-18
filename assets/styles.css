@@ -776,4 +776,106 @@ body.modal-open{ overflow:hidden; }
 .card-link .more{ font-weight:700; color:var(--accent); text-decoration:underline }
 .card-link:hover{ transform:translateY(-2px); box-shadow:0 16px 40px -24px rgba(0,0,0,.45); text-decoration:none }
 
+/* ==========================
+   Componentes → FAQ (Acordeón)
+   ========================== */
+
+.faq-wrap{
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 4rem 1.25rem 5rem;
+}
+
+.faq-head h1{
+  font-size: clamp(2rem, 1.2rem + 2vw, 3rem);
+  color: var(--ink);
+  text-align: center;
+  margin: 0 0 .5rem;
+}
+.faq-head .lead{
+  color: var(--muted);
+  text-align: center;
+  max-width: 60ch;
+  margin: 0 auto 2rem;
+}
+
+.faq{ display: grid; gap: 1rem; }
+
+.faq-item{
+  border: 1px solid #e9e3d6;              /* tono cálido suave */
+  border-radius: 1rem;
+  background: #fffdfa;                     /* tu marfil */
+  box-shadow: 0 1px 0 rgba(0,0,0,.03);
+  overflow: clip;
+}
+
+.faq-q{
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: .75rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+}
+.faq-q h3{
+  margin: 0;
+  font-size: 1.0625rem;
+  color: var(--ink);
+  letter-spacing: .2px;
+}
+.faq-icon{
+  width: 2.25rem; height: 2.25rem;
+  display: inline-grid; place-items: center;
+  border: 1px solid #ddd2bc;
+  border-radius: 999px;
+  transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
+  color: var(--ink);
+}
+
+/* estado abierto: cambia el + a × con rotación */
+.faq-item[open] .faq-icon{
+  transform: rotate(45deg);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.faq-a{
+  padding: 0 1.25rem 1.25rem;
+  color: #3d3d3d;
+  line-height: 1.6;
+}
+
+/* hover / focus accesible */
+.faq-q:focus-visible,
+.faq-q:hover{
+  outline: none;
+}
+.faq-q:hover .faq-icon{
+  border-color: var(--accent-hover);
+}
+
+/* CTA inferior coherente con tus botones */
+.faq-ctas{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: .75rem;
+  margin-top: 2rem;
+}
+.btn{
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: .5rem; text-decoration: none; font-weight: 600; border-radius: 999px;
+  padding: .9rem 1.25rem; transition: transform .06s ease, background-color .2s ease;
+}
+.btn:active{ transform: translateY(1px); }
+.btn-primary{ background: var(--accent); color:#fff; }
+.btn-primary:hover{ background: var(--accent-hover); }
+.btn-ghost{ background:#f5f1e7; color:#2a2a2a; }
+.btn-ghost:hover{ background:#efe8d9; }
+
+/* Respeto usuarios con reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .faq-icon{ transition: none; }
+}
 

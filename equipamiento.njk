@@ -28,24 +28,25 @@ noindex: true
     {# =============================
        COMPATIBILIDAD DE ESQUEMAS
        - Nuevo: equipamiento.amenities (array de grupos con items)
-       - Antiguo: { "Categoría": [ {item:"..."} ] }
+       - Antiguo: { "Categoría": [ {item:"..."}] }
        ============================= #}
     {% set data = equipamiento %}
 
     {% if data.amenities %}
       {# ===== Esquema PRO ===== #}
-      {% for group in data.amenities %}
+      {% for group in data.amenities | sort(attribute='order') %}
         <h2 class="font-primary inv-h2">{{ group.group }}</h2>
         <ul class="inv-grid">
           {% for it in group.items %}
-            {% set key = (it.key or it.label or it.item) | replace(" ", "_") | lower %}
+            {% set key = (it.key or it.label or it.item) | replace(' ', '_') | lower %}
             <li class="inv-item">
               <label>
                 <input
                   type="checkbox"
                   class="chk"
-                  data-key="inv:{{ group.group | lower }}:{{ key }}"
-                  {{ it.featured ? 'data-featured=1' : '' }}>
+                  data-key="inv:{{ group.group | lower | replace(' ', '_') }}:{{ key }}"
+                  {% if it.featured %}data-featured="1"{% endif %}>
+                <i aria-hidden="true" data-lucide="{{ it.icon or 'check' }}"></i>
                 <span class="txt">
                   {{ it.label or it.item }}
                   {% if it.onRequest %} <em>(bajo petición)</em>{% endif %}
@@ -62,10 +63,14 @@ noindex: true
         <h2 class="font-primary inv-h2">{{ categoria }}</h2>
         <ul class="inv-grid">
           {% for it in lista %}
-            {% set key = (it.item) | replace(" ", "_") | lower %}
+            {% set key = it.item | replace(' ', '_') | lower %}
             <li class="inv-item">
               <label>
-                <input type="checkbox" class="chk" data-key="inv:{{ categoria | lower }}:{{ key }}">
+                <input
+                  type="checkbox"
+                  class="chk"
+                  data-key="inv:{{ categoria | lower | replace(' ', '_') }}:{{ key }}">
+                <i aria-hidden="true" data-lucide="check"></i>
                 <span class="txt">{{ it.item }}</span>
               </label>
             </li>
@@ -82,7 +87,7 @@ noindex: true
 </section>
 
 <script>
-  // ---- Fecha "hoy" en cabecera (visual) ----
+  // Fecha "hoy" en cabecera (visual)
   document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById('invDate');
     if (el) {
@@ -91,24 +96,20 @@ noindex: true
     }
   });
 
-  // ---- Persistencia local de checks (solo en este navegador) ----
+  // Persistencia local de checks (solo en este navegador)
   (function () {
     const STORAGE_PREFIX = 'casa-bardena-inv-v1:';
     const inputs = document.querySelectorAll('.inv-item .chk');
 
-    // Cargar estado
+    // Cargar estado y guardar cambios
     inputs.forEach(inp => {
       const key = STORAGE_PREFIX + (inp.getAttribute('data-key') || '');
       if (!key) return;
       try {
-        const saved = localStorage.getItem(key);
-        if (saved === '1') inp.checked = true;
+        if (localStorage.getItem(key) === '1') inp.checked = true;
       } catch (e) {}
-      // Guardar al cambiar
       inp.addEventListener('change', () => {
-        try {
-          localStorage.setItem(key, inp.checked ? '1' : '0');
-        } catch (e) {}
+        try { localStorage.setItem(key, inp.checked ? '1' : '0'); } catch (e) {}
       });
     });
 
@@ -123,11 +124,25 @@ noindex: true
         });
       });
     }
+
+    // Fallback iconos Lucide (si algún slug no existe)
+    (function ensureLucide() {
+      document.querySelectorAll('[data-lucide]').forEach(el => {
+        const name = el.getAttribute('data-lucide') || '';
+        if (!window.lucide || !window.lucide.icons || !window.lucide.icons[name]) {
+          el.setAttribute('data-lucide', 'check');
+        }
+      });
+      window.lucide && window.lucide.createIcons && window.lucide.createIcons();
+    })();
   })();
 </script>
 
 <style>
-  /* Opcional: pequeños ajustes para impresión */
+  /* Ajustes visuales e impresión */
+  .inv-item { display:flex; align-items:center; }
+  .inv-item label { display:flex; align-items:center; gap:.5rem; }
+  .inv-item [data-lucide], .inv-item svg { width:18px; height:18px; vertical-align:-2px; }
   @media print {
     .no-print { display: none !important; }
     .card.printable { box-shadow: none !important; }

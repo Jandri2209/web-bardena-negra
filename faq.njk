@@ -1,0 +1,147 @@
+---
+layout: base.njk
+title: "Preguntas frecuentes · Casa Bardena Negra"
+description: "FAQ de Casa Bardena Negra (Fustiñana, Navarra): check-in, capacidad, equipamiento, barbacoa, niños, cancelación, Bardenas Reales, Sendaviva y más."
+permalink: "/la-casa/faq/"
+---
+
+<section class="container faq-wrap">
+  <header class="faq-head">
+    <h1>Preguntas frecuentes</h1>
+    <p class="lead">
+      Resolvemos las dudas más habituales sobre tu estancia en Casa Bardena Negra:
+      horarios, equipamiento, niños, barbacoa, visitas a <strong>Bardenas Reales</strong>, <strong>Sendaviva</strong> y <strong>Tudela</strong>.
+    </p>
+  </header>
+
+  {% set faqs = [
+    {
+      id: "capacidad",
+      q: "¿Cuál es la capacidad de la casa?",
+      a: "La casa completa es para 8 personas (+2 plazas supletorias). Dispone de 4 dormitorios y 2 baños."
+    },
+    {
+      id: "ac",
+      q: "¿Hay aire acondicionado y calefacción?",
+      a: "Sí. Hay aire acondicionado en todas las habitaciones y calefacción para el invierno, para un confort óptimo todo el año."
+    },
+    {
+      id: "checkin",
+      q: "¿Horarios de check-in y check-out?",
+      a: "Check-in a partir de las 16:00 y check-out hasta las 11:00. Podemos intentar ajustar si la disponibilidad lo permite; consúltanos."
+    },
+    {
+      id: "menaje",
+      q: "¿Qué incluye la cocina?",
+      a: "Cocina equipada con lavavajillas, microondas, horno/vitrocerámica y menaje completo para cocinar y servir."
+    },
+    {
+      id: "ropa",
+      q: "¿Incluye toallas y ropa de cama?",
+      a: "Sí. Proporcionamos toallas y ropa de cama para todos los huéspedes."
+    },
+    {
+      id: "barbacoa",
+      q: "¿Hay jardín y barbacoa?",
+      a: "Sí. La casa cuenta con jardín y barbacoa para disfrutar al aire libre con familia o amigos."
+    },
+    {
+      id: "ninos",
+      q: "¿Es adecuada para venir con niños?",
+      a: "Sí. Es una casa familiar y tranquila. Podemos facilitar cuna/trona bajo petición previa."
+    },
+    {
+      id: "mascotas",
+      q: "¿Se permiten mascotas?",
+      a: "Consúltanos antes de reservar. Valoramos cada caso según tamaño, número de noches y normas de convivencia."
+    },
+    {
+      id: "fiestas",
+      q: "¿Se permiten fiestas o eventos?",
+      a: "No. Es un alojamiento de descanso y turismo familiar. Se ruega respetar el descanso vecinal especialmente de 22:00 a 9:00."
+    },
+    {
+      id: "fumar",
+      q: "¿Se puede fumar?",
+      a: "No se permite fumar en el interior. En el exterior, por favor, usa cenicero y respeta el entorno."
+    },
+    {
+      id: "parking",
+      q: "¿Hay aparcamiento?",
+      a: "Hay aparcamiento gratuito en la zona (vía pública). El acceso es cómodo para carga y descarga."
+    },
+    {
+      id: "bardenas",
+      q: "¿A qué distancia están Bardenas, Sendaviva y Tudela?",
+      a: "Bardenas Reales a unos 10 minutos, Sendaviva a ~23 minutos y Tudela muy cerca en coche. Te enviamos rutas y recomendaciones."
+    },
+    {
+      id: "cancelacion",
+      q: "¿Política de cancelación y fianza?",
+      a: "La política puede variar por temporada y canal de reserva. Te la confirmamos por escrito al reservar. En algunas reservas especiales podríamos solicitar fianza reembolsable."
+    },
+    {
+      id: "factura",
+      q: "¿Emitís factura?",
+      a: "Sí, si la necesitas, indícalo al reservar para preparar los datos."
+    },
+    {
+      id: "accesibilidad",
+      q: "¿Accesibilidad?",
+      a: "La casa se distribuye en dos plantas. Si tienes necesidades específicas, cuéntanos y te asesoramos con detalle antes de reservar."
+    },
+    {
+      id: "contacto",
+      q: "No encuentro mi respuesta…",
+      a: "Escríbenos y te ayudamos al momento. También podemos aconsejarte rutas por Bardenas, dónde comer y planes por la zona."
+    }
+  ] %}
+
+  <div class="faq">
+    {% for item in faqs %}
+    <details id="{{ item.id }}" class="faq-item">
+      <summary class="faq-q">
+        <h3>{{ item.q }}</h3>
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-a">
+        <p>{{ item.a }}</p>
+      </div>
+    </details>
+    {% endfor %}
+  </div>
+
+  <div class="faq-ctas">
+    <a href="/reservas/" class="btn btn-primary">Solicitar reserva</a>
+    <a href="/contacto/" class="btn btn-ghost">Preguntar por WhatsApp o email</a>
+  </div>
+</section>
+
+<!-- JSON-LD FAQPage (se serializa seguro con dump) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for item in faqs %}
+    {
+      "@type": "Question",
+      "name": {{ item.q | dump }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ item.a | dump }} }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+
+<!-- Abre la pregunta si hay #ancla en la URL -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const id = location.hash.slice(1);
+  const el = id && document.getElementById(id);
+  if (el && el.tagName === 'DETAILS') {
+    el.open = true;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
+</script>
