@@ -562,3 +562,15 @@ body.modal-open{ overflow:hidden; }
   border-color:var(--accent);
   box-shadow:0 0 0 3px rgba(163,125,76,.18);
 }
+
+/* Avisos del formulario */
+.note{
+  padding:.75rem 1rem;
+  border:1px solid rgba(163,125,76,.25);
+  background:rgba(163,125,76,.08);
+  border-radius:8px;
+}
+.note.warn{
+  border-color:var(--accent);
+}
+

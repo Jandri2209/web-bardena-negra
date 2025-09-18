@@ -65,6 +65,14 @@ permalink: "/reservas/"
         </p>
       </div>
 
+      <p id="cap-note" class="note warn" hidden aria-live="polite">
+        Sois <strong><span id="cap-total"></span></strong> personas.
+        La capacidad estándar es de 10 plazas (8 + 2 en sofá cama).
+        Si sois más, contádnoslo en el mensaje y valoramos el caso.
+      </p>
+
+      <input type="hidden" name="total_personas" id="total_personas" value="2">
+
       <p class="field">
         <label for="mensaje">Mensaje (opcional)</label>
         <textarea id="mensaje" name="mensaje" rows="4" placeholder="Cuéntanos detalles de tu estancia o dudas"></textarea>
@@ -137,3 +145,35 @@ permalink: "/reservas/"
   $out.addEventListener("change", updateNights);
   updateLimits();
 </script>
+<script>
+// ===== Aviso por capacidad (>10) =====
+const $adultos = document.getElementById("adultos");
+const $ninos   = document.getElementById("ninos");
+const $capNote = document.getElementById("cap-note");
+const $capTotal = document.getElementById("cap-total");
+const $capHidden = document.getElementById("total_personas");
+
+function updateCapacity(){
+  const a = parseInt($adultos.value || 0, 10);
+  const k = parseInt($ninos.value || 0, 10);
+  const total = (isNaN(a) ? 0 : a) + (isNaN(k) ? 0 : k);
+
+  // Rellena total para que llegue en el email de Netlify Forms
+  if ($capHidden) $capHidden.value = total;
+
+  if ($capTotal)  $capTotal.textContent = total;
+
+  // Mostrar aviso si excede 10; ocultar si no
+  if ($capNote)   $capNote.hidden = total <= 10;
+}
+
+// Recalcular al cambiar adultos/niños
+$adultos.addEventListener("input", updateCapacity);
+$adultos.addEventListener("change", updateCapacity);
+$ninos.addEventListener("input", updateCapacity);
+$ninos.addEventListener("change", updateCapacity);
+
+// Inicial
+updateCapacity();
+</script>
+
