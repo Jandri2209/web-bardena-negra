@@ -60,24 +60,63 @@ title: ""
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <div class="grid cols-3">
-        <div>
-          <strong>{{ site.name }}</strong><br>
-          {{ site.address.streetAddress }}<br>
-          {{ site.address.postalCode }} {{ site.address.addressLocality }} ({{ site.address.addressRegion }}), España
-          <div style="margin-top:.6rem">Licencia turística: {{ site.license }}</div>
-        </div>
-        <div>
-          <div>Capacidad estándar: {{ site.capacity.standard }} <small>(+2 en sofá cama)</small></div>
-          <div>A/A en todas las habitaciones · Cuna disponible</div>
-        </div>
-        <div>
-          <div>Reserva desde:</div>
-          <p style="margin:.3rem 0 0"><a class="btn alt" href="{{ site.bookingHref }}" target="_blank" rel="noopener">Rurive</a></p>
-          <p style="margin-top:.8rem"><a href="/privacidad/">Privacidad</a> · <a href="/legal/">Aviso legal</a> · <a href="/cookies/">Cookies</a></p>
+    <div class="container footer-grid">
+      <!-- Col 1: Marca + dirección + contacto -->
+      <div class="f-col">
+        <h4 class="font-primary" style="margin:.1rem 0 .4rem">Casa Bardena Negra</h4>
+        <address class="f-address">
+          Calle Virgen de la Peña 44<br>
+          31510 Fustiñana (Navarra), España<br>
+          Licencia turística: UVTR1391
+        </address>
+
+        <div class="f-contact">
+          <a class="brand-pill mail" href="mailto:{{ site.email or 'casaruralbardenanegra@gmail.com' }}">Email</a>
+          <a class="brand-pill ig" href="{{ site.instagram or 'https://www.instagram.com/casa_rural_bardena_negra' }}" target="_blank" rel="noopener">Instagram</a>
+          <a class="brand-pill phone" href="tel:+34699399285">699 39 92 85</a>
         </div>
       </div>
+
+      <!-- Col 2: Reserva online + plataformas -->
+      <div class="f-col">
+        <h5 class="font-primary" style="margin:0 0 .4rem">Reserva online</h5>
+        <div class="f-cta">
+          <a class="btn" href="/reservas/">Solicitar reserva</a>
+          <a class="btn alt" href="{{ site.bookingHref }}" target="_blank" rel="noopener">Reservar en Rurive</a>
+        </div>
+
+        {% set links = reviewsLink or {} %}
+        <div class="f-brand-icons">
+          <a class="brand-icon booking"  href="{{ links.booking  or '#' }}" target="_blank" rel="noopener ugc nofollow" aria-label="Booking"></a>
+          <a class="brand-icon airbnb"   href="{{ links.airbnb   or '#' }}" target="_blank" rel="noopener ugc nofollow" aria-label="Airbnb"></a>
+          <a class="brand-icon erural"   href="https://www.escapadarural.com/casa-rural/navarra/casa-bardena-negra" target="_blank" rel="noopener ugc nofollow" aria-label="EscapadaRural"></a>
+          <a class="brand-icon google"   href="https://search.google.com/local/writereview?placeid=ChIJ_X7SQE43Wg0RtvVYh9tlK1g&hl=es-ES&gl=ES" target="_blank" rel="noopener" aria-label="Deja tu reseña en Google"></a>
+        </div>
+      </div>
+
+      <!-- Col 3: Mapa -->
+      <div class="f-col">
+        <h5 class="font-primary" style="margin:0 0 .4rem">Dónde estamos</h5>
+        <div class="f-map">
+          <iframe
+            title="Mapa de Casa Bardena Negra"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Calle+Virgen+de+la+Pe%C3%B1a+44,+31510+Fusti%C3%B1ana,+Navarra&output=embed">
+          </iframe>
+        </div>
+        <p style="margin:.5rem 0 0">
+          <a class="link" href="https://maps.google.com/?q=Calle+Virgen+de+la+Pe%C3%B1a+44,+Fusti%C3%B1ana" target="_blank" rel="noopener">Abrir en Google Maps</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div>© {{ collections and collections.all | length ? (now | date('yyyy')) : '2025' }} Casa Bardena Negra</div>
+      <nav class="f-legal">
+        <a href="/privacidad/">Privacidad</a> ·
+        <a href="/legal/">Aviso legal</a> ·
+        <a href="/cookies/">Cookies</a>
+      </nav>
     </div>
   </footer>
 

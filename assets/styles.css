@@ -314,8 +314,70 @@ main > section.container.prose:first-of-type .card:first-child{ margin-top:0 !im
 /* ==========================
    12) Footer
    ========================== */
-footer.site-footer{ padding:2.5rem 0; margin-top:3rem; background:#0a0a0a; color:#d8d8d8 }
-footer a{ color:#fff }
+
+footer.site-footer{ padding:2.2rem 0 2.4rem; background:#0a0a0a; color:#d8d8d8 }
+footer.site-footer a{ color:#fff; text-decoration:none }
+footer.site-footer a:hover{ text-decoration:underline }
+footer.site-footer{ margin-top:3rem; }
+
+
+.footer-grid{
+  display:grid; gap:1.25rem; align-items:start;
+  grid-template-columns: 1.2fr 1fr 1.2fr;
+}
+@media (max-width:960px){ .footer-grid{ grid-template-columns:1fr } }
+
+.f-address{ margin:.25rem 0 .8rem; font-style:normal; color:#e5e5e5 }
+.f-contact{ display:flex; flex-wrap:wrap; gap:.4rem }
+
+.f-cta{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.25rem 0 .6rem }
+
+/* Pastillas de contacto (con texto + icono) */
+.brand-pill{
+  display:inline-flex; align-items:center; gap:.45rem;
+  padding:.42rem .65rem; border-radius:999px; background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12); font-weight:700; letter-spacing:.02em;
+}
+.brand-pill:hover{ background:rgba(255,255,255,.10); text-decoration:none }
+.brand-pill::before{
+  content:""; width:18px; height:18px; background:var(--logo) no-repeat center/contain;
+}
+.brand-pill.mail::before  { --logo:url('/images/brands/mail.svg') }
+.brand-pill.ig::before    { --logo:url('/images/brands/instagram.svg') }
+.brand-pill.phone::before { --logo:url('/images/brands/phone.svg') }
+
+/* Iconos de plataformas (solo logo, sin texto) */
+.f-brand-icons{ display:flex; flex-wrap:wrap; gap:.5rem; align-items:center }
+.brand-icon{
+  width:40px; height:40px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);
+  display:inline-block;
+  background-image: var(--logo);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:24px 24px;
+  box-shadow:0 12px 24px -16px rgba(0,0,0,.6);
+}
+.brand-icon:hover{ background-color:rgba(255,255,255,.10) }
+.brand-icon.booking{ --logo:url('/images/brands/booking.svg') }
+.brand-icon.airbnb { --logo:url('/images/brands/airbnb.svg') }
+.brand-icon.google { --logo:url('/images/brands/google.svg') }
+/* nombre de archivo tal y como dijiste */
+.brand-icon.erural { --logo:url('/images/brands/escapada_rural.svg') }
+
+.f-map{ position:relative; border-radius:10px; overflow:hidden; box-shadow:0 20px 40px -28px rgba(0,0,0,.7); border:1px solid rgba(255,255,255,.08) }
+.f-map iframe{ display:block; width:100%; height:240px; border:0 }
+@media (max-width:960px){ .f-map iframe{ height:220px } }
+
+.footer-bottom{
+  margin-top:1.3rem; padding-top:.9rem;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+  font-size:.95rem;
+}
+@media (max-width:960px){ .footer-bottom{ flex-direction:column; align-items:flex-start; gap:.35rem } }
+.f-legal a{ color:#dcdcdc }
 
 /* ==========================
    13) Print
@@ -397,7 +459,11 @@ footer a{ color:#fff }
 .review-stars { cursor: pointer; }
 
 /* Espaciado del botón bajo las columnas */
-.reviews-cta { text-align:center; margin:1rem 0 1.25rem; }
+.reviews-cta{
+  text-align:center;
+  margin-top:2.25rem;   /* ↑ más alto = baja el botón */
+  margin-bottom:2rem;   /* espacio antes del bloque siguiente */
+}
 
 /* Modal de reseñas */
 .rev-modal-backdrop{
