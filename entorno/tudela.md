@@ -5,7 +5,7 @@ description: "Qué ver en Tudela (catedral, Plaza de los Fueros, Ebro), dónde c
 permalink: "/entorno/tudela/"
 ---
 <section class="page-hero full-bleed tierra sm"
-         tyle="background-image:url('/images/plaza-tudela.jpg')"
+         tyle="background-image:url('/images/catedral-tudela.jpg')"
          aria-label="Tudela: Plaza de los Fueros, Catedral y Ebro">
   <div class="overlay" aria-hidden="true"></div>
   <div class="inner container">
@@ -19,7 +19,7 @@ permalink: "/entorno/tudela/"
     <h1>Tudela</h1>
     <p>
       Capital de la Ribera y segunda ciudad de Navarra: historia, arte mudéjar y la mejor huerta de verduras.
-      Perfecta para pasear, comer bien y enlazar con Bardenas. :contentReference[oaicite:14]{index=14}
+      Perfecta para pasear, comer bien y enlazar con Bardenas.
     </p>
 
     <h2>Imprescindibles</h2>
@@ -38,7 +38,7 @@ permalink: "/entorno/tudela/"
     <h2>Información y agenda</h2>
     <p>
       Para rutas guiadas, horarios y eventos, visita <a href="https://turismotudela.com/" target="_blank" rel="noopener">Turismo Tudela</a> y la web municipal <a href="https://www.tudela.es/" target="_blank" rel="noopener">tudela.es</a>.
-      También puedes inspirarte en la ficha de Tudela en <a href="https://www.visitnavarra.es/es/tudela" target="_blank" rel="noopener">Visit Navarra</a>. :contentReference[oaicite:15]{index=15}
+      También puedes inspirarte en la ficha de Tudela en <a href="https://www.visitnavarra.es/es/tudela" target="_blank" rel="noopener">Visit Navarra</a>.
     </p>
 
     <p class="mt-6">

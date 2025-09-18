@@ -26,14 +26,14 @@ permalink: "/entorno/sendaviva/"
     <h2>Entradas y calendario</h2>
     <p>
       Compra anticipada y consulta días de apertura en la <a href="https://reservas.sendaviva.com/Entradas-Sendaviva" target="_blank" rel="noopener">web oficial de entradas</a>.
-      Los horarios y operativa pueden variar por motivos técnicos: revísalos el día anterior a tu visita. :contentReference[oaicite:11]{index=11}
+      Los horarios y operativa pueden variar por motivos técnicos: revísalos el día anterior a tu visita.
     </p>
 
     <h2>Plan de día recomendado</h2>
     <ul>
       <li><strong>Mañana:</strong> llegada a primera hora y recorrido por “pueblo” y “granja”.</li>
       <li><strong>Mediodía:</strong> pausa a la sombra y espectáculo (rapaces u otro, según programación).</li>
-      <li><strong>Tarde:</strong> atracciones tranquilas, zonas de agua en temporada y paseo final por el bosque. :contentReference[oaicite:12]{index=12}</li>
+      <li><strong>Tarde:</strong> atracciones tranquilas, zonas de agua en temporada y paseo final por el bosque.</li>
     </ul>
 
     <h2>Consejos prácticos</h2>
