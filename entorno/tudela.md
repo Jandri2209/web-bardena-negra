@@ -5,7 +5,7 @@ description: "Qué ver en Tudela (catedral, Plaza de los Fueros, Ebro), dónde c
 permalink: "/entorno/tudela/"
 ---
 <section class="page-hero full-bleed tierra sm"
-         tyle="background-image:url('/images/plaza-tudela.webp')"
+         tyle="background-image:url('/images/plaza-tudela.jpg')"
          aria-label="Tudela: Plaza de los Fueros, Catedral y Ebro">
   <div class="overlay" aria-hidden="true"></div>
   <div class="inner container">

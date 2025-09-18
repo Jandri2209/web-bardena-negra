@@ -6,7 +6,7 @@ permalink: "/entorno/bardenas/"
 ---
 <!-- HERO con imagen de fondo -->
 <section class="page-hero full-bleed tierra sm"
-         style="background-image:url('/images/bardenas.jpg')"
+         style="background-image:url('/images/bardenas-anochecer.jpg')"
          aria-label="Bardenas Reales: Castildetierra y badlands">
   <div class="overlay" aria-hidden="true"></div>
   <div class="inner container">

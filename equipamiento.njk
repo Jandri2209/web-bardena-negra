@@ -13,8 +13,9 @@ noindex: true
         <h1 class="font-primary" style="margin:.2rem 0">Inventario de equipamiento</h1>
         <p style="margin:.2rem 0;color:var(--muted)">Uso interno · Imprime o usa en el móvil</p>
       </div>
-      <div class="no-print">
+      <div class="no-print" style="display:flex;gap:.5rem">
         <button class="btn" onclick="window.print()">Imprimir</button>
+        <button class="btn btn-secondary" id="invReset">Borrar marcas</button>
       </div>
     </div>
 
@@ -24,19 +25,54 @@ noindex: true
       <div><strong>Observaciones:</strong> <span contenteditable="true" class="editable">—</span></div>
     </div>
 
-    {% for categoria, lista in equipamiento -%}
-      <h2 class="font-primary inv-h2">{{ categoria }}</h2>
-      <ul class="inv-grid">
-        {%- for it in lista -%}
-        <li class="inv-item">
-          <label>
-            <input type="checkbox" class="chk">
-            <span class="txt">{{ it.item }}</span>
-          </label>
-        </li>
-        {%- endfor -%}
-      </ul>
-    {%- endfor %}
+    {# =============================
+       COMPATIBILIDAD DE ESQUEMAS
+       - Nuevo: equipamiento.amenities (array de grupos con items)
+       - Antiguo: { "Categoría": [ {item:"..."} ] }
+       ============================= #}
+    {% set data = equipamiento %}
+
+    {% if data.amenities %}
+      {# ===== Esquema PRO ===== #}
+      {% for group in data.amenities %}
+        <h2 class="font-primary inv-h2">{{ group.group }}</h2>
+        <ul class="inv-grid">
+          {% for it in group.items %}
+            {% set key = (it.key or it.label or it.item) | replace(" ", "_") | lower %}
+            <li class="inv-item">
+              <label>
+                <input
+                  type="checkbox"
+                  class="chk"
+                  data-key="inv:{{ group.group | lower }}:{{ key }}"
+                  {{ it.featured ? 'data-featured=1' : '' }}>
+                <span class="txt">
+                  {{ it.label or it.item }}
+                  {% if it.onRequest %} <em>(bajo petición)</em>{% endif %}
+                  {% if it.note %} — <small>{{ it.note }}</small>{% endif %}
+                </span>
+              </label>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    {% else %}
+      {# ===== Esquema ANTIGUO ===== #}
+      {% for categoria, lista in data %}
+        <h2 class="font-primary inv-h2">{{ categoria }}</h2>
+        <ul class="inv-grid">
+          {% for it in lista %}
+            {% set key = (it.item) | replace(" ", "_") | lower %}
+            <li class="inv-item">
+              <label>
+                <input type="checkbox" class="chk" data-key="inv:{{ categoria | lower }}:{{ key }}">
+                <span class="txt">{{ it.item }}</span>
+              </label>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    {% endif %}
 
     <div class="inv-firmas">
       <div><strong>Revisado por:</strong> ________________________</div>
@@ -46,7 +82,7 @@ noindex: true
 </section>
 
 <script>
-  // Fecha actual en cabecera (no se guarda; solo visual)
+  // ---- Fecha "hoy" en cabecera (visual) ----
   document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById('invDate');
     if (el) {
@@ -54,4 +90,47 @@ noindex: true
       el.textContent = d.toLocaleDateString(undefined, { year:'numeric', month:'2-digit', day:'2-digit' });
     }
   });
+
+  // ---- Persistencia local de checks (solo en este navegador) ----
+  (function () {
+    const STORAGE_PREFIX = 'casa-bardena-inv-v1:';
+    const inputs = document.querySelectorAll('.inv-item .chk');
+
+    // Cargar estado
+    inputs.forEach(inp => {
+      const key = STORAGE_PREFIX + (inp.getAttribute('data-key') || '');
+      if (!key) return;
+      try {
+        const saved = localStorage.getItem(key);
+        if (saved === '1') inp.checked = true;
+      } catch (e) {}
+      // Guardar al cambiar
+      inp.addEventListener('change', () => {
+        try {
+          localStorage.setItem(key, inp.checked ? '1' : '0');
+        } catch (e) {}
+      });
+    });
+
+    // Botón "Borrar marcas"
+    const btnReset = document.getElementById('invReset');
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        inputs.forEach(inp => {
+          const key = STORAGE_PREFIX + (inp.getAttribute('data-key') || '');
+          try { localStorage.removeItem(key); } catch (e) {}
+          inp.checked = false;
+        });
+      });
+    }
+  })();
 </script>
+
+<style>
+  /* Opcional: pequeños ajustes para impresión */
+  @media print {
+    .no-print { display: none !important; }
+    .card.printable { box-shadow: none !important; }
+    .inv-grid { gap: .4rem !important; }
+  }
+</style>

@@ -1,35 +1,154 @@
 {
-  "Climatización": [
-    { "item": "Aire acondicionado en todas las habitaciones" },
-    { "item": "Calefacción" }
+  "schemaVersion": 2,
+  "lodging": {
+    "name": "Casa Bardena Negra",
+    "location": { "town": "Fustiñana", "region": "Navarra", "country": "España" },
+    "capacity": { "sleepsBase": 8, "extraBeds": 2, "bedrooms": 4, "bathrooms": 2 },
+    "distances": [
+      { "to": "Bardenas Reales", "minutesByCar": 10 },
+      { "to": "Sendaviva", "minutesByCar": 23 }
+    ],
+    "lastUpdated": "2025-09-18"
+  },
+  "amenities": [
+    {
+      "group": "Climatización",
+      "icon": "thermometer-sun",
+      "order": 10,
+      "items": [
+        {
+          "key": "ac_all_rooms",
+          "label": "Aire acondicionado en todas las habitaciones",
+          "icon": "wind",
+          "available": true,
+          "featured": true
+        },
+        {
+          "key": "heating",
+          "label": "Calefacción",
+          "icon": "thermometer",
+          "available": true
+        }
+      ]
+    },
+    {
+      "group": "Conectividad y ocio",
+      "icon": "wifi",
+      "order": 20,
+      "items": [
+        {
+          "key": "wifi",
+          "label": "Wi-Fi",
+          "icon": "wifi",
+            "available": true,
+            "featured": true
+        },
+        {
+          "key": "flat_tv",
+          "label": "TV de pantalla plana",
+          "icon": "tv",
+          "available": true
+        },
+        {
+          "key": "board_games",
+          "label": "Juegos de mesa",
+          "icon": "puzzle",
+          "available": true
+        }
+      ]
+    },
+    {
+      "group": "Cocina",
+      "icon": "utensils-crossed",
+      "order": 30,
+      "items": [
+        {
+          "key": "dishwasher",
+          "label": "Lavavajillas",
+          "icon": "sparkles",
+          "available": true
+        },
+        {
+          "key": "microwave",
+          "label": "Microondas",
+          "icon": "waves",
+          "available": true
+        },
+        {
+          "key": "oven_hob",
+          "label": "Horno/Vitrocerámica",
+          "icon": "flame",
+          "available": true
+        },
+        {
+          "key": "cookware_full",
+          "label": "Menaje completo",
+          "icon": "chef-hat",
+          "available": true,
+          "note": "Vajilla, cubertería y batería de cocina"
+        }
+      ]
+    },
+    {
+      "group": "Baño y ropa",
+      "icon": "shower-head",
+      "order": 40,
+      "items": [
+        { "key": "towels", "label": "Toallas", "icon": "towel", "available": true },
+        { "key": "bed_linen", "label": "Ropa de cama", "icon": "blanket", "available": true }
+      ]
+    },
+    {
+      "group": "Lavandería",
+      "icon": "washing-machine",
+      "order": 50,
+      "items": [
+        { "key": "washer", "label": "Lavadora", "icon": "washing-machine", "available": true }
+      ]
+    },
+    {
+      "group": "Exterior",
+      "icon": "tree-palm",
+      "order": 60,
+      "items": [
+        { "key": "garden", "label": "Jardín", "icon": "trees", "available": true },
+        { "key": "terrace", "label": "Terraza", "icon": "sun", "available": true },
+        { "key": "bbq", "label": "Barbacoa", "icon": "grill", "available": true }
+      ]
+    },
+    {
+      "group": "Familias",
+      "icon": "baby",
+      "order": 70,
+      "items": [
+        {
+          "key": "crib_on_request",
+          "label": "Cuna (bajo petición)",
+          "icon": "baby",
+          "available": true,
+          "onRequest": true,
+          "note": "Confirma disponibilidad al reservar"
+        }
+      ]
+    },
+    {
+      "group": "Aparcamiento",
+      "icon": "parking-circle",
+      "order": 80,
+      "items": [
+        {
+          "key": "easy_parking_area",
+          "label": "Fácil aparcamiento en la zona",
+          "icon": "car",
+          "available": true
+        }
+      ]
+    }
   ],
-  "Conectividad y ocio": [
-    { "item": "Wi-Fi" },
-    { "item": "TV de pantalla plana" },
-    { "item": "Juegos de mesa" }
-  ],
-  "Cocina": [
-    { "item": "Lavavajillas" },
-    { "item": "Microondas" },
-    { "item": "Horno/Vitrocerámica" },
-    { "item": "Menaje completo" }
-  ],
-  "Baño y ropa": [
-    { "item": "Toallas" },
-    { "item": "Ropa de cama" }
-  ],
-  "Lavandería": [
-    { "item": "Lavadora" }
-  ],
-  "Exterior": [
-    { "item": "Jardín" },
-    { "item": "Terraza" },
-    { "item": "Barbacoa" }
-  ],
-  "Familias": [
-    { "item": "Cuna (bajo petición)" }
-  ],
-  "Aparcamiento": [
-    { "item": "Fácil aparcamiento en la zona" }
-  ]
+  "ui": {
+    "groupLayout": "grid",
+    "columns": 2,
+    "showFeaturedFirst": true,
+    "iconSet": "lucide"
+  }
 }
