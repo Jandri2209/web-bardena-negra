@@ -5,22 +5,23 @@ description: "Guía práctica desde la casa: Bardenas Reales, Tudela y Sendaviva
 permalink: "/entorno/"
 ---
 
-<section class="hero hero-plain">
-  <div class="container text-center">
+<section class="page-hero auto noimg tierra">
+  <div class="overlay" aria-hidden="true"></div>
+  <div class="container inner text-center">
     <h1>Explora la Ribera de Navarra</h1>
-    <p class="lead">Base perfecta para descubrir <strong>Bardenas Reales</strong>, <strong>Tudela</strong> y <strong>Sendaviva</strong>.</p>
+    <p class="page-lead">Base perfecta para descubrir <strong>Bardenas Reales</strong>, <strong>Tudela</strong> y <strong>Sendaviva</strong>.</p>
 
-    <!-- Subnavegación anclada -->
     <nav class="entorno-subnav" aria-label="Secciones de la guía">
       <a href="#imprescindibles">Imprescindibles</a>
       <a href="#destinos">Destinos</a>
       <a href="#itinerarios">Itinerarios</a>
-      <a href="#mapa">Mapa</a>
+      <a href="#faq-mini">FAQ</a>      <!-- FAQ ANTES que el mapa -->
       <a href="#consejos">Consejos</a>
-      <a href="#faq">FAQ</a>
+      <a href="#mapa">Mapa</a>
     </nav>
   </div>
 </section>
+
 
 <section id="imprescindibles" class="container entorno-grid">
   <div class="card prose">
@@ -35,7 +36,7 @@ permalink: "/entorno/"
 
   <!-- Mapa estático de la Ribera (ligero). Puedes sustituir por tu SVG/WebP -->
   <figure class="card map-card">
-    <img src="/images/mapa-ribera.webp?v=2" alt="Mapa de la Ribera de Navarra" class="map-ribera" loading="lazy" decoding="async">
+    <img src="/images/ribera-navarra.png" alt="Mapa de la Ribera de Navarra" class="map-ribera" loading="lazy" decoding="async">
   </figure>
 </section>
 
@@ -88,6 +89,28 @@ permalink: "/entorno/"
   </div>
 </section>
 
+<section id="faq-mini" class="container">
+  <div class="card faq-mini">
+    <h2>Dudas rápidas</h2>
+    <ul>
+      <li><a href="/la-casa/faq/#checkin">¿A qué hora es el check-in y el check-out?</a></li>
+      <li><a href="/la-casa/faq/#capacidad">¿Cuánta gente puede alojarse?</a></li>
+      <li><a href="/la-casa/faq/#barbacoa">¿Hay jardín y barbacoa?</a></li>
+    </ul>
+    <p>¿Más preguntas? <a href="/la-casa/faq/">Ver todas las preguntas frecuentes →</a></p>
+  </div>
+</section>
+<section id="consejos" class="container">
+  <div class="card prose">
+    <h2>Consejos rápidos</h2>
+    <ul>
+      <li><strong>Mejor hora:</strong> mañanas y atardeceres (luz y temperatura).</li>
+      <li><strong>Equipo:</strong> agua, gorra, crema, calzado cerrado. Tras lluvias el barro se adhiere mucho.</li>
+      <li><strong>Respeta pistas y normas</strong> del Parque Natural de Bardenas.</li>
+      <li><strong>Plan en verano:</strong> combina Bardenas temprano + descanso + <a href="/entorno/sendaviva/">Sendaviva</a>.</li>
+    </ul>
+  </div>
+</section>
 <section id="mapa" class="container">
   <div class="card">
     <h2>Cómo llegar</h2>
@@ -109,37 +132,15 @@ permalink: "/entorno/"
 
   </div>
 </section>
-
-<section id="consejos" class="container">
-  <div class="card prose">
-    <h2>Consejos rápidos</h2>
-    <ul>
-      <li><strong>Mejor hora:</strong> mañanas y atardeceres (luz y temperatura).</li>
-      <li><strong>Equipo:</strong> agua, gorra, crema, calzado cerrado. Tras lluvias el barro se adhiere mucho.</li>
-      <li><strong>Respeta pistas y normas</strong> del Parque Natural de Bardenas.</li>
-      <li><strong>Plan en verano:</strong> combina Bardenas temprano + descanso + <a href="/entorno/sendaviva/">Sendaviva</a>.</li>
-    </ul>
+<section class="container section">
+  <h2 class="font-primary section-title">Cómo llegar</h2>
+  <p>Calle Virgen de la Peña 44, 31510 Fustiñana (Navarra)</p>
+  <div class="figure">
+    <iframe title="Mapa de Fustiñana"
+      style="width:100%;height:360px;border:1px solid rgba(0,0,0,.1);border-radius:12px"
+      src="https://www.openstreetmap.org/export/embed.html?bbox={{ site.geo.lng-0.02 }},{{ site.geo.lat-0.02 }},{{ site.geo.lng+0.02 }},{{ site.geo.lat+0.02 }}&amp;layer=mapnik&amp;marker={{ site.geo.lat }},{{ site.geo.lng }}"></iframe>
   </div>
 </section>
-
-<section id="faq" class="container">
-  <div class="card">
-    <h2>Preguntas frecuentes</h2>
-    <details>
-      <summary>¿Se puede visitar Bardenas con niños?</summary>
-      <p>Sí. Recomendamos el circuito en coche con paradas cortas y paseos fáciles cerca de Castildetierra.</p>
-    </details>
-    <details>
-      <summary>¿Dónde aparcar en Bardenas?</summary>
-      <p>Hay zonas señalizadas en los principales puntos. Evita salirte de las pistas.</p>
-    </details>
-    <details>
-      <summary>¿Hay restaurantes cerca?</summary>
-      <p>En Tudela (15 min) encontrarás amplia oferta para todos los gustos.</p>
-    </details>
-  </div>
-</section>
-<script src="/assets/entorno.js" defer></script>
 <!-- JSON-LD: lista de destinos -->
 <script type="application/ld+json">
 {
