@@ -72,13 +72,13 @@ title: ""
 
         <div class="f-contact">
           <a class="brand-pill" href="mailto:{{ site.email or 'casaruralbardenanegra@gmail.com' }}">
-            <i data-lucide="mail" aria-hidden="true"></i><span>Email</span>
+            <i data-lucide="mail" aria-hidden="true"></i><span>Email: casaruralbardenanegra@gmail.com</span>
           </a>
           <a class="brand-pill" href="{{ site.instagram or 'https://www.instagram.com/casa_rural_bardena_negra' }}" target="_blank" rel="noopener">
-            <i data-lucide="instagram" aria-hidden="true"></i><span>Instagram</span>
+            <i data-lucide="instagram" aria-hidden="true"></i><span>Instagram: @casa_rural_bardena_negra</span>
           </a>
           <a class="brand-pill" href="tel:+34699399285">
-            <i data-lucide="phone" aria-hidden="true"></i><span>699 39 92 85</span>
+            <i data-lucide="phone" aria-hidden="true"></i><span>Teléfono: +34 699 39 92 85</span>
           </a>
         </div>
       </div>
@@ -90,7 +90,7 @@ title: ""
           <a class="btn" href="/reservas/">Solicitar reserva</a>
           <a class="btn alt" href="{{ site.bookingHref }}" target="_blank" rel="noopener">Reservar en Rurive</a>
         </div>
-
+        <p class="f-sub">o en cualquiera de estas plataformas:</p>
         {% set links = reviewsLink or {} %}
         <div class="f-brand-icons">
           <a class="brand-icon booking"  href="{{ links.booking  or '#' }}" target="_blank" rel="noopener ugc nofollow" aria-label="Booking"></a>

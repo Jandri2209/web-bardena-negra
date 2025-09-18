@@ -333,18 +333,25 @@ footer.site-footer a:hover{ text-decoration:underline }
 
 /* Col 1: dirección + contacto */
 .f-address{ margin:.25rem 0 .8rem; font-style:normal; color:#e5e5e5 }
-.f-contact{ display:grid; grid-template-columns:1fr; gap:.5rem }
+.f-contact{
+  display:flex;
+  flex-direction:column;   /* apiladas, pero sin estirarse */
+  align-items:flex-start;  /* ancho = contenido */
+  gap:.45rem;
+}
+
 
 /* Pastillas de contacto (con Lucide) */
 .brand-pill{
   display:inline-flex; align-items:center; gap:.45rem;
-  padding:.42rem .65rem; border-radius:999px;
+  padding:.36rem .60rem;        /* antes .42rem .65rem */
+  border-radius:999px;
   background:rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.12);
   font-weight:700; letter-spacing:.02em;
 }
+.brand-pill i, .brand-pill svg{ width:16px; height:16px }  /* antes 18px */
 .brand-pill:hover{ background:rgba(255,255,255,.10); text-decoration:none }
-.brand-pill i, .brand-pill svg{ width:18px; height:18px }
 
 /* Neutraliza posibles ::before antiguos basados en imágenes */
 .brand-pill::before{ display:none !important; content:none !important }
