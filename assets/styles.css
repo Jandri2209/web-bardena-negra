@@ -912,3 +912,36 @@ body.modal-open{ overflow:hidden; }
 .embed-placeholder{ text-align:center; padding:1rem; }
 .embed-placeholder .actions{ display:flex; gap:.5rem; justify-content:center; margin-top:.5rem; }
 
+/* ===== Entorno: ritmo y alineación uniforme ===== */
+
+/* 2.1 Subnav con el mismo ancho que .container */
+.entorno-subnav{
+  max-width:1140px;
+  padding:0 15px;
+  margin: .75rem auto 1.25rem; /* aire superior/inferior */
+  display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap;
+}
+
+/* 2.2 Espaciado vertical consistente entre secciones (excepto hero) */
+.entorno-section{ margin-top: 1.25rem; }
+@media (min-width:960px){
+  .entorno-section{ margin-top: 1.75rem; }
+}
+
+/* 2.3 Las tarjetas ocupan 100% del container; la prosa no reduce ancho */
+.card > .prose{ max-width: none; margin:0; }
+
+/* 2.4 Misma estética de tarjeta para todas (por si alguna venía sin sombra/borde) */
+.entorno-section .card{
+  border-radius: 8px;
+  box-shadow: 0 10px 30px -22px rgba(0,0,0,.4);
+  border:1px solid rgba(0,0,0,.08);
+}
+
+/* 2.5 Un poco más de aire tras las pestañas de Itinerarios */
+.tabs{ margin-top:.25rem; }
+@media (min-width:960px){ .tabs{ margin-top:.4rem; } }
+
+/* 2.6 Anclas con header fijo: que no queden tapadas al saltar desde el subnav */
+section[id]{ scroll-margin-top: calc(var(--header-h) + 16px); }
+
