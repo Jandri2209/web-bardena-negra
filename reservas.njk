@@ -8,6 +8,7 @@ permalink: "/reservas/"
 <section class="container prose">
   <div class="card">
     <h1>Solicitar disponibilidad</h1>
+
     <form name="reserva"
       method="POST"
       action="/gracias/"
@@ -15,33 +16,69 @@ permalink: "/reservas/"
       netlify-honeypot="bot-field"
       accept-charset="UTF-8">
 
-  <!-- Requerido por Netlify -->
-  <input type="hidden" name="form-name" value="reserva">
+      <input type="hidden" name="form-name" value="reserva">
 
-  <!-- Honeypot oculto (no borrar) -->
-  <p class="sr-only" aria-hidden="true">
-    <label>Si ves este campo, déjalo vacío
-      <input type="text" name="bot-field" tabindex="-1" autocomplete="off">
-    </label>
-  </p>
+      <!-- Honeypot (no borrar) -->
+      <p class="sr-only" aria-hidden="true">
+        <label>Si ves este campo, déjalo vacío
+          <input type="text" name="bot-field" tabindex="-1" autocomplete="off">
+        </label>
+      </p>
 
       <div class="grid cols-2">
-        <p><label>Nombre<br><input required name="nombre" type="text" placeholder="Tu nombre"></label></p>
-        <p><label>Email<br><input required name="email" type="email" placeholder="tucorreo@ejemplo.com"></label></p>
+        <p class="field">
+          <label for="name">Nombre</label>
+          <input required id="name" name="name" type="text" placeholder="Tu nombre" autocomplete="name">
+        </p>
+        <p class="field">
+          <label for="email">Email</label>
+          <input required id="email" name="email" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" inputmode="email">
+        </p>
       </div>
+
       <div class="grid cols-2">
-        <p><label>Entrada<br><input required name="checkin" type="date"></label></p>
-        <p><label>Salida<br><input required name="checkout" type="date"></label></p>
+        <p class="field">
+          <label for="checkin">Entrada</label>
+          <input required id="checkin" name="checkin" type="date">
+          <span class="help">Elige día de llegada</span>
+        </p>
+        <p class="field">
+          <label for="checkout">Salida</label>
+          <input required id="checkout" name="checkout" type="date">
+          <span class="help">Noches: <strong id="nights">—</strong></span>
+        </p>
       </div>
+
       <div class="grid cols-3">
-        <p><label>Adultos<br><input name="adultos" type="number" min="1" value="2"></label></p>
-        <p><label>Niños<br><input name="ninos" type="number" min="0" value="0"></label></p>
-        <p><label>Teléfono (opcional)<br><input name="telefono" type="tel" placeholder=""></label></p>
+        <p class="field">
+          <label for="adultos">Adultos</label>
+          <input id="adultos" name="adultos" type="number" min="1" value="2" inputmode="numeric">
+        </p>
+        <p class="field">
+          <label for="ninos">Niños</label>
+          <input id="ninos" name="ninos" type="number" min="0" value="0" inputmode="numeric">
+        </p>
+        <p class="field">
+          <label for="telefono">Teléfono (opcional)</label>
+          <input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" pattern="^[0-9+()\\s-]{7,}$">
+          <span class="help">Para avisos de última hora</span>
+        </p>
       </div>
-      <p><label>Mensaje (opcional)<br><textarea name="mensaje" rows="4" placeholder="Cuéntanos detalles de tu estancia o dudas"></textarea></label></p>
-      <p style="margin-top:.6rem"><button class="btn" type="submit">Enviar consulta</button></p>
 
-      <p class="legal" style="margin-top:.6rem">Al enviar aceptas el tratamiento de tus datos para gestionar la solicitud. Consulta la <a href="/privacidad/">privacidad</a>.</p>
+      <p class="field">
+        <label for="mensaje">Mensaje (opcional)</label>
+        <textarea id="mensaje" name="mensaje" rows="4" placeholder="Cuéntanos detalles de tu estancia o dudas"></textarea>
+      </p>
+
+      <p class="inline">
+        <input id="privacy" type="checkbox" required>
+        <label for="privacy">He leído y acepto la <a href="/privacidad/">política de privacidad</a>.</label>
+      </p>
+
+      <!-- reCAPTCHA de Netlify -->
+      <div data-netlify-recaptcha="true"></div>
+
+      <p><button class="btn" type="submit">Enviar consulta</button></p>
     </form>
   </div>
 
@@ -50,7 +87,7 @@ permalink: "/reservas/"
     <p>Puedes hacerlo directamente desde Rurive:</p>
     <p><a class="btn" href="{{ site.bookingHref }}" target="_blank" rel="noopener">Ir a Rurive</a></p>
 
-    <h3 style="margin-top:1rem">Familias</h3>
+    <h3>Familias</h3>
     <ul>
       <li>Bienvenidos bebés y niños. Cuna disponible bajo petición.</li>
       <li>Capacidad estándar: 8 personas (opción +2 en sofá cama).</li>
@@ -58,3 +95,45 @@ permalink: "/reservas/"
     </ul>
   </div>
 </section>
+
+<script>
+  // ===== Validación útil: fechas y noches =====
+  const $in  = document.getElementById("checkin");
+  const $out = document.getElementById("checkout");
+  const $n   = document.getElementById("nights");
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const iso = d => d.toISOString().slice(0,10);
+
+  $in.min = iso(today);
+
+  function nextDay(d){ const x = new Date(d); x.setDate(x.getDate()+1); return x }
+  function toDate(v){ const d = new Date(v); return isNaN(d) ? null : d }
+
+  function updateLimits(){
+    const di = toDate($in.value);
+    if (di){
+      $out.min = iso(nextDay(di));
+      if ($out.value && toDate($out.value) <= di) $out.value = "";
+    }
+    updateNights();
+  }
+
+  function updateNights(){
+    const di = toDate($in.value), doo = toDate($out.value);
+    $out.setCustomValidity("");
+    if (di && doo){
+      const nights = Math.round((doo - di) / 86400000);
+      if (nights <= 0){
+        $out.setCustomValidity("La salida debe ser posterior a la entrada.");
+      }
+      $n.textContent = nights > 0 ? nights : "—";
+    } else {
+      $n.textContent = "—";
+    }
+  }
+
+  $in.addEventListener("change", updateLimits);
+  $out.addEventListener("change", updateNights);
+  updateLimits();
+</script>

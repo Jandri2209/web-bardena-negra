@@ -408,7 +408,7 @@ footer.site-footer a:hover{ text-decoration:underline }
 }
 
 /* ==========================
-   Reseñas (Home)
+   14) Reseñas (Home)
    ========================== */
 
 /* Badges con SVG */
@@ -538,3 +538,27 @@ body.modal-open{ overflow:hidden; }
   color:#fff; box-shadow:0 2px 10px rgba(0,0,0,.12);
 }
 
+/* ==========================
+   15) Formularios (global)
+   ========================== */
+.field label{ display:block; font-weight:600; color:var(--ink); margin-bottom:.35rem }
+.field .help{ font-size:.9rem; color:var(--muted); margin-top:.35rem }
+.inline{ display:flex; align-items:center; gap:.6rem }
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  padding:.85rem 1rem;
+  border:1px solid rgba(0,0,0,.12);
+  border-radius:8px;
+  background:#fff;
+  font:inherit;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(163,125,76,.18);
+}
