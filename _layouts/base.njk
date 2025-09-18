@@ -433,46 +433,77 @@ title: ""
     </div>
   </div>
 </div>
+<!-- Cookies: Banner -->
+<div id="cc-banner" class="cc-banner" aria-live="polite" hidden>
+  <div class="inner">
+    <p>
+      Usamos cookies técnicas. Para mejorar la experiencia puedes activar
+      <strong>analítica</strong> y <strong>funcionales (mapas)</strong>.
+    </p>
+    <div class="actions">
+      <button class="btn cc-outline" id="ccb-reject">Solo técnicas</button>
+      <button class="btn alt" id="ccb-prefs">Preferencias</button>
+      <button class="btn" id="ccb-accept">Aceptar todo</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   const STORE_KEY = 'cc-v1';
-  const modal = document.getElementById('cc');
-  const func = document.getElementById('cc-func');
-  const ana  = document.getElementById('cc-ana');
-  const q = (sel,root=document) => root.querySelector(sel);
-  const qa = (sel,root=document) => Array.from(root.querySelectorAll(sel));
 
-  function open(){ modal.classList.add('open'); modal.removeAttribute('aria-hidden'); }
-  function close(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
+  const modal  = document.getElementById('cc');
+  const func   = document.getElementById('cc-func');
+  const ana    = document.getElementById('cc-ana');
+  const banner = document.getElementById('cc-banner');
 
+  const q  = (s, r=document) => r.querySelector(s);
+  const qa = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+  /* ---------- helpers UI ---------- */
+  function openModal(){ modal.classList.add('open'); modal.removeAttribute('aria-hidden'); }
+  function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
+  function showBanner(){ banner.hidden = false; banner.classList.add('open'); }
+  function hideBanner(){ banner.classList.remove('open'); banner.hidden = true; }
+
+  /* ---------- storage ---------- */
   function get(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)||''); } catch(e){ return null; } }
   function set(v){ localStorage.setItem(STORE_KEY, JSON.stringify(v)); }
 
-  function apply(v){
-    if (v.funcional) loadMaps();
-    if (v.analitica) loadGA();
+  /* ---------- mapa (on/off) ---------- */
+  function placeholderHtml(){
+    return `
+      <div class="map-placeholder">
+        <button class="btn alt sm" data-open-cc>Preferencias de cookies</button>
+        <p class="map-note">Para ver el mapa, activa “Funcionales (mapas)”.</p>
+      </div>`;
   }
-
-  // === Google Maps (solo si hay consentimiento funcional) ===
   function loadMaps(){
     qa('[data-consent="maps"]').forEach(box=>{
       if (box.dataset.loaded) return;
-      const src = box.dataset.src;
-      const title = box.dataset.title || 'Mapa';
       const ifr = document.createElement('iframe');
-      ifr.src = src; ifr.title = title;
+      ifr.src = box.dataset.src;
+      ifr.title = box.dataset.title || 'Mapa';
       ifr.loading = 'lazy';
       ifr.referrerPolicy = 'no-referrer-when-downgrade';
-      ifr.style.width='100%'; ifr.style.border='0';
-      box.innerHTML = ''; box.appendChild(ifr);
+      ifr.style.width = '100%';       // altura se controla por CSS (.f-map iframe)
+      ifr.style.border = '0';
+      box.innerHTML = '';
+      box.appendChild(ifr);
       box.dataset.loaded = '1';
     });
   }
+  function unloadMaps(){
+    qa('[data-consent="maps"]').forEach(box=>{
+      if (!box.dataset.loaded) return;
+      box.innerHTML = placeholderHtml();
+      delete box.dataset.loaded;
+    });
+  }
 
-  // === Google Analytics 4 (solo si hay consentimiento analítica) ===
+  /* ---------- GA (solo si hay consentimiento) ---------- */
   function loadGA(){
     if (window.__gaLoaded) return;
-    const GA_ID = '{{ site.gaId or "" }}';
+    const GA_ID = '{{ site.gaId or "" }}';   // <-- sin ID real, no carga nada
     if (!GA_ID || GA_ID.indexOf('G-') !== 0) return;
     window.__gaLoaded = true;
     const s1 = document.createElement('script');
@@ -489,29 +520,60 @@ title: ""
     document.head.appendChild(s2);
   }
 
-  // Botones del modal
+  /* ---------- aplicar consentimiento ---------- */
+  function apply(v){
+    if (v.funcional) loadMaps(); else unloadMaps();
+    if (v.analitica) loadGA();
+  }
+
+  /* ---------- banner ---------- */
+  q('#ccb-accept').addEventListener('click', ()=>{
+    const v = { funcional:true, analitica:true, date:Date.now() };
+    set(v); apply(v); hideBanner();
+  });
+  q('#ccb-reject').addEventListener('click', ()=>{
+    const v = { funcional:false, analitica:false, date:Date.now() };
+    set(v); apply(v); hideBanner();
+  });
+  q('#ccb-prefs').addEventListener('click', ()=>{
+    hideBanner();
+    const curr = get() || { funcional:false, analitica:false };
+    func.checked = !!curr.funcional;
+    ana.checked  = !!curr.analitica;
+    openModal();
+  });
+
+  /* ---------- modal ---------- */
   q('#cc-accept').addEventListener('click', ()=>{
-    const v = { funcional:true, analitica:true, date: Date.now() };
-    set(v); apply(v); close();
+    const v = { funcional:true, analitica:true, date:Date.now() };
+    set(v); apply(v); closeModal();
   });
   q('#cc-save').addEventListener('click', ()=>{
-    const v = { funcional:func.checked, analitica:ana.checked, date: Date.now() };
-    set(v); apply(v); close();
+    const v = { funcional:func.checked, analitica:ana.checked, date:Date.now() };
+    set(v); apply(v); closeModal();
   });
   q('#cc-reject').addEventListener('click', ()=>{
-    const v = { funcional:false, analitica:false, date: Date.now() };
-    set(v); apply(v); close();
+    const v = { funcional:false, analitica:false, date:Date.now() };
+    set(v); apply(v); closeModal();
   });
 
-  // Enlace “Preferencias de cookies”
-  qa('[data-open-cc]').forEach(el=> el.addEventListener('click', (e)=>{ e.preventDefault(); open(); }));
+  /* Cualquier botón [data-open-cc] abre el modal (footer o placeholder) */
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('[data-open-cc]');
+    if(!btn) return;
+    e.preventDefault();
+    hideBanner();
+    const curr = get() || { funcional:false, analitica:false };
+    func.checked = !!curr.funcional;
+    ana.checked  = !!curr.analitica;
+    openModal();
+  });
 
-  // Prefill switches si ya había elección
+  /* ---------- init ---------- */
   const curr = get();
-  if (curr){ func.checked = !!curr.funcional; ana.checked = !!curr.analitica; apply(curr); }
-  else { open(); } // primera visita => mostrar modal
-
+  if (curr){ apply(curr); } else { showBanner(); }
 })();
 </script>
+
 </body>
 </html>

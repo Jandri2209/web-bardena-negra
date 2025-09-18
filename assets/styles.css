@@ -540,6 +540,31 @@ footer.site-footer a:hover{ text-decoration:underline }
 .map-note{ margin:.45rem 0 0; font-size:.9rem; opacity:.85; color:#dcdcdc }
 @media (max-width:960px){ .f-map{ height:220px } }
 
+/* ===== Cookie banner ===== */
+.cc-banner{
+  position:fixed; left:0; right:0; bottom:0; z-index:10000;
+  background:#0f0f0f; color:#eaeaea;
+  border-top:1px solid rgba(255,255,255,.08);
+  box-shadow:0 -20px 40px -30px rgba(0,0,0,.6);
+  transform:translateY(100%); transition:transform .25s ease;
+}
+.cc-banner.open{ transform:translateY(0) }
+.cc-banner .inner{
+  max-width:1140px; margin:0 auto; padding:.9rem 15px;
+  display:flex; align-items:center; gap:.75rem; flex-wrap:wrap;
+}
+.cc-banner p{ margin:0; flex:1 }
+.cc-banner .actions{ display:flex; gap:.5rem }
+.btn.cc-outline{ background:transparent; border-color:#fff; color:#fff }
+.btn.cc-outline:hover{ background:rgba(255,255,255,.12); text-decoration:none }
+
+/* Placeholder del mapa cuando no hay consentimiento */
+.map-placeholder{
+  display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+  padding:.6rem; border-radius:10px;
+  background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.14);
+}
+.map-note{ margin:0; font-size:.95rem; color:#dcdcdc }
 
 /* ==========================
    13) Print
