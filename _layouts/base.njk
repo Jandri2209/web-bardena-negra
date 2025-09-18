@@ -315,5 +315,79 @@ title: ""
       if (window.lucide) lucide.createIcons();
     });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!document.querySelector('.page-hero')) document.body.classList.add('no-hero');
+    });
+  </script>
+  <script>
+  (() => {
+    const header = document.querySelector('header.site-header');
+    if (!header) return;
+
+    let lastY = window.scrollY;
+    let idleTimer = null;
+    let isHidden = false;
+
+    const SHOW_TOP_Y = 20;        // cerca del top, nunca oculto
+    const HIDE_MIN_Y = 200;       // no ocultar si aún estás muy arriba
+    const HIDE_AFTER_IDLE_MS = 1200; // tiempo sin scroll para auto-ocultar
+    const TOLERANCE = 6;          // ignora micro desplazamientos
+
+    function setHidden(v){
+      if (v && !isHidden){
+        header.classList.add('is-hidden');
+        isHidden = true;
+      } else if (!v && isHidden){
+        header.classList.remove('is-hidden');
+        isHidden = false;
+      }
+    }
+
+    function onScroll(){
+      const y = window.scrollY;
+
+      // Estado visual de "scrolled" (sombras/colores claros)
+      header.classList.toggle('is-scrolled', y > 10);
+
+      // Mostrar al subir, ocultar al bajar
+      const delta = y - lastY;
+      const goingDown = delta > TOLERANCE;
+      const goingUp   = delta < -TOLERANCE;
+
+      if (goingUp || y <= SHOW_TOP_Y){
+        setHidden(false);
+      } else if (goingDown && y > HIDE_MIN_Y && !header.classList.contains('open')){
+        setHidden(true);
+      }
+      lastY = y;
+
+      // Auto-ocultar tras quedarse en idle
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        const yNow = window.scrollY;
+        if (
+          yNow > HIDE_MIN_Y &&
+          !header.matches(':hover, :focus-within') &&
+          !header.classList.contains('open')
+        ){
+          setHidden(true);
+        }
+      }, HIDE_AFTER_IDLE_MS);
+    }
+
+    // Mostrar si el puntero toca la parte alta (desktop)
+    window.addEventListener('mousemove', (e) => {
+      if (e.clientY <= 80) setHidden(false);
+    }, { passive: true });
+
+    // Mostrar al hacer foco con teclado en la cabecera
+    header.addEventListener('focusin', () => setHidden(false));
+
+    // Inicial y listeners
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+  </script>
 </body>
 </html>
