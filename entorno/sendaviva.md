@@ -20,7 +20,7 @@ permalink: "/entorno/sendaviva/"
     <h1>Sendaviva</h1>
     <p>
       El gran parque familiar de la Ribera: atracciones, espectáculos y zonas de animales en un entorno natural junto a Bardenas.
-      Ideal con niños de diferentes edades. :contentReference[oaicite:10]{index=10}
+      Ideal con niños de diferentes edades.
     </p>
 
     <h2>Entradas y calendario</h2>
