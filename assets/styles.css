@@ -39,7 +39,7 @@
    2) Reset y bases tipográficas
    ========================== */
 *{ box-sizing:border-box }
-html,body{ margin:0; padding:0 }
+html,body{ margin:0; padding:0; overflow-x:hidden }
 body{
   font-family:"Barlow",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
   color:var(--ink); background:var(--bg); line-height:1.6;
@@ -47,6 +47,10 @@ body{
 h1,h2,h3,.font-primary{ font-family:"Gilda Display",Georgia,serif }
 a{ color:var(--ink); text-decoration:none }
 a:hover{ text-decoration:underline }
+
+@supports (width: 100dvw){
+  .full-bleed{ width:100dvw; margin-left:-50dvw; margin-right:-50dvw }
+}
 
 /* Botones */
 .btn{ display:inline-block; border:1px solid var(--accent); background:var(--accent); color:#fff;
@@ -186,27 +190,27 @@ header.site-header:focus-within{
   header .nav-links a{ padding:.35rem 0 }
 }
 
-/* Páginas SIN hero: header claro desde el inicio */
-body:not(:has(.page-hero)) header.site-header{
+/* Páginas SIN hero (ni .page-hero ni .hero): header claro desde el inicio */
+body:not(:has(.page-hero, .hero)) header.site-header{
   background:var(--bg);
   box-shadow:0 2px 18px rgba(0,0,0,.08);
 }
-body:not(:has(.page-hero)) header.site-header .brand{ color:var(--accent) }
-body:not(:has(.page-hero)) header.site-header .nav-links a{ color:var(--accent); opacity:1 }
-body:not(:has(.page-hero)) header.site-header .nav-links a:hover{ text-decoration:underline }
-body:not(:has(.page-hero)) header.site-header .nav-links a.cta{ background:var(--accent); color:#fff }
-body:not(:has(.page-hero)) header.site-header .sub-toggle{ color:var(--accent) }
-body:not(:has(.page-hero)) header.site-header .nav-toggle span{ background:var(--accent) }
+body:not(:has(.page-hero, .hero)) header.site-header .brand{ color:var(--accent) }
+body:not(:has(.page-hero, .hero)) header.site-header .nav-links a{ color:var(--accent); opacity:1 }
+body:not(:has(.page-hero, .hero)) header.site-header .nav-links a:hover{ text-decoration:underline }
+body:not(:has(.page-hero, .hero)) header.site-header .nav-links a.cta{ background:var(--accent); color:#fff }
+body:not(:has(.page-hero, .hero)) header.site-header .sub-toggle{ color:var(--accent) }
+body:not(:has(.page-hero, .hero)) header.site-header .nav-toggle span{ background:var(--accent) }
 
-/* Si se abre el menú móvil, prioriza el modo oscuro (como siempre) */
-body:not(:has(.page-hero)) header.site-header.open{
+/* Menú móvil en páginas sin hero */
+body:not(:has(.page-hero, .hero)) header.site-header.open{
   background:rgba(10,10,10,.82);
   box-shadow:0 2px 18px rgba(0,0,0,.35);
 }
-body:not(:has(.page-hero)) header.site-header.open .brand{ color:#fff }
-body:not(:has(.page-hero)) header.site-header.open .nav-links a{ color:#eaeaea }
-body:not(:has(.page-hero)) header.site-header.open .sub-toggle{ color:#fff }
-body:not(:has(.page-hero)) header.site-header.open .nav-toggle span{ background:#fff }
+body:not(:has(.page-hero, .hero)) header.site-header.open .brand{ color:#fff }
+body:not(:has(.page-hero, .hero)) header.site-header.open .nav-links a{ color:#eaeaea }
+body:not(:has(.page-hero, .hero)) header.site-header.open .sub-toggle{ color:#fff }
+body:not(:has(.page-hero, .hero)) header.site-header.open .nav-toggle span{ background:#fff }
 
 /* Alias opcional por si añades body.no-hero por JS */
 body.no-hero header.site-header{ background:var(--bg); box-shadow:0 2px 18px rgba(0,0,0,.08) }
