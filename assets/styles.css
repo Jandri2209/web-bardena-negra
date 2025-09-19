@@ -318,7 +318,6 @@ header.site-header:focus-within{
 @media (max-width:960px){
   .hero{ height:72vh; min-height:480px }
   .hero .inner{ justify-content:center; text-align:center; padding:0 16px }
-  .hero .actions .btn{ display:block; width:100%; max-width:320px; margin:10px auto 0 }
 }
 
 /* ==========================
@@ -447,7 +446,6 @@ footer.site-footer a:hover{ text-decoration:underline }
   display:grid; gap:1.25rem; align-items:start;
   grid-template-columns:1.2fr 1fr 1.2fr;
 }
-@media (max-width:960px){ .footer-grid{ grid-template-columns:1fr } }
 
 /* Col 1: dirección + contacto */
 .f-address{ margin:.25rem 0 .8rem; font-style:normal; color:#e5e5e5 }
@@ -623,9 +621,6 @@ footer.site-footer a:hover{ text-decoration:underline }
   padding:.35rem .8rem; font-weight:600;
 }
 .platform-col .play-btn.is-paused{ background:#f8fafc }
-
-/* Móvil: columnas en vertical */
-@media (max-width:960px){ #reviewsByPlatform{ grid-template-columns:1fr } }
 
 /* Botón pequeño y enlaces de acción */
 .link{ background:none;border:0;padding:0;cursor:pointer;color:var(--accent);text-decoration:underline }
@@ -878,6 +873,16 @@ body.modal-open{ overflow:hidden }
 /* Anclas con header fijo */
 section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 
+/* CTA final centrado en desktop */
+.cta-card{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;   /* centrado real en escritorio */
+  gap:.8rem;
+}
+.cta-actions{ display:flex; gap:.6rem; }
+
 /* ==========================
    21) Media query móvil (única)
    ========================== */
@@ -907,9 +912,18 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   .footer-grid{ grid-template-columns:1fr }
   .footer-bottom{ flex-direction:column; align-items:flex-start; gap:.35rem }
 
-  /* CTA final (“¿Listo para tu escapada?”) */
-  .cta-card{ flex-direction:column; align-items:stretch; text-align:center }
-  .cta-actions{ width:100%; flex-direction:column }
+  /* CTA final en móvil: apilar y dar aire entre botones */
+  .cta-card{
+    flex-direction:column;
+    align-items:stretch;
+    text-align:center;
+  }
+  .cta-actions{
+    width:100%;
+    flex-direction:column;
+    gap:.9rem;        /* espacio entre botones */
+    margin-top:.4rem; /* aire respecto al texto */
+  }
   .cta-actions .btn{ width:100%; margin:0 }
 }
 
