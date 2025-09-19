@@ -876,12 +876,16 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 /* CTA final centrado en desktop */
 .cta-card{
   display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:center;   /* centrado real en escritorio */
+  flex-direction:column;   /* apilar en desktop */
+  align-items:center;      /* centrar todo el bloque */
   gap:.8rem;
+  text-align:center;
 }
-.cta-actions{ display:flex; gap:.6rem; }
+.cta-actions{
+  display:flex;
+  gap:.6rem;
+  justify-content:center;  /* centrar la fila de botones */
+}
 
 /* ==========================
    21) Media query móvil (única)
