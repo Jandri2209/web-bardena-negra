@@ -15,7 +15,23 @@
     const wantPauseBtn = col.dataset.pause === 'true' && autoplayMs > 0;
 
     let i = 0, timer = null, hovering = false, inView = true, paused = false;
-
+    // Pausa por toque prolongado (móvil)
+    let hoverTO = null; // si ya lo tenías para hover delay, reutilízalo
+    col.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'touch') return;
+      if (hoverTO) clearTimeout(hoverTO);
+      hoverTO = setTimeout(() => { hovering = true; stop(); }, 250);
+    });
+    col.addEventListener('pointerup', () => {
+      if (hoverTO) clearTimeout(hoverTO);
+      hoverTO = null;
+      if (hovering) { hovering = false; start(); }
+    });
+    col.addEventListener('pointercancel', () => {
+      if (hoverTO) clearTimeout(hoverTO);
+      hoverTO = null;
+      if (hovering) { hovering = false; start(); }
+    });
     // Dots
     const dots = items.map((_, idx) => {
       const b = document.createElement('button');

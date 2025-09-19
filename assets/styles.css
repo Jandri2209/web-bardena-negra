@@ -303,7 +303,7 @@ header.site-header:focus-within{
 .hero .btn.alt:focus-visible{
   outline:2px solid #fff; outline-offset:2px; box-shadow:0 0 0 3px rgba(255,255,255,.35);
 }
-
+.hero .actions .btn + .btn{ margin-left:.6rem }
 /* Slider: 3 imágenes */
 .hero-slider .slide{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; animation:heroFade 12s infinite; z-index:1 }
 .hero-slider .slide:nth-child(1){ animation-delay:0s }
@@ -879,14 +879,19 @@ body.modal-open{ overflow:hidden }
 section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 
 /* ==========================
-   21) Media queries compactas (agrupadas)
+   21) Media query móvil (única)
    ========================== */
 @media (max-width:960px){
-  /* Header móvil (ya incluído arriba parte) */
+  /* Héroe: apilar y centrar botones (anula márgenes horizontales) */
+  .hero .actions{
+    display:flex; flex-direction:column; align-items:center; gap:.6rem;
+  }
+  .hero .actions .btn{
+    width:100%; max-width:320px; margin:0 !important;
+  }
+  .hero .actions .btn + .btn{ margin-left:0 }
 
-  /* Hero (ya arriba) */
-
-  /* Reseñas */
+  /* Reseñas: 1 columna en móvil */
   #reviewsByPlatform{ grid-template-columns:1fr }
 
   /* Inventario */
@@ -894,12 +899,18 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   .inv-grid{ grid-template-columns:1fr }
 
   /* Lightbox */
-  .lb-prev{ left:8px } .lb-next{ right:8px }
+  .lb-prev{ left:8px }
+  .lb-next{ right:8px }
 
   /* Footer */
   .f-map{ height:220px }
   .footer-grid{ grid-template-columns:1fr }
   .footer-bottom{ flex-direction:column; align-items:flex-start; gap:.35rem }
+
+  /* CTA final (“¿Listo para tu escapada?”) */
+  .cta-card{ flex-direction:column; align-items:stretch; text-align:center }
+  .cta-actions{ width:100%; flex-direction:column }
+  .cta-actions .btn{ width:100%; margin:0 }
 }
 
 /* ==========================
