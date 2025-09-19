@@ -890,19 +890,38 @@ body.modal-open{ overflow:hidden }
 /* Anclas con header fijo */
 section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 
-/* CTA final centrado en desktop */
+/* CTA final — ancho ajustado al contenido (desktop) */
 .cta-card{
   display:flex;
-  flex-direction:column;   /* apilar en desktop */
-  align-items:center;      /* centrar todo el bloque */
+  flex-direction:column;
+  align-items:center;
   gap:.8rem;
   text-align:center;
+
+  /* clave: encoger al contenido y centrar */
+  width: fit-content;            /* se adapta al contenido */
+  max-width: min(100%, 48rem);   /* seguridad para no desbordar en pantallas pequeñas */
+  margin: 0 auto;                /* centrado dentro del .container */
+  /* (mantén tu padding actual si lo habías reducido) */
 }
+
+.cta-card h2,
+.cta-card p{
+  /* limita el ancho de las líneas para que la card no se haga enorme por el titular */
+  max-width: 38ch;
+  margin: 0 auto;
+}
+
 .cta-actions{
   display:flex;
   gap:.6rem;
-  justify-content:center;  /* centrar la fila de botones */
+  justify-content:center;
+
+  /* la fila ocupa lo que miden los botones (no todo el contenedor) */
+  width: max-content;
+  max-width:100%;
 }
+
 
 /* CTA final — compactar solo en escritorio */
 @media (min-width:961px){
