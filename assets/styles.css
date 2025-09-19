@@ -465,7 +465,24 @@ footer.site-footer a:hover{ text-decoration:underline }
 .brand-pill::before{ display:none !important; content:none !important }
 
 /* Col 2: CTA + plataformas */
-.f-cta{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.25rem 0 .6rem }
+/* Footer: dos CTAs apilados, mismo ancho, sin 100% */
+.f-cta{
+  display: inline-grid;       /* se comporta como “contenido” y no llena toda la columna */
+  grid-auto-flow: row;        /* apilados verticalmente */
+  row-gap: .6rem;             /* espacio entre botones */
+  width: max-content;         /* el bloque mide lo que el botón más ancho */
+  max-width: 100%;            /* si en móviles no cabe, que no desborde */
+  margin: .25rem auto .6rem;     /* deja el bloque pegado a la izquierda */
+  justify-items: stretch;     /* cada botón ocupa el ancho del grid */
+}
+
+/* Los dos botones igualan el ancho calculado */
+.f-cta .btn{
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;        /* evita que parta en dos líneas */
+}
+
 .f-sub{ color:#d8d8d8; opacity:.8; margin:.2rem 0 .4rem; font-size:.95rem }
 .f-brand-icons{ display:flex; flex-wrap:wrap; gap:.5rem; align-items:center }
 .brand-icon{
@@ -886,6 +903,16 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   gap:.6rem;
   justify-content:center;  /* centrar la fila de botones */
 }
+
+/* CTA final — compactar solo en escritorio */
+@media (min-width:961px){
+  .cta-card{
+    padding: .9rem 1.25rem;   /* antes 1.25rem arriba/abajo */
+    gap: .6rem;               /* un pelín menos de separación interna */
+  }
+  .cta-actions{ margin-top: .2rem; } /* microaire bajo el texto */
+}
+
 
 /* ==========================
    21) Media query móvil (única)
