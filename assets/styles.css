@@ -981,6 +981,7 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
     padding: calc(var(--header-h) + 12px) 20px 40px;
     padding-left:  calc(20px + env(safe-area-inset-left));
     padding-right: calc(20px + env(safe-area-inset-right));
+    width:100%; /* añadido para evitar encogimientos */
   }
   .page-hero.auto.noimg .container.inner > *{ margin:0 !important; }
   .page-hero.auto.noimg h1{ max-width:28ch; }
@@ -993,13 +994,16 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
     max-width:28rem;
     padding-inline:16px;
   }
+  /* clave para Grid: centra el ítem dentro de .grid.cols-3 */
+  .grid.cols-3 > .center-narrow{
+    justify-self:center;
+  }
 }
 
 /* Extra fino móviles muy estrechos */
 @media (max-width:380px){
   .page-hero.auto.noimg .container.inner{ padding-left:18px; padding-right:18px; }
 }
-
 
 /* ==========================
    22) Accesibilidad global: Reduce Motion
