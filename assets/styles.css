@@ -1021,3 +1021,39 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
     scroll-behavior:auto !important;
   }
 }
+
+/* ===== FIX DURO 1: heroes auto/noimg centrados en móvil ===== */
+@media (max-width:960px){
+  /* Forzamos que el contenedor del hero sea flex centrado */
+  .page-hero.auto.noimg .inner,
+  .page-hero.auto.noimg .container.inner{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;     /* centra horizontal */
+    justify-content:center !important; /* centra vertical si hay altura */
+    text-align:center !important;
+    padding-left:20px !important;
+    padding-right:20px !important;
+  }
+
+  /* Garantiza que título/lead no “tiren” a la izquierda por márgenes heredados */
+  .page-hero.auto.noimg h1,
+  .page-hero.auto.noimg .page-lead{
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+
+  /* Límites de línea cómodos */
+  .page-hero.auto.noimg h1{ max-width:28ch !important; }
+  .page-hero.auto.noimg .page-lead{ max-width:34ch !important; }
+}
+
+/* ===== FIX DURO 2: “Para familias” centrado en la grid móvil ===== */
+@media (max-width:960px){
+  /* Coloca el item en el centro del track y evita stretch */
+  .grid.cols-3 > .center-narrow{
+    place-self:center !important;                 /* = align-self + justify-self */
+    width:min(100%, 28rem) !important;            /* ancho controlado */
+  }
+}
+
