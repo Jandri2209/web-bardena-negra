@@ -763,6 +763,18 @@ body.modal-open{ overflow:hidden }
 .card-link .more{ font-weight:700; color:var(--accent); text-decoration:underline }
 .card-link:hover{ transform:translateY(-2px); box-shadow:0 16px 40px -24px rgba(0,0,0,.45); text-decoration:none }
 
+/* Utilidad: centra una card y limita su ancho en desktop */
+.card.center-narrow{
+  width: min(560px, 100%);   /* ancho visual razonable */
+  justify-self: center;      /* la centra en su celda del grid */
+  margin-inline: auto;       /* fallback / fuera de grid */
+}
+
+/* En móvil puedes dejarla a 100% si prefieres */
+@media (max-width:960px){
+  .card.center-narrow{ width:100%; }
+}
+
 /* ==========================
    19) Componentes → FAQ (Acordeón)
    ========================== */
@@ -945,12 +957,12 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
    21) Media query móvil (única)
    ========================== */
 @media (max-width:960px){
-  /* Héroe: apilar y centrar botones (anula márgenes horizontales) */
+  /* Héroe: apilar y centrar botones */
   .hero .actions{ display:flex; flex-direction:column; align-items:center; gap:.6rem; }
   .hero .actions .btn{ width:100%; max-width:320px; margin:0 !important; }
   .hero .actions .btn + .btn{ margin-left:0 }
 
-  /* Reseñas: 1 columna en móvil */
+  /* Reseñas: 1 col */
   #reviewsByPlatform{ grid-template-columns:1fr }
 
   /* Inventario */
@@ -966,26 +978,32 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   .footer-grid{ grid-template-columns:1fr }
   .footer-bottom{ flex-direction:column; align-items:flex-start; gap:.35rem }
 
-  /* CTA final: apilar y dar aire entre botones */
+  /* CTA final: apilar */
   .cta-card{ flex-direction:column; align-items:stretch; text-align:center; }
   .cta-actions{ width:100%; flex-direction:column; gap:.9rem; margin-top:.4rem; }
   .cta-actions .btn{ width:100%; margin:0 }
 
   /* Page-Hero sin imagen: centrado y aire */
   .page-hero.auto.noimg .inner{
+    align-items:center;
+    text-align:center;
     padding: calc(var(--header-h) + 12px) 20px 40px;
-    align-items: center;
-    text-align: center;
+    /* notch-safe */
+    padding-left:  calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+  }
+  .page-hero.auto.noimg .inner > *{
+    margin-left:auto;
+    margin-right:auto;
   }
   .page-hero.auto.noimg h1{ margin:0 auto; max-width:28ch; }
   .page-hero.auto.noimg .page-lead{ margin:.35rem auto 0; max-width:34ch; }
 }
 
-/* Extra fino para móviles MUY estrechos */
+/* Extra fino móviles muy estrechos */
 @media (max-width:380px){
   .page-hero.auto.noimg .inner{ padding-left:18px; padding-right:18px; }
 }
-
 
 /* ==========================
    22) Accesibilidad global: Reduce Motion
