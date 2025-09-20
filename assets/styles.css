@@ -763,18 +763,6 @@ body.modal-open{ overflow:hidden }
 .card-link .more{ font-weight:700; color:var(--accent); text-decoration:underline }
 .card-link:hover{ transform:translateY(-2px); box-shadow:0 16px 40px -24px rgba(0,0,0,.45); text-decoration:none }
 
-/* Utilidad: centra una card y limita su ancho en desktop */
-.card.center-narrow{
-  width: min(560px, 100%);   /* ancho visual razonable */
-  justify-self: center;      /* la centra en su celda del grid */
-  margin-inline: auto;       /* fallback / fuera de grid */
-}
-
-/* En móvil puedes dejarla a 100% si prefieres */
-@media (max-width:960px){
-  .card.center-narrow{ width:100%; }
-}
-
 /* ==========================
    19) Componentes → FAQ (Acordeón)
    ========================== */
@@ -983,27 +971,35 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   .cta-actions{ width:100%; flex-direction:column; gap:.9rem; margin-top:.4rem; }
   .cta-actions .btn{ width:100%; margin:0 }
 
-  /* Page-Hero sin imagen: centrado y aire */
-  .page-hero.auto.noimg .inner{
-    align-items:center;
-    text-align:center;
+  /* Page-Hero sin imagen: centrado REAL en móvil */
+  .page-hero.auto.noimg .container.inner{
+    display:grid !important;
+    place-items:center !important;
+    justify-items:center !important;
+    text-align:center !important;
+    gap:.35rem;
     padding: calc(var(--header-h) + 12px) 20px 40px;
-    /* notch-safe */
     padding-left:  calc(20px + env(safe-area-inset-left));
     padding-right: calc(20px + env(safe-area-inset-right));
   }
-  .page-hero.auto.noimg .inner > *{
-    margin-left:auto;
-    margin-right:auto;
+  .page-hero.auto.noimg .container.inner > *{ margin:0 !important; }
+  .page-hero.auto.noimg h1{ max-width:28ch; }
+  .page-hero.auto.noimg .page-lead{ max-width:34ch; }
+
+  /* “Para familias”: centra la card en móvil (sin 100%) */
+  .card.center-narrow{
+    width:auto;
+    margin-inline:auto;
+    max-width:28rem;
+    padding-inline:16px;
   }
-  .page-hero.auto.noimg h1{ margin:0 auto; max-width:28ch; }
-  .page-hero.auto.noimg .page-lead{ margin:.35rem auto 0; max-width:34ch; }
 }
 
 /* Extra fino móviles muy estrechos */
 @media (max-width:380px){
-  .page-hero.auto.noimg .inner{ padding-left:18px; padding-right:18px; }
+  .page-hero.auto.noimg .container.inner{ padding-left:18px; padding-right:18px; }
 }
+
 
 /* ==========================
    22) Accesibilidad global: Reduce Motion
