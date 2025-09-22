@@ -6,13 +6,17 @@
   NODE_VERSION = "18"
   NPM_FLAGS = "--no-audit --no-fund --loglevel=error"
 
+# ==== Functions (Node) ====
 [functions]
+  # Opcional pero aconsejable: fija el directorio estándar
+  directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# Overrides por función (nombre = archivo dentro de netlify/functions)
 [functions."submission-created"]
   external_node_modules = ["nodemailer"]
 
-# Pretty URLs para legales
+# ==== Redirects bonitos ====
 [[redirects]]
   from = "/privacidad.html"
   to = "/privacidad/"
@@ -28,6 +32,7 @@
   to = "/cookies/"
   status = 301
 
+# ==== Edge Functions ====
 [edge_functions]
   directory = "netlify/edge-functions"
 
