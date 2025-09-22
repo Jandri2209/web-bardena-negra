@@ -239,11 +239,14 @@ header.site-header:focus-within{
    6) Dropdown (La Casa/Entorno)
    ========================== */
 
+/* --- utilidades de visibilidad --- */
+.only-mobile{ display:none; } /* por defecto oculto */
+
 /* Contenedor y piezas base */
 .nav-links .nav-item{ position:relative; display:inline-flex; align-items:center; gap:.25rem }
 .nav-link{ color:#eaeaea; letter-spacing:.14em; text-transform:uppercase; font-size:.78rem }
 
-/* Botón caret (tamaño pequeño por defecto; se oculta en desktop más abajo) */
+/* Botón caret (se oculta en desktop más abajo) */
 .sub-toggle{
   background:none; border:0; padding:.1rem .2rem; line-height:1;
   color:#eaeaea; opacity:.9; display:inline-flex; align-items:center; justify-content:center;
@@ -266,56 +269,67 @@ header.site-header:focus-within{
 }
 .submenu a:hover{ background:var(--menu-hover); text-decoration:none }
 
-/* Mostrar submenú (hover/focus desktop y estado abierto compartido) */
-.has-submenu:hover .submenu,
-.has-submenu:focus-within .submenu,
-.has-submenu.sub-open .submenu{
-  opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0)
-}
-
-/* --------- ESCRITORIO (>=961px) --------- */
-/* Puente de hover */
+/* ======== ESCRITORIO (>=961px) ======== */
+/* Mostrar por hover/focus SOLO en escritorio */
 @media (min-width:961px){
   .has-submenu{ position:relative }
-  .has-submenu .submenu::before{
-    content:""; position:absolute; left:0; right:0; top:-10px; height:10px;
+  .has-submenu .submenu::before{ content:""; position:absolute; left:0; right:0; top:-10px; height:10px; }
+
+  .has-submenu:hover .submenu,
+  .has-submenu:focus-within .submenu{
+    opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0);
   }
-  /* NO flecha en escritorio (lo querías tal cual) */
+
+  /* sin caret en desktop (como querías) */
   .nav .sub-toggle{ display:none !important; }
 }
 
-/* --------- MÓVIL (<=960px) --------- */
-/* Fila partida + caret grande + alineación */
+/* ======== COMPARTIDO (móvil/desktop) ======== */
+/* En móvil y en general, el estado visible depende de .sub-open (lo pone/quita JS) */
+.has-submenu.sub-open .submenu{
+  opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0);
+}
+
+/* ======== MÓVIL (<=960px) ======== */
 @media (max-width:960px){
   .nav .has-submenu{ position:relative; min-height:48px; }
+
+  /* El texto padre no parece enlace y sirve de toggle (JS) */
   .nav .has-submenu > .nav-link{
     padding-right:56px;                 /* hueco para caret grande */
-    display:flex; align-items:center;   /* centra verticalmente el texto */
-    cursor:default; text-decoration:none; /* no parece enlace */
+    display:flex; align-items:center;   /* centro vertical */
+    cursor:default; text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-touch-callout:none;
+    user-select:none;
+    touch-action:manipulation;
   }
-  .nav .submenu a{ padding:.6rem 0; }
+  .nav .has-submenu > .nav-link:active,
+  .nav .has-submenu > .nav-link:hover{
+    background:transparent; outline:none;
+  }
 
+  /* Caret grande y accesible */
   .nav .sub-toggle{
     position:absolute; right:0; top:0;
     width:48px; height:48px;
     display:flex; align-items:center; justify-content:center;
     border:0; background:transparent; cursor:pointer;
-    -webkit-tap-highlight-color:transparent;
-    outline:0;
+    -webkit-tap-highlight-color:transparent; outline:0;
   }
   .nav .sub-toggle .chev{
     font-size:18px; line-height:1; transform:rotate(0deg); transition:transform .18s ease;
   }
   .has-submenu.sub-open .sub-toggle .chev{ transform:rotate(180deg); }
 
-  /* "Ver sección" SOLO en móvil */
+  /* “Ver la sección” SOLO en móvil */
   .only-mobile{ display:block; }
+
+  /* algo más de aire en items de submenú en móvil */
+  .nav .submenu a{ padding:.6rem 0; }
 }
-/* Oculto por defecto fuera de móvil */
-.only-mobile{ display:none; }
 
 /* --------- Estado ACTIVO / Rama actual --------- */
-/* Padre de la rama (La casa / Entorno) */
 .has-submenu.is-current-branch > .nav-link{
   color:var(--brand, #a37d4c); font-weight:600;
 }
@@ -325,53 +339,21 @@ header.site-header:focus-within{
   }
 }
 
-/* Ítem exacto activo dentro del submenú (más visible que un simple punto) */
+/* Ítem exacto activo dentro del submenú (fondo ligeramente más claro) */
 .nav .submenu a.is-active{
   font-weight:700; position:relative;
-  /* tono más claro del marrón del menú */
   background: color-mix(in srgb, #2b1f16 86%, #ffffff 14%);
   border-radius:6px; padding:.6rem .5rem .6rem .9rem;
 }
-/* Fallback si no hay color-mix */
 @supports not (color-mix(in srgb, #000 50%, #fff 50%)){
   .nav .submenu a.is-active{ background:#3a2d22; }
 }
-/* Puntito indicador opcional (lo mantenemos más visible) */
+/* puntito opcional (más visible) */
 .nav .submenu a.is-active::before{
   content:""; position:absolute; left:.4rem; top:50%;
   width:6px; height:6px; border-radius:50%;
   background:var(--brand, #a37d4c); transform:translateY(-50%);
 }
-/* Quitar tap highlight / callout del enlace padre SOLO en móvil */
-@media (max-width: 960px){
-  .nav .has-submenu > .nav-link{
-    cursor: default;                /* ya lo tenías: que no parezca enlace */
-    text-decoration: none;
-
-    /* adiós parpadeo gris/azul al tocar (iOS/Android) */
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-
-    /* evita seleccionarlo al arrastrar el dedo y mejora respuesta del tap */
-    user-select: none;
-    touch-action: manipulation;
-  }
-
-  /* por si algún UA pinta estado :active, lo anulamos */
-  .nav .has-submenu > .nav-link:active,
-  .nav .has-submenu > .nav-link:hover{
-    background: transparent;
-    outline: none;
-  }
-}
-
-/* refuerzo específico para WebKit antiguos */
-@supports (-webkit-touch-callout: none){
-  @media (max-width: 960px){
-    .nav .has-submenu > .nav-link{ -webkit-tap-highlight-color: rgba(0,0,0,0); }
-  }
-}
-
 /* ==========================
    7) Hero (home) y slider
    ========================== */

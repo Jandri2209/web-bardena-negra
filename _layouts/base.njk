@@ -393,6 +393,32 @@ title: ""
     });
   })();
   </script>
+  <script>
+  (function(){
+    const mqMobile  = window.matchMedia('(max-width: 960px)');
+    const header    = document.getElementById('siteHeader');
+    const navToggle = document.getElementById('navToggle');
+
+    document.addEventListener('click', (e)=>{
+      if (!mqMobile.matches) return;
+
+      // 1) Cerrar submenús abiertos si se hace tap fuera de ellos
+      document.querySelectorAll('.has-submenu.sub-open').forEach(item=>{
+        if (!item.contains(e.target)){
+          item.classList.remove('sub-open');
+          const b = item.querySelector('.sub-toggle');
+          b && b.setAttribute('aria-expanded','false');
+        }
+      });
+
+      // 2) Cerrar la HAMBURGUESA si se toca fuera de la cabecera
+      if (header.classList.contains('open') && !header.contains(e.target)){
+        header.classList.remove('open');
+        navToggle && navToggle.setAttribute('aria-expanded','false');
+      }
+    }, {capture:true});
+  })();
+  </script>
   <script src="/assets/lucide.min.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
