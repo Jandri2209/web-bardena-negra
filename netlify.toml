@@ -27,3 +27,10 @@
   from = "/cookies.html"
   to = "/cookies/"
   status = 301
+
+  [edge_functions]
+directory = "netlify/edge-functions"
+
+[[edge_functions]]
+path = "/*"
+function = "i18n"
