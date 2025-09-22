@@ -941,23 +941,28 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 /* Utilidad general */
 .text-center{ text-align:center; }
 
-/* === ESCRITORIO (≥961px) — héroes SIN imagen a la IZQUIERDA (anula .text-center dentro del hero) === */
+/* === ESCRITORIO (≥961px) — héroes SIN imagen a la IZQUIERDA === */
 @media (min-width:961px){
   .page-hero.noimg .inner,
   .page-hero.noimg .container.inner{
     display:flex;
     flex-direction:column;
     justify-content:flex-end;
-    align-items:flex-start !important;   /* izquierda */
+    align-items:flex-start !important;  /* texto a la izquierda */
     text-align:left !important;
-    margin-inline:0 !important;          /* por si algo los centra */
+
+    /* CLAVE: el container sigue centrado y con aire lateral */
+    margin-inline:auto !important;      /* (antes poníamos 0) */
+    padding-inline:15px;                 /* evita que quede pegado a los bordes */
   }
+
   .page-hero.noimg h1,
   .page-hero.noimg .page-lead{
     margin:0 !important;
     text-align:left !important;
   }
-  /* si el HTML trae .text-center, lo anulamos SOLO en el hero sin imagen en escritorio */
+
+  /* Si por error el HTML lleva .text-center, lo anulamos SOLO aquí */
   .page-hero.noimg .inner.text-center,
   .page-hero.noimg .container.inner.text-center{
     align-items:flex-start !important;
