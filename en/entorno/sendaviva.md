@@ -1,9 +1,9 @@
 ---
 layout: base.njk
-title: "Sendaviva: entradas, qué ver y consejos en familia"
-description: "Parque familiar junto a Bardenas con atracciones, espectáculos y animales. Dónde comprar entradas, plan de día y recomendaciones prácticas."
-permalink: "/entorno/sendaviva/"
-lang: "es"
+title: "Sendaviva: tickets, what to see and tips for families"
+description: "Family park near Bardenas with attractions, shows and animals. Where to buy tickets, day plan and practical recommendations."
+permalink: "/en/entorno/sendaviva/"
+lang: "en"
 alternates:
   - { lang: "es", url: "/entorno/sendaviva/" }
   - { lang: "en", url: "/en/entorno/sendaviva/" }

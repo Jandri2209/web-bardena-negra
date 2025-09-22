@@ -1,9 +1,9 @@
 ---
 layout: base.njk
-title: "Tudela: imprescindibles, gastronomía y agenda"
-description: "Qué ver en Tudela (catedral, Plaza de los Fueros, Ebro), dónde comer verduras de temporada y dónde consultar la agenda oficial."
-permalink: "/entorno/tudela/"
-lang: "es"
+title: "Tudela : incontournables, gastronomie et agenda"
+description: "Que voir à Tudela (cathédrale, Plaza de los Fueros, Èbre), où manger des légumes de saison et où consulter l'agenda officiel. "
+permalink: "/fr/entorno/tudela/"
+lang: "fr"
 alternates:
   - { lang: "es", url: "/entorno/tudela/" }
   - { lang: "en", url: "/en/entorno/tudela/" }

@@ -1,9 +1,9 @@
 ---
 layout: base.njk
-title: "Bardenas Reales: qué ver, rutas y consejos"
-description: "Cómo visitar las Bardenas Reales desde la casa: rutas esenciales (Castildetierra, circuito de la Blanca), mejores horas, seguridad y avisos oficiales."
-permalink: "/entorno/bardenas/"
-lang: "es"
+title: "Bardenas Reales: what to see, routes and tips"
+description: "How to visit the Bardenas Reales from home: essential routes (Castildetierra, Blanca circuit), best times, safety and official notices."
+permalink: "/en/entorno/bardenas/"
+lang: "en"
 alternates:
   - { lang: "es", url: "/entorno/bardenas/" }
   - { lang: "en", url: "/en/entorno/bardenas/" }
