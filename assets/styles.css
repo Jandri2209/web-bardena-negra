@@ -596,6 +596,63 @@ footer.site-footer a:hover{ text-decoration:underline }
 .cc-modal .btn.cc-outline:hover{
   background:rgba(163,125,76,.12); text-decoration:none;
 }
+/* ===== Cookie banner: versión compacta para móvil (sin tocar HTML) ===== */
+@media (max-width:960px){
+  .cc-banner{
+    /* respiración para notch / barras del sistema */
+    padding-bottom: calc(env(safe-area-inset-bottom, 0) + 6px);
+  }
+  .cc-banner .inner{
+    padding: 10px 12px;
+    gap: .5rem;
+  }
+  .cc-banner p{
+    flex: 1 1 100%;
+    margin: 0 0 6px;
+    font-size: .95rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  /* Dos botones principales en una fila */
+  .cc-banner .actions{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .cc-banner .actions .btn{ width: 100%; }
+
+  /* Convertir el 3º botón (Rechazar) en enlace discreto a toda anchura
+     — si tu HTML usa .cc-reject, esto lo respeta; si no, toma el 3º botón */
+  .cc-banner .actions .btn.cc-reject,
+  .cc-banner .actions .btn:nth-child(3){
+    grid-column: 1 / -1;
+    justify-self: center;
+    background: transparent !important;
+    border: 0 !important;
+    color: #cbd5e1 !important;
+    text-decoration: underline;
+    padding: 6px 8px;
+    font-weight: 500;
+  }
+
+  /* Botón outline legible en fondo oscuro (ligero ajuste) */
+  .cc-banner .btn.cc-outline{
+    border: 1px solid rgba(255,255,255,.85);
+    color:#fff;
+  }
+}
+
+/* Ultra-compacto para pantallas muy estrechas */
+@media (max-width:360px){
+  .cc-banner p{ font-size:.9rem }
+  .cc-banner .actions .btn{ padding: 10px 12px }
+}
+
+/* Motion friendly */
+@media (prefers-reduced-motion: reduce){
+  .cc-banner{ transition:none }
+}
 
 /* ==========================
    15) Print
@@ -1039,3 +1096,33 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
     scroll-behavior:auto !important;
   }
 }
+
+/* ========== reCAPTCHA (Netlify) responsive ========== */
+/* Contenedor del widget: céntralo y evita scroll horizontal */
+form [data-netlify-recaptcha]{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:78px;              /* altura del checkbox sin escalar */
+  overflow:hidden;              /* evita desbordes/scroll en móvil */
+}
+
+/* Breakpoints con escalado suave (mantiene clics correctos) */
+@media (max-width:380px){
+  form [data-netlify-recaptcha]{ min-height:67px; }
+  form [data-netlify-recaptcha] .g-recaptcha{
+    transform: scale(.88);
+    transform-origin: 0 0;      /* esquinas estables */
+  }
+}
+
+@media (max-width:340px){
+  form [data-netlify-recaptcha]{ min-height:61px; }
+  form [data-netlify-recaptcha] .g-recaptcha{
+    transform: scale(.80);
+    transform-origin: 0 0;
+  }
+}
+
+/* Fina: ajusta separación con otros campos si lo necesitas */
+form [data-netlify-recaptcha]{ margin-top:.25rem; margin-bottom:.75rem; }
