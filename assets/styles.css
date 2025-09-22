@@ -941,14 +941,54 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 /* Utilidad general */
 .text-center{ text-align:center; }
 
+/* === ESCRITORIO (≥961px) — héroes SIN imagen a la IZQUIERDA (anula .text-center dentro del hero) === */
+@media (min-width:961px){
+  .page-hero.noimg .inner,
+  .page-hero.noimg .container.inner{
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:flex-start !important;   /* izquierda */
+    text-align:left !important;
+    margin-inline:0 !important;          /* por si algo los centra */
+  }
+  .page-hero.noimg h1,
+  .page-hero.noimg .page-lead{
+    margin:0 !important;
+    text-align:left !important;
+  }
+  /* si el HTML trae .text-center, lo anulamos SOLO en el hero sin imagen en escritorio */
+  .page-hero.noimg .inner.text-center,
+  .page-hero.noimg .container.inner.text-center{
+    align-items:flex-start !important;
+    text-align:left !important;
+  }
+}
+
 /* ==========================
-   21) Media query móvil (única)
+   21) Media query móvil (única) — LIMPIA
    ========================== */
 @media (max-width:960px){
-  /* Héroe: apilar y centrar botones */
+  /* Héroe (home): apilar y centrar botones */
   .hero .actions{ display:flex; flex-direction:column; align-items:center; gap:.6rem; }
   .hero .actions .btn{ width:100%; max-width:320px; margin:0 !important; }
   .hero .actions .btn + .btn{ margin-left:0 }
+
+  /* Héroes de PÁGINA SIN imagen (auto, sm, full-bleed): centrar BLOQUE + TEXTO */
+  .page-hero.noimg .inner,
+  .page-hero.noimg .container.inner{
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:flex-end !important;   /* no cambiamos vertical */
+    align-items:center !important;         /* centra el BLOQUE */
+    text-align:center !important;          /* centra el TEXTO */
+    margin-inline:auto !important;         /* centra el propio .container/.inner */
+    padding: calc(var(--header-h) + 12px) 20px 40px;
+    padding-left:  calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+  }
+  .page-hero.noimg h1{ max-width:28ch; margin:0 auto !important; }
+  .page-hero.noimg .page-lead{ max-width:34ch; margin:.35rem auto 0 !important; }
 
   /* Reseñas: 1 col */
   #reviewsByPlatform{ grid-template-columns:1fr }
@@ -958,8 +998,7 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   .inv-grid{ grid-template-columns:1fr }
 
   /* Lightbox */
-  .lb-prev{ left:8px }
-  .lb-next{ right:8px }
+  .lb-prev{ left:8px } .lb-next{ right:8px }
 
   /* Footer */
   .f-map{ height:220px }
@@ -971,45 +1010,19 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   .cta-actions{ width:100%; flex-direction:column; gap:.9rem; margin-top:.4rem; }
   .cta-actions .btn{ width:100%; margin:0 }
 
-  /* Page-Hero sin imagen: centrado REAL en móvil (↑ especificidad y forzado) */
-  .page-hero.auto.noimg.tierra .inner,
-  .page-hero.auto.noimg .container.inner{
-    display:grid !important;
-    place-items:center !important;
-    justify-items:center !important;
-    text-align:center !important;
-    gap:.35rem;
-    padding: calc(var(--header-h) + 12px) 20px 40px;
-    padding-left:  calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
-  }
-  /* Garantiza centrado aunque algún estilo previo fuerce alineación izda */
-  .page-hero.auto.noimg.tierra h1,
-  .page-hero.auto.noimg.tierra .page-lead{
-    margin-left:auto !important;
-    margin-right:auto !important;
-    text-align:center !important;
-  }
-  .page-hero.auto.noimg.tierra h1{ max-width:28ch }
-  .page-hero.auto.noimg.tierra .page-lead{ max-width:34ch }
-
-  /* “Para familias”: centra la card en móvil (evita stretch del grid) */
-  .card.center-narrow{
-    width:auto;
-    max-width:28rem;
+  /* “Para familias”: centrada dentro de la grid cuando pasa a 1 columna */
+  .grid.cols-3 > .card.center-narrow{
+    justify-self:center !important;
+    width:clamp(18rem, 92vw, 28rem) !important;
+    margin-inline:auto !important;
     padding-inline:16px;
-    margin-inline:auto;          /* por si cae fuera de grid en alguna vista */
-  }
-  .grid .card.center-narrow{
-    justify-self:center;         /* ← CLAVE: centra el item dentro del grid */
   }
 }
 
 /* Extra fino móviles muy estrechos */
 @media (max-width:380px){
-  .page-hero.auto.noimg .container.inner{ padding-left:18px; padding-right:18px; }
+  .page-hero.noimg .container.inner{ padding-left:18px; padding-right:18px; }
 }
-
 /* ==========================
    22) Accesibilidad global: Reduce Motion
    ========================== */
@@ -1021,39 +1034,3 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
     scroll-behavior:auto !important;
   }
 }
-
-/* ===== FIX DURO 1: heroes auto/noimg centrados en móvil ===== */
-@media (max-width:960px){
-  /* Forzamos que el contenedor del hero sea flex centrado */
-  .page-hero.auto.noimg .inner,
-  .page-hero.auto.noimg .container.inner{
-    display:flex !important;
-    flex-direction:column !important;
-    align-items:center !important;     /* centra horizontal */
-    justify-content:center !important; /* centra vertical si hay altura */
-    text-align:center !important;
-    padding-left:20px !important;
-    padding-right:20px !important;
-  }
-
-  /* Garantiza que título/lead no “tiren” a la izquierda por márgenes heredados */
-  .page-hero.auto.noimg h1,
-  .page-hero.auto.noimg .page-lead{
-    margin-left:auto !important;
-    margin-right:auto !important;
-  }
-
-  /* Límites de línea cómodos */
-  .page-hero.auto.noimg h1{ max-width:28ch !important; }
-  .page-hero.auto.noimg .page-lead{ max-width:34ch !important; }
-}
-
-/* ===== FIX DURO 2: “Para familias” centrado en la grid móvil ===== */
-@media (max-width:960px){
-  /* Coloca el item en el centro del track y evita stretch */
-  .grid.cols-3 > .center-narrow{
-    place-self:center !important;                 /* = align-self + justify-self */
-    width:min(100%, 28rem) !important;            /* ancho controlado */
-  }
-}
-
