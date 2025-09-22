@@ -187,4 +187,39 @@ $ninos.addEventListener("change", updateCapacity);
 // Inicial
 updateCapacity();
 </script>
+<script>
+/* Mejora: reescala también si cambia el ancho del contenedor, no solo con resize */
+(function(){
+  const wrap = document.querySelector('form [data-netlify-recaptcha]');
+  if(!wrap) return;
+
+  const TARGET_W = 304, TARGET_H = 78;
+
+  function fit(){
+    const widget = wrap.querySelector('.g-recaptcha');
+    if(!widget) return;
+    const w = wrap.getBoundingClientRect().width;
+    const s = Math.min(1, (w - 4) / TARGET_W);
+    widget.style.transform = `scale(${s})`;
+    widget.style.transformOrigin = '0 0';
+    widget.style.width = TARGET_W + 'px';
+    widget.style.margin = '0 auto';
+    wrap.style.height = Math.ceil(TARGET_H * s) + 'px';
+  }
+
+  const obs = new MutationObserver(fit);
+  obs.observe(wrap, { childList:true, subtree:true });
+
+  /* NUEVO: detecta cambios de tamaño del propio wrap (por ejemplo, al rotar o cambiar grid) */
+  if ('ResizeObserver' in window){
+    new ResizeObserver(fit).observe(wrap);
+  }
+
+  window.addEventListener('resize', fit, { passive:true });
+  document.addEventListener('DOMContentLoaded', fit);
+  setTimeout(fit, 600);
+})();
+</script>
+
+
 

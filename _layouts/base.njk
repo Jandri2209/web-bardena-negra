@@ -643,6 +643,15 @@ title: ""
   if (curr){ apply(curr); } else { showBanner(); }
 })();
 </script>
-
+<script>
+(function(){
+  const actions = document.querySelector('#cc-banner .actions');
+  const reject  = document.getElementById('ccb-reject');
+  if(actions && reject){
+    actions.appendChild(reject);            // ahora queda el 3º (abajo)
+    reject.classList.add('cc-reject');      // clase para CSS de enlace
+  }
+})();
+</script>
 </body>
 </html>

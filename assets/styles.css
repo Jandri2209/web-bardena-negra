@@ -596,36 +596,33 @@ footer.site-footer a:hover{ text-decoration:underline }
 .cc-modal .btn.cc-outline:hover{
   background:rgba(163,125,76,.12); text-decoration:none;
 }
-/* ===== Cookie banner: versión compacta para móvil (sin tocar HTML) ===== */
-@media (max-width:960px){
-  .cc-banner{
-    /* respiración para notch / barras del sistema */
+/* ===== Cookie banner móvil (compacto) ===== */
+@media (max-width:640px){
+  #cc-banner{
     padding-bottom: calc(env(safe-area-inset-bottom, 0) + 6px);
   }
-  .cc-banner .inner{
+  #cc-banner .inner{
     padding: 10px 12px;
     gap: .5rem;
   }
-  .cc-banner p{
+  #cc-banner p{
     flex: 1 1 100%;
     margin: 0 0 6px;
     font-size: .95rem;
     line-height: 1.35;
     overflow-wrap: anywhere;
   }
-  /* Dos botones principales en una fila */
-  .cc-banner .actions{
-    width: 100%;
+  /* Dos botones arriba, en grid */
+  #cc-banner .actions{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
-  .cc-banner .actions .btn{ width: 100%; }
+  /* Preferencias + Aceptar ocupan cada uno media fila */
+  #ccb-prefs, #ccb-accept{ width:100% }
 
-  /* Convertir el 3º botón (Rechazar) en enlace discreto a toda anchura
-     — si tu HTML usa .cc-reject, esto lo respeta; si no, toma el 3º botón */
-  .cc-banner .actions .btn.cc-reject,
-  .cc-banner .actions .btn:nth-child(3){
+  /* "Solo técnicas" como enlace, a todo el ancho abajo */
+  #cc-banner .actions .cc-reject{
     grid-column: 1 / -1;
     justify-self: center;
     background: transparent !important;
@@ -636,24 +633,21 @@ footer.site-footer a:hover{ text-decoration:underline }
     font-weight: 500;
   }
 
-  /* Botón outline legible en fondo oscuro (ligero ajuste) */
-  .cc-banner .btn.cc-outline{
+  /* Outline legible en fondo oscuro */
+  #cc-banner .btn.cc-outline{
     border: 1px solid rgba(255,255,255,.85);
     color:#fff;
   }
 }
 
-/* Ultra-compacto para pantallas muy estrechas */
 @media (max-width:360px){
-  .cc-banner p{ font-size:.9rem }
-  .cc-banner .actions .btn{ padding: 10px 12px }
+  #cc-banner p{ font-size:.9rem }
+  #cc-banner .actions .btn{ padding: 10px 12px }
 }
 
-/* Motion friendly */
 @media (prefers-reduced-motion: reduce){
-  .cc-banner{ transition:none }
+  #cc-banner{ transition:none }
 }
-
 /* ==========================
    15) Print
    ========================== */
@@ -1099,12 +1093,14 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 
 /* ========== reCAPTCHA (Netlify) responsive ========== */
 /* Contenedor del widget: céntralo y evita scroll horizontal */
+/* Netlify reCAPTCHA: contenedor responsive */
 form [data-netlify-recaptcha]{
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:78px;              /* altura del checkbox sin escalar */
-  overflow:hidden;              /* evita desbordes/scroll en móvil */
+  min-height:78px;   /* alto del widget antes de escalar */
+  overflow:hidden;   /* evita desbordes en móvil */
+  margin:.25rem 0 .75rem;
 }
 
 /* Breakpoints con escalado suave (mantiene clics correctos) */
