@@ -32,7 +32,7 @@ title: ""
       <nav class="nav-links" id="navMenu" role="navigation" aria-label="Navegación principal">
         <a href="/">Inicio</a>
 
-        <!-- La casa (link + caret que abre submenú) -->
+        <!-- La casa (padre + caret + submenú) -->
         <div class="nav-item has-submenu">
           <a href="/la-casa/" class="nav-link" id="link-casa">La casa</a>
           <button class="sub-toggle"
@@ -43,11 +43,14 @@ title: ""
             <span class="chev" aria-hidden="true">▾</span>
           </button>
           <div class="submenu" id="submenu-casa" role="menu" aria-labelledby="link-casa">
-            <a href="/la-casa/faq/">Preguntas frecuentes</a>
+            <a href="/la-casa/" role="menuitem" class="parent-link only-mobile"><strong>Ver “La casa”</strong></a>
+            <a href="/la-casa/faq/" role="menuitem">Preguntas frecuentes</a>
             <a href="/galeria/" role="menuitem">Galería</a>
             <a href="/equipamiento/" role="menuitem">Equipamiento</a>
           </div>
         </div>
+
+        <!-- Entorno (padre + caret + submenú) -->
         <div class="nav-item has-submenu">
           <a href="/entorno/" class="nav-link" id="link-entorno">Entorno</a>
           <button class="sub-toggle"
@@ -58,11 +61,13 @@ title: ""
             <span class="chev" aria-hidden="true">▾</span>
           </button>
           <div class="submenu" id="submenu-entorno" role="menu" aria-labelledby="link-entorno">
-            <a href="/entorno/bardenas/"  role="menuitem">Bardenas Reales</a>
-            <a href="/entorno/tudela/"    role="menuitem">Tudela</a>
+            <a href="/entorno/" role="menuitem" class="parent-link only-mobile"><strong>Ver “Entorno”</strong></a>
+            <a href="/entorno/bardenas/" role="menuitem">Bardenas Reales</a>
+            <a href="/entorno/tudela/"   role="menuitem">Tudela</a>
             <a href="/entorno/sendaviva/" role="menuitem">Sendaviva</a>
           </div>
         </div>
+
         <a href="/reservas/" class="cta">Reservar</a>
       </nav>
     </div>
@@ -282,107 +287,125 @@ title: ""
   })();
   </script>
   <script>
-    // Submenús: toggle por clic en caret (móvil y accesible) — ya funcionaba con querySelectorAll
-    (function(){
-      const toggles = document.querySelectorAll('.sub-toggle');
+  // Submenús (PRO):
+  // - MÓVIL: toda la fila padre (texto) T O G G L E A, NO navega; el enlace al padre está dentro ("Ver sección").
+  // - ESCRITORIO: sin cambios (hover abre; texto navega).
+  (function(){
+    const mqMobile = window.matchMedia('(max-width: 960px)');
 
-      function closeAll(){
-        document.querySelectorAll('.has-submenu.sub-open').forEach(item=>{
+    // Texto del padre: toggle en móvil (evita navegación accidental)
+    document.querySelectorAll('.nav .has-submenu > a.nav-link').forEach(link=>{
+      link.addEventListener('click', (e)=>{
+        if (!mqMobile.matches) return;
+        e.preventDefault();
+        const item = link.closest('.has-submenu');
+        const btn  = item.querySelector('.sub-toggle');
+
+        // Cierra otros abiertos
+        document.querySelectorAll('.has-submenu.sub-open').forEach(i=>{
+          if (i !== item){
+            i.classList.remove('sub-open');
+            const b = i.querySelector('.sub-toggle');
+            b && b.setAttribute('aria-expanded','false');
+          }
+        });
+
+        const open = item.classList.toggle('sub-open');
+        btn && btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }, { capture:true });
+    });
+
+    // Caret: toggle en móvil + autocierra otros
+    document.querySelectorAll('.sub-toggle').forEach(btn=>{
+      const item = btn.closest('.has-submenu');
+      btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        if (!mqMobile.matches) return;
+        document.querySelectorAll('.has-submenu.sub-open').forEach(i=>{
+          if (i !== item){
+            i.classList.remove('sub-open');
+            const b = i.querySelector('.sub-toggle');
+            b && b.setAttribute('aria-expanded','false');
+          }
+        });
+        const open = item.classList.toggle('sub-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      // Accesibilidad: Escape cierra
+      item.addEventListener('keyup', (e)=>{
+        if(e.key === 'Escape'){
+          item.classList.remove('sub-open');
+          btn.setAttribute('aria-expanded','false');
+          btn.blur();
+        }
+      });
+    });
+
+    // Click fuera: cierra todos
+    document.addEventListener('click', (e)=>{
+      document.querySelectorAll('.has-submenu.sub-open').forEach(item=>{
+        if(!item.contains(e.target)){
           item.classList.remove('sub-open');
           const btn = item.querySelector('.sub-toggle');
           btn && btn.setAttribute('aria-expanded','false');
-        });
-      }
-
-      toggles.forEach(btn=>{
-        const item = btn.closest('.has-submenu');
-        btn.addEventListener('click', (e)=>{
-          e.preventDefault();
-          const open = item.classList.toggle('sub-open');
-          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-        });
-        item.addEventListener('keyup', (e)=>{
-          if(e.key === 'Escape'){ item.classList.remove('sub-open'); btn.setAttribute('aria-expanded','false'); btn.blur(); }
-        });
+        }
       });
-
-      // Cierra TODOS si haces click fuera
-      document.addEventListener('click', (e)=>{
-        document.querySelectorAll('.has-submenu.sub-open').forEach(item=>{
-          if(!item.contains(e.target)){
-            item.classList.remove('sub-open');
-            const btn = item.querySelector('.sub-toggle');
-            btn && btn.setAttribute('aria-expanded','false');
-          }
-        });
-      });
-    })();
-
-    // Hover suave en ESCRITORIO para TODOS los submenús
-    (function(){
-      const items = document.querySelectorAll('.has-submenu');
-      const mqDesktop = window.matchMedia('(min-width: 961px)');
-      const timers = new WeakMap();
-
-      function bind(){
-        items.forEach(item=>{
-          item.addEventListener('mouseenter', ()=>{
-            const t = timers.get(item); if(t) clearTimeout(t);
-            item.classList.add('sub-open');
-          });
-          item.addEventListener('mouseleave', ()=>{
-            const t = setTimeout(()=> item.classList.remove('sub-open'), 180);
-            timers.set(item, t);
-          });
-        });
-      }
-
-      function closeAll(){
-        items.forEach(i=>{
-          i.classList.remove('sub-open');
-          const btn = i.querySelector('.sub-toggle');
-          btn && btn.setAttribute('aria-expanded','false');
-        });
-      }
-
-      if(mqDesktop.matches) bind();
-      mqDesktop.addEventListener?.('change', e=>{
-        closeAll();
-        // (los listeners ya están; no hace falta rebind)
-      });
-    })();
+    });
+  })();
   </script>
   <script>
-    (function(){
-      const item = document.querySelector('.has-submenu');
-      if(!item) return;
+  /* Activo & rama actual + auto-open en móvil */
+  (function(){
+    function norm(u){
+      try{
+        const a = document.createElement('a');
+        a.href = u;
+        let p = a.pathname || "/";
+        p = p.replace(/\/index\.html?$/i, "");
+        if (!p.endsWith("/")) p += "/";
+        return p;
+      }catch(e){ return "/"; }
+    }
+    const curr = norm(location.pathname);
 
-      const mqDesktop = window.matchMedia('(min-width: 961px)');
-      let leaveTimer = null;
+    // Marca activo exacto + rama
+    document.querySelectorAll('.nav a[href]').forEach(a=>{
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('http')) return;
+      const linkPath = norm(href);
 
-      function open(){ item.classList.add('sub-open'); }
-      function close(){ item.classList.remove('sub-open'); }
-
-      // Sólo aplicamos la lógica de retardo en escritorio
-      function bindDesktopHover(){
-        item.addEventListener('mouseenter', () => {
-          clearTimeout(leaveTimer);
-          open();
-        });
-        item.addEventListener('mouseleave', () => {
-          clearTimeout(leaveTimer);
-          leaveTimer = setTimeout(close, 180);  // <-- ajusta el retardo aquí (ms)
-        });
+      if (curr === linkPath){
+        a.classList.add('is-active');
+        a.setAttribute('aria-current','page');
+        const branch = a.closest('.has-submenu');
+        if (branch) branch.classList.add('is-current-branch');
       }
+      const isTop = a.classList.contains('nav-link') && a.closest('.has-submenu');
+      if (isTop && curr.startsWith(linkPath)){
+        const branch = a.closest('.has-submenu');
+        branch && branch.classList.add('is-current-branch');
+      }
+    });
 
-      if (mqDesktop.matches) bindDesktopHover();
-      mqDesktop.addEventListener?.('change', e => {
-        // Resetea al cambiar de breakpoint
-        clearTimeout(leaveTimer);
-        close();
-        if (e.matches) bindDesktopHover();
-      });
-    })();
+    // Auto-abrir rama actual al abrir menú (solo móvil)
+    const mqMobile = window.matchMedia('(max-width: 960px)');
+    function openCurrentBranchIfMobile(){
+      if (!mqMobile.matches) return;
+      const branch = document.querySelector('.has-submenu.is-current-branch');
+      if (!branch) return;
+      branch.classList.add('sub-open');
+      const btn = branch.querySelector('.sub-toggle');
+      btn && btn.setAttribute('aria-expanded','true');
+    }
+    // al cargar
+    openCurrentBranchIfMobile();
+    // y al pulsar hamburguesa
+    const navToggle = document.getElementById('navToggle');
+    navToggle && navToggle.addEventListener('click', () => {
+      setTimeout(openCurrentBranchIfMobile, 0);
+    });
+  })();
   </script>
   <script src="/assets/lucide.min.js" defer></script>
   <script>

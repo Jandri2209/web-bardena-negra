@@ -272,16 +272,52 @@ header.site-header:focus-within{
   }
 }
 
-/* Móvil: submenú por toggle */
-@media (max-width:960px){
-  .sub-toggle{ color:#fff }
-  .submenu{
-    position:static; min-width:0; margin-top:.25rem;
-    background:rgba(255,255,255,.04); border:0; border-top:1px solid rgba(255,255,255,.08);
-    box-shadow:none; transform:none; opacity:1; visibility:visible; pointer-events:auto; display:none; padding:.25rem .5rem;
-  }
-  .has-submenu.sub-open .submenu{ display:flex }
+/* === Fila partida + caret 48px (solo móvil) === */
+.nav .has-submenu { position: relative; }
+
+@media (max-width: 960px){
+  .nav .has-submenu > .nav-link{ padding-right: 56px; } /* hueco para caret */
+  .nav .submenu a{ padding: .6rem 0; }
 }
+
+/* Caret grande y accesible */
+.nav .sub-toggle{
+  position: absolute; right: 0; top: 0;
+  width: 48px; height: 48px;
+  display: flex; align-items: center; justify-content: center;
+  border: 0; background: transparent; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav .sub-toggle .chev{ font-size: 18px; line-height: 1; }
+.nav .sub-toggle:focus-visible,
+.nav .sub-toggle:hover{
+  outline: 2px solid var(--brand, #a37d4c);
+  outline-offset: 2px; border-radius: 6px;
+}
+.has-submenu.sub-open .sub-toggle .chev{ transform: rotate(180deg); transition: transform .2s ease; }
+
+/* "Ver sección" SOLO móvil */
+.only-mobile{ display: none; }
+@media (max-width: 960px){ .only-mobile{ display: block; } }
+
+/* Rama/ítem activos (estilo recomendado) */
+.has-submenu.is-current-branch > .nav-link{
+  color: var(--brand, #a37d4c); font-weight: 600;
+}
+.nav .submenu a.is-active{
+  font-weight: 600; position: relative;
+}
+.nav .submenu a.is-active::before{
+  content: ""; position: absolute; left: -0.75rem; top: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--brand, #a37d4c); transform: translateY(-50%);
+}
+@media (min-width: 961px){
+  .has-submenu.is-current-branch > .nav-link{
+    text-decoration: underline 0.1em; text-underline-offset: .2em;
+  }
+}
+
 
 /* ==========================
    7) Hero (home) y slider
@@ -1096,7 +1132,7 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 /* Este código es para ajustar el reCAPTCHA en pantallas pequeñas */
 @media (max-width: 960px) {
   .g-recaptcha {
-    transform: scale(0.77);
+    transform: scale(0.87);
     transform-origin: 0 0;
   }
 }
