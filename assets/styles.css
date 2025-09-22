@@ -1162,7 +1162,9 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   }
 }
 
-/* ========== reCAPTCHA (Netlify) responsive ========== */
+/* ==========================
+   24) reCAPTCHA (Netlify) responsive
+   ========================== */
 /* Contenedor del widget: céntralo y evita scroll horizontal */
 /* Este código es para ajustar el reCAPTCHA en pantallas pequeñas */
 @media (max-width: 960px) {
@@ -1170,4 +1172,63 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
     transform: scale(0.87);
     transform-origin: 0 0;
   }
+}
+/* ==========================
+   24) Features (La Casa)
+   ========================== */
+
+/* Lista con rejilla responsive */
+.features{
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:.75rem;
+  /* Mobile-first: 2 columnas en ancho normal, 1 col en móviles muy estrechos */
+  grid-template-columns:repeat(2, minmax(0,1fr));
+}
+
+/* Teléfonos muy estrechos (≤380px aprox.): 1 columna para que nada se corte */
+@media (max-width:380px){
+  .features{ grid-template-columns:1fr; }
+}
+
+/* Desktop (≥961px): 3 columnas cómodas */
+@media (min-width:961px){
+  .features{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+}
+
+/* Tarjeta de cada feature */
+.feature{
+  /* grid interior: icono + texto */
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr); /* ← clave: minmax(0,1fr) evita desbordes */
+  align-items:center; gap:.65rem;
+  padding:.9rem; border-radius:16px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow:0 1px 4px rgba(0,0,0,.04);
+  min-width:0; /* ← permite que el contenido pueda encoger y envolver */
+  font-size:.96rem; line-height:1.35;
+  overflow-wrap:anywhere; /* por si aparecen palabras/líneas muy largas */
+  -webkit-hyphens:auto; hyphens:auto; /* ayuda a cortar en español si el navegador lo soporta */
+}
+
+/* Icono redondo tipo “medalla” */
+.icon-24{
+  inline-size:36px; block-size:36px;
+  display:inline-grid; place-items:center;
+  border-radius:999px;
+  background:#efe7db;         /* dorado claro (ajústalo si usas variables) */
+  color:#9b7b4a;               /* dorado más oscuro para el trazo */
+  flex-shrink:0;
+}
+
+/* SVGs coherentes */
+.icon-24 svg{
+  inline-size:20px; block-size:20px;
+  stroke:currentColor; fill:none; stroke-width:2;
+}
+
+/* Un poco más de aire en pantallas grandes */
+@media (min-width:961px){
+  .feature{ grid-template-columns:48px minmax(0,1fr); padding:1rem; }
+  .icon-24{ inline-size:40px; block-size:40px; }
 }
