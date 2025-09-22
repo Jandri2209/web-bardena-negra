@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
   publish = "_site"
+  edge_functions = "netlify/edge-functions"   # <-- mueve aquí el directorio
 
 [build.environment]
   NODE_VERSION = "18"
@@ -8,11 +9,9 @@
 
 # ==== Functions (Node) ====
 [functions]
-  # Opcional pero aconsejable: fija el directorio estándar
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# Overrides por función (nombre = archivo dentro de netlify/functions)
 [functions."submission-created"]
   external_node_modules = ["nodemailer"]
 
@@ -33,9 +32,6 @@
   status = 301
 
 # ==== Edge Functions ====
-[edge_functions]
-  directory = "netlify/edge-functions"
-
 [[edge_functions]]
   path = "/*"
   function = "i18n"
