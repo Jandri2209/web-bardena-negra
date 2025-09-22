@@ -188,29 +188,42 @@ $ninos.addEventListener("change", updateCapacity);
 updateCapacity();
 </script>
 <script>
-/* Mejora: reescala también si cambia el ancho del contenedor, no solo con resize */
+/* reCAPTCHA Netlify: que SIEMPRE quepa y además sea más pequeño en móvil */
 (function(){
   const wrap = document.querySelector('form [data-netlify-recaptcha]');
   if(!wrap) return;
 
-  const TARGET_W = 304, TARGET_H = 78;
+  const BASE_W = 304, BASE_H = 78;
+
+  function scaleForWidth(w){
+    // Escala base para que no sobresalga
+    let s = Math.min(1, (w - 8) / BASE_W); // 4px por lado
+    // Forzar "más pequeño" en móvil aunque quepa
+    if (window.matchMedia('(max-width:480px)').matches) s = Math.min(s, 0.88);
+    if (window.matchMedia('(max-width:360px)').matches) s = Math.min(s, 0.80);
+    return Math.max(0.60, s); // no bajes de 60% por legibilidad
+  }
 
   function fit(){
     const widget = wrap.querySelector('.g-recaptcha');
     if(!widget) return;
-    const w = wrap.getBoundingClientRect().width;
-    const s = Math.min(1, (w - 4) / TARGET_W);
-    widget.style.transform = `scale(${s})`;
+
+    const w = wrap.getBoundingClientRect().width || window.innerWidth;
+    const s = scaleForWidth(w);
+
+    // Aplica escala y fija la altura efectiva del contenedor
+    widget.style.transform = 'scale(' + s + ')';
     widget.style.transformOrigin = '0 0';
-    widget.style.width = TARGET_W + 'px';
-    widget.style.margin = '0 auto';
-    wrap.style.height = Math.ceil(TARGET_H * s) + 'px';
+    widget.style.width = BASE_W + 'px';   // ancho "real" sin escalar
+    widget.style.height = BASE_H + 'px';  // ayuda a Safari
+    wrap.style.height = Math.ceil(BASE_H * s) + 'px';
   }
 
-  const obs = new MutationObserver(fit);
-  obs.observe(wrap, { childList:true, subtree:true });
+  // Observa inserción del widget
+  const mo = new MutationObserver(fit);
+  mo.observe(wrap, { childList:true, subtree:true });
 
-  /* NUEVO: detecta cambios de tamaño del propio wrap (por ejemplo, al rotar o cambiar grid) */
+  // Reajusta si cambia el tamaño del contenedor (rotación, grid, etc.)
   if ('ResizeObserver' in window){
     new ResizeObserver(fit).observe(wrap);
   }

@@ -1093,14 +1093,18 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 
 /* ========== reCAPTCHA (Netlify) responsive ========== */
 /* Contenedor del widget: céntralo y evita scroll horizontal */
-/* Netlify reCAPTCHA: contenedor responsive */
 form [data-netlify-recaptcha]{
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:78px;   /* alto del widget antes de escalar */
-  overflow:hidden;   /* evita desbordes en móvil */
-  margin:.25rem 0 .75rem;
+  overflow:hidden;
+  line-height:0;           /* evita altura extra en iOS */
+  margin:.25rem 0 .5rem;
+  min-height:0;            /* dejaremos que JS fije la altura exacta */
+}
+
+@media (max-width:480px){
+  form [data-netlify-recaptcha]{ margin:.15rem 0 .4rem; }
 }
 
 /* Breakpoints con escalado suave (mantiene clics correctos) */
