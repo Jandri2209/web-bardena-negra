@@ -1093,36 +1093,10 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 
 /* ========== reCAPTCHA (Netlify) responsive ========== */
 /* Contenedor del widget: céntralo y evita scroll horizontal */
-form [data-netlify-recaptcha]{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  line-height:0;           /* evita altura extra en iOS */
-  margin:.25rem 0 .5rem;
-  min-height:0;            /* dejaremos que JS fije la altura exacta */
-}
-
-@media (max-width:480px){
-  form [data-netlify-recaptcha]{ margin:.15rem 0 .4rem; }
-}
-
-/* Breakpoints con escalado suave (mantiene clics correctos) */
-@media (max-width:380px){
-  form [data-netlify-recaptcha]{ min-height:67px; }
-  form [data-netlify-recaptcha] .g-recaptcha{
-    transform: scale(.88);
-    transform-origin: 0 0;      /* esquinas estables */
-  }
-}
-
-@media (max-width:340px){
-  form [data-netlify-recaptcha]{ min-height:61px; }
-  form [data-netlify-recaptcha] .g-recaptcha{
-    transform: scale(.80);
+/* Este código es para ajustar el reCAPTCHA en pantallas pequeñas */
+@media (max-width: 960px) {
+  .g-recaptcha {
+    transform: scale(0.77);
     transform-origin: 0 0;
   }
 }
-
-/* Fina: ajusta separación con otros campos si lo necesitas */
-form [data-netlify-recaptcha]{ margin-top:.25rem; margin-bottom:.75rem; }
