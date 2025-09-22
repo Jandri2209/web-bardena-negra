@@ -82,59 +82,97 @@ function patchSeo(html, lang, url) {
   }
   return out;
 }
+function tidyTypography(lang, html){
+  // 2.1) Capitaliza el primer carácter de títulos, listas y párrafos si quedó en minúscula
+  html = html.replace(/(<(?:h1|h2|h3|h4|li|p)[^>]*>\s*)([a-z])/g,
+    (_, open, first) => open + first.toUpperCase()
+  );
+
+  // 2.2) Afinado francés: espacio duro antes de ; : ? ! » y después de «
+  if (lang === 'fr'){
+    html = html
+      .replace(/\s+([;:?!»])/g, '\u00A0$1')   // NBSP antes de ;:?!»
+      .replace(/«\s+/g, '«\u00A0');           // NBSP después de «
+  }
+  return html;
+}
 
 // -------------------- DeepL --------------------
+// -------------------- DeepL con chunking --------------------
 async function translateHtml(html, lang, url) {
   if (!TRANSLATE_ENABLED || !DEEPL_KEY) {
     console.warn("[i18n] DeepL desactivado o DEEPL_KEY ausente");
     return { ok: false, text: patchSeo(html, lang, url), dbg: "NO_KEY_OR_OFF" };
   }
 
-  // Límite de seguridad (DeepL permite ~128k chars por request).
-  // Si la página fuera enorme, parte en 90k/90k, etc. Aquí mantengo simple (1 trozo).
-  const MAX = 120000;
-  const bodyText = html.length > MAX ? html.slice(0, MAX) : html;
+  const target = lang.toUpperCase(); // 'EN' | 'FR'
+  const MAX_CHUNK = 80000;           // margen seguro < 128k de DeepL
+  const SEP = "</section>";          // punto de corte “natural” en muchas páginas
 
-  try {
+  // 1) Trocear intentando cortar por </section> (si no, por tamaño bruto)
+  const chunks = [];
+  let rest = html;
+  while (rest.length > MAX_CHUNK) {
+    const cut = rest.lastIndexOf(SEP, MAX_CHUNK);
+    const idx = cut > 0 ? cut + SEP.length : MAX_CHUNK;
+    chunks.push(rest.slice(0, idx));
+    rest = rest.slice(idx);
+  }
+  chunks.push(rest);
+
+  const translatedParts = [];
+  let allOk = true;
+
+  // 2) Traducir cada trozo
+  for (let i = 0; i < chunks.length; i++) {
+    const piece = chunks[i];
+
     const params = new URLSearchParams({
       auth_key: DEEPL_KEY,
-      text: bodyText,
-      target_lang: lang.toUpperCase(), // EN | FR
-      source_lang: "ES",               // ayuda al motor
+      text: piece,
+      target_lang: target,
+      source_lang: "ES",
       tag_handling: "html",
-      ignore_tags: "script,style,noscript",
+      // Ignorar bloques donde no queremos que toque nada
+      ignore_tags: "script,style,noscript,code,pre,svg,notranslate",
       split_sentences: "nonewlines",
       preserve_formatting: "1",
     });
 
-    const resp = await fetch(DEEPL_ENDPOINT, {
-      method: "POST",
-      headers: { "content-type": "application/x-www-form-urlencoded" },
-      body: params,
-    });
+    try {
+      const resp = await fetch(DEEPL_ENDPOINT, {
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: params,
+      });
 
-    if (!resp.ok) {
-      const why = await resp.text().catch(() => "");
-      console.error("[i18n] DeepL ERROR", resp.status, why.slice(0, 200));
-      return {
-        ok: false,
-        text: patchSeo(html, lang, url),
-        dbg: `DEEPL_${resp.status}`,
-      };
+      if (!resp.ok) {
+        const why = await resp.text().catch(() => "");
+        console.error("[i18n] DeepL ERROR", resp.status, why.slice(0, 200));
+        translatedParts.push(piece); // fallback: trozo sin traducir
+        allOk = false;
+        continue;
+      }
+
+      const data = await resp.json();
+      const translated = data?.translations?.[0]?.text;
+      if (!translated) {
+        console.error("[i18n] DeepL EMPTY on chunk", i);
+        translatedParts.push(piece);
+        allOk = false;
+        continue;
+      }
+
+      translatedParts.push(translated);
+    } catch (e) {
+      console.error("[i18n] DeepL EXC on chunk", i, e && e.message);
+      translatedParts.push(piece);
+      allOk = false;
     }
-
-    const data = await resp.json();
-    const translated = data?.translations?.[0]?.text;
-    if (!translated) {
-      console.error("[i18n] DeepL sin 'translations[0].text'");
-      return { ok: false, text: patchSeo(html, lang, url), dbg: "DEEPL_EMPTY" };
-    }
-
-    return { ok: true, text: patchSeo(translated, lang, url), dbg: "OK" };
-  } catch (e) {
-    console.error("[i18n] DeepL fetch exception:", e && e.message);
-    return { ok: false, text: patchSeo(html, lang, url), dbg: "EXC" };
   }
+
+  const out = translatedParts.join("");
+  return { ok: allOk, text: patchSeo(out, lang, url), dbg: allOk ? "OK" : "PARTIAL" };
 }
 
 // -------------------- handler --------------------
@@ -221,7 +259,12 @@ export default async (request, context) => {
 
   // traducir
   const html = await originRes.text();
-  const { ok, text, dbg } = await translateHtml(html, prefix, url);
+
+  // 1) traducimos
+  const { ok, text: translatedRaw, dbg } = await translateHtml(html, prefix, url);
+
+  // 2) afinado tipográfico (mayúscula inicial, espacios FR, etc.)
+  const text = tidyTypography(prefix, translatedRaw);
 
   const headers = new Headers(originRes.headers);
   headers.set("content-type", "text/html; charset=utf-8");
