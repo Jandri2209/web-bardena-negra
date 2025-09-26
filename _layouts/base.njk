@@ -735,9 +735,9 @@ title: ""
   const es = document.getElementById('lang-es');
   const en = document.getElementById('lang-en');
   const fr = document.getElementById('lang-fr');
-  if (es) es.href = basePath;          // /lo-que-sea/
-  if (en) en.href = '/en' + basePath;  // /en/lo-que-sea/
-  if (fr) fr.href = '/fr' + basePath;  // /fr/lo-que-sea/
+  if (es) es.href = basePath + (basePath.includes('?') ? '&' : '?') + 'lang=es';
+  if (en) en.href = '/en' + basePath + (basePath.includes('?') ? '&' : '?') + 'lang=en';
+  if (fr) fr.href = '/fr' + basePath + (basePath.includes('?') ? '&' : '?') + 'lang=fr';
 
   // Muestra bandera/código actuales en el botón
   const map = {

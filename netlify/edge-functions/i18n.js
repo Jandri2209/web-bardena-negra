@@ -234,16 +234,25 @@ export default async (request, context) => {
   const cookies = parseCookies(request.headers.get("cookie") || "");
   const wantsHtml = isHtmlRequest(request, path);
 
-  // 1) Selector manual ?lang=en|fr|es → redirección limpia
+  // 1) Selector manual ?lang=en|fr|es → set-cookie + redirect limpio
   const qlang = url.searchParams.get("lang");
-  if (!hasPrefix && wantsHtml && qlang && /^(en|fr|es)$/i.test(qlang)) {
+  if (wantsHtml && qlang && /^(en|fr|es)$/i.test(qlang)) {
     const forced = qlang.toLowerCase();
-    const dest =
+
+    // Construye destino (con o sin prefijo)
+    const targetPath =
       forced === "en" || forced === "fr"
-        ? `${url.origin}/${forced}${path === "/" ? "/" : path}${url.search}`
-        : `${url.origin}${path === "/" ? "/" : path}${url.search}`;
-    return Response.redirect(stripLangParam(new URL(dest)), 302);
-  }
+        ? `/${forced}${path === "/" ? "/" : path}`
+        : (path === "/" ? "/" : path);
+
+    const destUrl = stripLangParam(new URL(url.origin + targetPath + url.search));
+
+    // ESCRIBE cookie lang (para ES ponemos 'es' → desactiva la pegajosidad)
+    const headers = new Headers({ Location: destUrl.toString() });
+    headers.append("set-cookie", cookie("lang", forced, ONE_YEAR));
+
+    return new Response(null, { status: 302, headers });
+}
 
   // 2) Autodetección siempre (también con FORCE_OFF)
   if (!hasPrefix && wantsHtml && !cookies.lang) {
