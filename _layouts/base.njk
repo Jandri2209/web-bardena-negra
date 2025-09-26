@@ -31,7 +31,8 @@ title: ""
   {% include "ld-webpage.njk" %}
   {% include "ld-breadcrumbs.njk" %}
   {% if page.url == "/" %}{% include "ld-lodgingbusiness.njk" %}{% endif %}
-  <link rel="stylesheet" href="/assets/styles.css"/>
+  <link rel="stylesheet" href="{{ '/assets/styles.css' | v(build) }}">
+  <script src="{{ '/assets/lucide.min.js' | v(build) }}" defer></script>
   <meta name="theme-color" content="{{ site.brandColor or '#a37d4c' }}">
 </head>
 <body>
@@ -451,7 +452,6 @@ title: ""
     }, {capture:true});
   })();
   </script>
-  <script src="/assets/lucide.min.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.lucide) lucide.createIcons();

@@ -9,6 +9,13 @@ module.exports = function(eleventyConfig) {
     sitemap: { hostname: site.url }
   });
 
+  eleventyConfig.addGlobalData("build", Date.now()); // marca de compilación
+
+  eleventyConfig.addFilter("v", (url, build) => {
+    const sep = url.includes("?") ? "&" : "?";
+    return `${url}${sep}v=${build}`;
+  });
+
   eleventyConfig.addFilter("date", (value, locale = "es-ES", options = {}) => {
     if (!value) return "";
     const d = value instanceof Date ? value : new Date(value);

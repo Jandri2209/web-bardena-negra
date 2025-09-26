@@ -68,8 +68,8 @@ function stripLangParam(u) {
   return n;
 }
 
-// setLangTag = true → también cambia <html lang="...">
-// setLangTag = false → solo inyecta hreflang + canonical (deja lang original)
+// setLangTag = true → cambia <html lang="...">
+// setLangTag = false → solo hreflang + canonical (deja lang original)
 function patchSeo(html, lang, url, setLangTag = true) {
   const rest = url.pathname.split("/").slice(2).join("/"); // quita /en|/fr
   const basePath = "/" + rest;
@@ -118,7 +118,7 @@ function tidyTypography(lang, html) {
 async function translateHtml(html, lang, url) {
   if (FORCE_OFF || !TRANSLATE_ENABLED || !DEEPL_KEY) {
     console.warn("[i18n] DeepL desactivado (FORCE_OFF) o clave ausente");
-    // No marcamos lang="en|fr" si no se traduce: dejamos el lang original (es)
+    // sin traducción: no tocamos <html lang>, solo hreflang/canonical
     return {
       ok: false,
       text: patchSeo(html, lang, url, false),
@@ -189,7 +189,7 @@ async function translateHtml(html, lang, url) {
   }
 
   const out = translatedParts.join("");
-  // aquí sí seteamos lang="en|fr"
+  // traducido: sí cambiamos <html lang="en|fr">
   return { ok: allOk, text: patchSeo(out, lang, url, true), dbg: allOk ? "OK" : "PARTIAL" };
 }
 
@@ -245,7 +245,7 @@ export default async (request, context) => {
     return Response.redirect(stripLangParam(new URL(dest)), 302);
   }
 
-  // 2) Autodetección si no hay cookie/lang
+  // 2) Autodetección siempre (también con FORCE_OFF)
   if (!hasPrefix && wantsHtml && !cookies.lang) {
     const pick = bestMatch(request.headers.get("accept-language") || "", SUPPORTED);
     if (pick === "en")
@@ -254,9 +254,9 @@ export default async (request, context) => {
       return Response.redirect(stripLangParam(new URL(url.origin + "/fr" + path + url.search)), 302);
   }
 
-  // 3) Persistencia cookie: si ya tiene lang=en|fr y entra sin prefijo → redirige
+  // 3) Persistencia cookie: desactivada si FORCE_OFF
   const wanted = cookies.lang;
-  if (!hasPrefix && wantsHtml && (wanted === "en" || wanted === "fr")) {
+  if (!FORCE_OFF && !hasPrefix && wantsHtml && (wanted === "en" || wanted === "fr")) {
     const dest = `${url.origin}/${wanted}${path === "/" ? "/" : path}${url.search}`;
     return Response.redirect(stripLangParam(new URL(dest)), 302);
   }
@@ -286,7 +286,7 @@ export default async (request, context) => {
   // En ES, devolvemos tal cual
   if (!hasPrefix) return originRes;
 
-  // 5) Traducimos (o parcheamos SEO si está OFF)
+  // 5) Traducimos (o solo parcheamos SEO si está OFF/NO_KEY)
   const html = await originRes.text();
   const { ok, text: translatedRaw, dbg } = await translateHtml(html, prefix, url);
   const text = tidyTypography(prefix, translatedRaw);
@@ -307,8 +307,10 @@ export default async (request, context) => {
     headers.set("Netlify-CDN-Cache-Control", `public, max-age=${DEFAULT_TTL}`);
   }
 
-  // Cookie lang persistente
-  headers.append("set-cookie", cookie("lang", prefix, ONE_YEAR));
+  // Cookie lang: solo cuando NO está FORCE_OFF
+  if (!FORCE_OFF && hasPrefix) {
+    headers.append("set-cookie", cookie("lang", prefix, ONE_YEAR));
+  }
 
   return new Response(text, { status, headers });
 };
