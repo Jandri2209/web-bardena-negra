@@ -55,6 +55,12 @@
 # ============================
 # Redirects bonitos / canonicals
 # ============================
+# --- NO tocar /reports/*.html (informes Lighthouse) ---
+[[redirects]]
+  from = "/reports/:file.html"
+  to   = "/reports/:file.html"
+  status = 200
+  force = true
 
 # Cualquier raíz: /algo.html → /algo/
 [[redirects]]

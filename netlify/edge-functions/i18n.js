@@ -6,16 +6,18 @@ const ONE_YEAR = 365 * 24 * 60 * 60;
 const TRANSLATE_ENABLED = true;
 const DEFAULT_TTL = parseInt(Deno.env.get("I18N_CACHE_TTL") || "86400", 10);
 
-// Pruebas sin caché (p.ej. I18N_NOCACHE=1)
 const NOCACHE = Deno.env.get("I18N_NOCACHE") === "1";
 
-// Credenciales / endpoint DeepL
+// DeepL
 const DEEPL_KEY = Deno.env.get("DEEPL_KEY") || ""; // ← pon esta env var en Netlify
 const DEEPL_ENDPOINT =
   Deno.env.get("DEEPL_ENDPOINT") || "https://api-free.deepl.com/v2/translate";
 
 // Marcador anti-recursión
 const INTERNAL_QS = "_i18n";
+
+// Bots/auditorías (no queremos redirecciones ni traducciones para ellos)
+const BOT_UA_RX = /(lighthouse|chrome-lighthouse|headless|googlebot|pagespeed|netlifybot)/i;
 
 // -------------------- utils --------------------
 function isHtmlRequest(req, path) {
@@ -66,6 +68,7 @@ function stripLangParam(u) {
   const n = new URL(u.toString());
   n.searchParams.delete("lang");
   n.searchParams.delete(INTERNAL_QS);
+  n.searchParams.delete("_nolang"); // limpia bypass manual
   return n;
 }
 
@@ -93,7 +96,6 @@ function patchSeo(html, lang, url) {
     );
   }
 
-  // (Opcional) si no hay canonical, autorreferencial a la URL traducida:
   const selfHref = url.origin + url.pathname + url.search;
   if (!/rel=["']canonical["']/i.test(out)) {
     out = out.replace(
@@ -108,13 +110,10 @@ function patchSeo(html, lang, url) {
 }
 
 function tidyTypography(lang, html) {
-  // Mayúscula inicial en títulos/listas/párrafos
   html = html.replace(
     /(<(?:h[1-4]|li|p)[^>]*>\s*)([a-z])/g,
     (_, open, first) => open + first.toUpperCase()
   );
-
-  // Afinado francés: espacio duro antes de ; : ? ! » y después de «
   if (lang === "fr") {
     html = html
       .replace(/\s+([;:?!»])/g, "\u00A0$1")
@@ -131,10 +130,9 @@ async function translateHtml(html, lang, url) {
   }
 
   const target = lang.toUpperCase(); // 'EN' | 'FR'
-  const MAX_CHUNK = 80000; // margen seguro < 128k de DeepL
+  const MAX_CHUNK = 80000;
   const SEP = "</section>";
 
-  // Troceo intentando cortar por </section>
   const chunks = [];
   let rest = html;
   while (rest.length > MAX_CHUNK) {
@@ -156,7 +154,6 @@ async function translateHtml(html, lang, url) {
       target_lang: target,
       source_lang: "ES",
       tag_handling: "html",
-      // Ignora bloques donde no queremos tocar nada
       ignore_tags: "script,style,noscript,code,pre,svg,notranslate",
       split_sentences: "nonewlines",
       preserve_formatting: "1",
@@ -172,7 +169,7 @@ async function translateHtml(html, lang, url) {
       if (!resp.ok) {
         const why = await resp.text().catch(() => "");
         console.error("[i18n] DeepL ERROR", resp.status, why.slice(0, 200));
-        translatedParts.push(piece); // fallback: trozo sin traducir
+        translatedParts.push(piece);
         allOk = false;
         continue;
       }
@@ -203,20 +200,38 @@ export default async (request, context) => {
   const url = new URL(request.url);
   const path = url.pathname;
   const accept = request.headers.get("accept") || "";
+  const ua = request.headers.get("user-agent") || "";
 
-  // 0) Salidas rápidas: solo HTML y no estáticos
+  // Solo HTML y no estáticos
   if (!accept.includes("text/html")) return context.next();
   if (
-    /\.(css|js|mjs|map|png|jpe?g|webp|avif|svg|ico|gif|json|xml|txt|pdf|woff2?|ttf)$/i.test(
-      path
-    ) ||
+    /\.(css|js|mjs|map|png|jpe?g|webp|avif|svg|ico|gif|json|xml|txt|pdf|woff2?|ttf)$/i.test(path) ||
     /^\/(assets|images|reports|admin|\.netlify)\//.test(path)
   ) {
     return context.next();
   }
 
-  // Evitar recursión
+  // Bypass manual y anti-recursión
+  if (url.searchParams.has("_nolang")) return context.next();
   if (url.searchParams.has(INTERNAL_QS)) return context.next();
+
+  // ======== BYPASS PARA BOTS/AUDITORÍAS (siempre ES SIN REDIRECCIÓN) ========
+  if (BOT_UA_RX.test(ua)) {
+    if (/^\/(en|fr)(\/|$)/.test(path)) {
+      const rest = path.split("/").slice(2).join("/");
+      let basePath = normalizeBasePath(`/${rest}`);
+      if (!/\.[a-z0-9]+$/i.test(basePath) && !basePath.endsWith("/")) basePath += "/";
+      const originUrl = new URL(request.url);
+      originUrl.pathname = basePath;
+      originUrl.searchParams.delete("lang");
+      originUrl.searchParams.delete(INTERNAL_QS);
+      originUrl.searchParams.delete("_nolang");
+      // Servimos ES sin tocar headers/cookies
+      return fetch(new Request(originUrl.toString(), request));
+    }
+    // Si ya es ES, seguimos normal (sin redirigir ni traducir)
+    return context.next();
+  }
 
   const hasPrefix = /^\/(en|fr)(\/|$)/.test(path);
   const prefix = hasPrefix ? path.split("/")[1] : null;
@@ -234,7 +249,7 @@ export default async (request, context) => {
     return Response.redirect(stripLangParam(new URL(dest)), 302);
   }
 
-  // 2) Autodetección si no hay cookie/lang
+  // 2) Autodetección si no hay cookie/lang → redirección SITE-WIDE
   if (!hasPrefix && wantsHtml && !cookies.lang) {
     const pick = bestMatch(request.headers.get("accept-language") || "", SUPPORTED);
     if (pick === "en")
@@ -243,10 +258,9 @@ export default async (request, context) => {
       return Response.redirect(stripLangParam(new URL(url.origin + "/fr" + path + url.search)), 302);
   }
 
-  // 3) Pegajosidad por cookie (si vienes desde EN/FR y entras sin prefijo)
-  const ref = request.headers.get("referer") || "";
+  // 3) Persistencia por cookie: si ya tiene lang=en|fr y entra sin prefijo → redirige SIEMPRE
   const wanted = cookies.lang;
-  if (!hasPrefix && wantsHtml && (wanted === "en" || wanted === "fr") && ref.includes(`/${wanted}/`)) {
+  if (!hasPrefix && wantsHtml && (wanted === "en" || wanted === "fr")) {
     const dest = `${url.origin}/${wanted}${path === "/" ? "/" : path}${url.search}`;
     return Response.redirect(stripLangParam(new URL(dest)), 302);
   }
@@ -267,7 +281,6 @@ export default async (request, context) => {
     }
     originRes = await fetch(new Request(originUrl.toString(), request));
   } else {
-    // ES normal
     originRes = await context.next();
   }
 
@@ -304,3 +317,5 @@ export default async (request, context) => {
 
   return new Response(text, { status, headers });
 };
+
+export const config = { path: "/*" };
