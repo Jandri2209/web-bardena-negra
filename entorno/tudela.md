@@ -4,9 +4,25 @@ title: "Tudela: imprescindibles, gastronomía y agenda"
 description: "Qué ver en Tudela (catedral, Plaza de los Fueros, Ebro), dónde comer verduras de temporada y dónde consultar la agenda oficial."
 permalink: "/entorno/tudela/"
 ---
-<section class="page-hero full-bleed tierra sm"
-         style="background-image:url('/images/plaza-tudela.jpg')"
-         aria-label="Tudela: Plaza de los Fueros, Catedral y Ebro">
+<section class="page-hero full-bleed tierra sm" aria-label="Tudela: Plaza de los Fueros, Catedral y Ebro">
+  <!-- Imagen LCP: responsive + WebP -->
+  <picture>
+    <source type="image/webp"
+      srcset="/images/plaza-tudela-960.webp 960w,
+              /images/plaza-tudela-1280.webp 1280w,
+              /images/plaza-tudela-1920.webp 1920w"
+      sizes="(max-width: 900px) 100vw, 1200px">
+    <img class="hero-bg"
+      src="/images/plaza-tudela-1280.jpg"
+      srcset="/images/plaza-tudela-960.jpg 960w,
+              /images/plaza-tudela-1280.jpg 1280w,
+              /images/plaza-tudela-1920.jpg 1920w"
+      sizes="(max-width: 900px) 100vw, 1200px"
+      alt="Plaza de los Fueros de Tudela en día despejado"
+      width="1920" height="526"
+      decoding="async" fetchpriority="high">
+  </picture>
+
   <div class="overlay" aria-hidden="true"></div>
   <div class="inner container">
     <p class="kicker">Entorno</p>

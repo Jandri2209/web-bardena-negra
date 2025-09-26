@@ -438,7 +438,12 @@ header.site-header:focus-within{
 /* Páginas sin hero: primera sección con margen de seguridad */
 main > section.container.prose:first-of-type{ padding-top:calc(var(--header-h) + 16px) }
 main > section.container.prose:first-of-type .card:first-child{ margin-top:0 !important }
-
+/* Hero con <picture>/<img> en lugar de background-image */
+.page-hero picture,
+.page-hero .hero-bg{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; display:block; z-index:1;
+}
 /* ==========================
    9) Tarjetas, secciones y prosa
    ========================== */

@@ -62,22 +62,71 @@
   status = 200
   force = true
 
-# Cualquier raíz: /algo.html → /algo/
-[[redirects]]
-  from = "/:slug.html"
-  to = "/:slug/"
-  status = 301
-
-# Subcarpetas: /cualquier/camino/pagina.html → /cualquier/camino/pagina/
-[[redirects]]
-  from = "/*/:slug.html"
-  to = "/:splat/:slug/"
-  status = 301
-
 # /index.html → /
 [[redirects]]
   from = "/index.html"
   to = "/"
+  status = 301
+
+# Páginas “.html” que te interese canonizar (solo si existen legacy enlaces)
+[[redirects]]
+  from = "/privacidad.html"
+  to   = "/privacidad/"
+  status = 301
+
+[[redirects]]
+  from = "/legal.html"
+  to   = "/legal/"
+  status = 301
+
+[[redirects]]
+  from = "/cookies.html"
+  to   = "/cookies/"
+  status = 301
+
+[[redirects]]
+  from = "/reservas.html"
+  to   = "/reservas/"
+  status = 301
+
+[[redirects]]
+  from = "/la-casa.html"
+  to   = "/la-casa/"
+  status = 301
+
+[[redirects]]
+  from = "/entorno.html"
+  to   = "/entorno/"
+  status = 301
+
+[[redirects]]
+  from = "/la-casa/galeria.html"
+  to   = "/la-casa/galeria/"
+  status = 301
+
+[[redirects]]
+  from = "/la-casa/equipamiento.html"
+  to   = "/la-casa/equipamiento/"
+  status = 301
+
+[[redirects]]
+  from = "/la-casa/faq.html"
+  to   = "/la-casa/faq/"
+  status = 301
+
+[[redirects]]
+  from = "/entorno/tudela.html"
+  to   = "/entorno/tudela/"
+  status = 301
+
+[[redirects]]
+  from = "/entorno/sendaviva.html"
+  to   = "/entorno/sendaviva/"
+  status = 301
+
+[[redirects]]
+  from = "/entorno/bardenas.html"
+  to   = "/entorno/bardenas/"
   status = 301
 
 # ============================
