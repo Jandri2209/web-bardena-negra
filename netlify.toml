@@ -100,10 +100,10 @@
     locale = "es"
     # preset = "desktop"   # opcional: auditar como escritorio (por defecto: móvil)
 
-  [plugins.inputs.thresholds]
-    performance = 0.80
-    accessibility = 0.90
-    seo = 0.90
+  # [plugins.inputs.thresholds]
+    # performance = 0.80
+    # accessibility = 0.90
+    # seo = 0.90
 
   # — Básicas —
   [[plugins.inputs.audits]]

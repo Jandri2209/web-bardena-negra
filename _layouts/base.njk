@@ -9,6 +9,20 @@ title: ""
   <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
   <meta name="description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
   {% if noindex %}<meta name="robots" content="noindex">{% endif %}
+  {% if page.url == "/" %}
+  <link rel="preload" as="image" href="/images/hero.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/hero-2.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/hero-3.webp" fetchpriority="high">
+  {% endif %}
+  {% if page.url == "/entorno/tudela/" %}
+  <link rel="preload" as="image" href="/images/plaza-tudela.jpg" fetchpriority="high">
+  {% endif %}
+  {% if page.url == "/entorno/sendaviva/" %}
+  <link rel="preload" as="image" href="/images/sendaviva.jpg" fetchpriority="high">
+  {% endif %}
+  {% if page.url == "/entorno/bardenas/" %}
+  <link rel="preload" as="image" href="/images/bardenas.jpg" fetchpriority="high">
+  {% endif %}
   <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
