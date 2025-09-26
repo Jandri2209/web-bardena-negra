@@ -35,7 +35,7 @@ title: ""
 <body>
   <header class="site-header" id="siteHeader">
     <div class="container nav">
-      <a href="{{ '/' | lurl(page.url) }}" class="brand" aria-label="{{ site.name }} — Inicio">
+      <a href="/" class="brand" aria-label="{{ site.name }} — Inicio">
         <span class="mark">BN</span>
         <span class="font-primary" style="letter-spacing:.04em">{{ site.shortName }}</span>
       </a>
@@ -45,11 +45,11 @@ title: ""
       </button>
 
       <nav class="nav-links" id="navMenu" role="navigation" aria-label="Navegación principal">
-        <a href="{{ '/' | lurl(page.url) }}">Inicio</a>
+        <a href="/">Inicio</a>
 
         <!-- La casa (padre + caret + submenú) -->
         <div class="nav-item has-submenu">
-          <a href="{{ '/la-casa/' | lurl(page.url) }}" class="nav-link" id="link-casa">La casa</a>
+          <a href="/la-casa/" class="nav-link" id="link-casa">La casa</a>
           <button class="sub-toggle"
                   aria-label="Abrir submenú de La Casa"
                   aria-haspopup="menu"
@@ -58,16 +58,16 @@ title: ""
             <notranslate><span class="chev" aria-hidden="true">▾</span></notranslate>
           </button>
           <div class="submenu" id="submenu-casa" role="menu" aria-labelledby="link-casa">
-            <a href="{{ '/la-casa/' | lurl(page.url) }}" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “La casa”</strong></a></notranslate>
-            <a href="{{ '/la-casa/faq/' | lurl(page.url) }}" role="menuitem">Preguntas frecuentes</a>
-            <a href="{{ '/la-casa/galeria/' | lurl(page.url) }}" role="menuitem">Galería</a>
-            <a href="{{ '/la-casa/equipamiento/' | lurl(page.url) }}" role="menuitem">Equipamiento</a>
+            <a href="/la-casa/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “La casa”</strong></a></notranslate>
+            <a href="/la-casa/faq/" role="menuitem">Preguntas frecuentes</a>
+            <a href="/la-casa/galeria/" role="menuitem">Galería</a>
+            <a href="/la-casa/equipamiento/" role="menuitem">Equipamiento</a>
           </div>
         </div>
 
         <!-- Entorno (padre + caret + submenú) -->
         <div class="nav-item has-submenu">
-          <a href="{{ '/entorno/' | lurl(page.url) }}" class="nav-link" id="link-entorno">Entorno</a>
+          <a href="/entorno/" class="nav-link" id="link-entorno">Entorno</a>
           <button class="sub-toggle"
                   aria-label="Abrir submenú de Entorno"
                   aria-haspopup="menu"
@@ -76,16 +76,15 @@ title: ""
             <notranslate><span class="chev" aria-hidden="true">▾</span></notranslate>
           </button>
           <div class="submenu" id="submenu-entorno" role="menu" aria-labelledby="link-entorno">
-            <a href="{{ '/entorno/' | lurl(page.url) }}" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “Entorno”</strong></a></notranslate>
-            <a href="{{ '/entorno/bardenas/' | lurl(page.url) }}" role="menuitem">Bardenas Reales</a>
-            <a href="{{ '/entorno/tudela/' | lurl(page.url) }}" role="menuitem">Tudela</a>
-            <a href="{{ '/entorno/sendaviva/' | lurl(page.url) }}" role="menuitem">Sendaviva</a>
+            <a href="/entorno/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “Entorno”</strong></a></notranslate>
+            <a href="/entorno/bardenas/" role="menuitem">Bardenas Reales</a>
+            <a href="/entorno/tudela/"   role="menuitem">Tudela</a>
+            <a href="/entorno/sendaviva/" role="menuitem">Sendaviva</a>
           </div>
         </div>
 
-        <a href="{{ '/reservas/' | lurl(page.url) }}" class="cta">Reservar</a>
-
-        <!-- Idiomas (estos los rellena tu script, se quedan igual) -->
+        <a href="/reservas/" class="cta">Reservar</a>
+        <!-- Idiomas -->
         <div class="nav-item has-submenu lang-switch">
           <button class="sub-toggle" id="langToggle"
                   aria-label="Cambiar idioma" aria-haspopup="menu"
@@ -137,7 +136,7 @@ title: ""
       <div class="f-col">
         <h5 class="font-primary" style="margin:0 0 .4rem">Reserva online</h5>
         <div class="f-cta">
-          <a class="btn" href="{{ '/reservas/' | lurl(page.url) }}">Solicitar reserva</a>
+          <a class="btn" href="/reservas/">Solicitar reserva</a>
           <a class="btn alt" href="{{ site.bookingHref }}" target="_blank" rel="noopener">Reservar en Rurive</a>
         </div>
         <p class="f-sub">o en cualquiera de estas plataformas:</p>
@@ -174,9 +173,9 @@ title: ""
     <div class="container footer-bottom">
       <div>© {% if collections and (collections.all | length) %}{{ now | date('yyyy') }}{% else %}2025{% endif %} Casa Bardena Negra</div>
       <nav class="f-legal">
-        <a href="{{ '/privacidad/' | lurl(page.url) }}">Privacidad</a> ·
-        <a href="{{ '/legal/' | lurl(page.url) }}">Aviso legal</a> ·
-        <a href="{{ '/cookies/' | lurl(page.url) }}">Cookies</a> ·
+        <a href="/privacidad/">Privacidad</a> ·
+        <a href="/legal/">Aviso legal</a> ·
+        <a href="/cookies/">Cookies</a> ·
         <a href="#" data-open-cc>Preferencias de cookies</a>
       </nav>
     </div>

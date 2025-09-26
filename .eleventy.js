@@ -25,18 +25,6 @@ module.exports = function(eleventyConfig) {
       : { year: "numeric", month: "long", day: "2-digit" };
     return new Intl.DateTimeFormat(locale, opts).format(d);
   });
-  // URL localizada: antepone /en o /fr si la página actual usa ese prefijo
-  eleventyConfig.addFilter("lurl", (href, pageUrl = "/") => {
-    if (!href || typeof href !== "string") return href;
-    if (!href.startsWith("/")) return href; // externas o relativas
-    // no prefijar assets/imagenes/admin/reports ni ya-localizadas
-    if (/^\/(assets|images|admin|reports|\.netlify)\//.test(href)) return href;
-    if (/^\/(en|fr)(\/|$)/.test(href)) return href;
-
-    const m = (pageUrl || "").match(/^\/(en|fr)(\/|$)/);
-    const prefix = m ? `/${m[1]}` : "";
-    return prefix + href;
-  });
 
   return {
     dir: {
