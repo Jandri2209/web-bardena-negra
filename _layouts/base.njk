@@ -13,7 +13,10 @@ title: ""
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:wght@500;700&family=Gilda+Display&display=swap" rel="stylesheet">
-
+  {% include "ld-website.njk" %}
+  {% include "ld-webpage.njk" %}
+  {% include "ld-breadcrumbs.njk" %}
+  {% if page.url == "/" %}{% include "ld-lodgingbusiness.njk" %}{% endif %}
   <link rel="stylesheet" href="/assets/styles.css"/>
   <meta name="theme-color" content="{{ site.brandColor or '#a37d4c' }}">
 </head>
@@ -40,10 +43,10 @@ title: ""
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-controls="submenu-casa">
-            <notranslate><span class="chev" aria-hidden="true">▾</span>
+            <notranslate><span class="chev" aria-hidden="true">▾</span></notranslate>
           </button>
           <div class="submenu" id="submenu-casa" role="menu" aria-labelledby="link-casa">
-            <a href="/la-casa/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “La casa”</strong></a>
+            <a href="/la-casa/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “La casa”</strong></a></notranslate>
             <a href="/la-casa/faq/" role="menuitem">Preguntas frecuentes</a>
             <a href="/la-casa/galeria/" role="menuitem">Galería</a>
             <a href="/la-casa/equipamiento/" role="menuitem">Equipamiento</a>
@@ -58,10 +61,10 @@ title: ""
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-controls="submenu-entorno">
-            <notranslate><span class="chev" aria-hidden="true">▾</span>
+            <notranslate><span class="chev" aria-hidden="true">▾</span></notranslate>
           </button>
           <div class="submenu" id="submenu-entorno" role="menu" aria-labelledby="link-entorno">
-            <a href="/entorno/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “Entorno”</strong></a>
+            <a href="/entorno/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “Entorno”</strong></a></notranslate>
             <a href="/entorno/bardenas/" role="menuitem">Bardenas Reales</a>
             <a href="/entorno/tudela/"   role="menuitem">Tudela</a>
             <a href="/entorno/sendaviva/" role="menuitem">Sendaviva</a>
@@ -69,6 +72,21 @@ title: ""
         </div>
 
         <a href="/reservas/" class="cta">Reservar</a>
+        <!-- Idiomas -->
+        <div class="nav-item has-submenu lang-switch">
+          <button class="sub-toggle" id="langToggle"
+                  aria-label="Cambiar idioma" aria-haspopup="menu"
+                  aria-expanded="false" aria-controls="submenu-lang">
+            <img class="lang-flag" id="langCurrentFlag" src="/assets/flags/es.svg" alt="ES">
+            <span class="lang-code" id="langCurrentCode">ES</span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
+          <div class="submenu" id="submenu-lang" role="menu" aria-labelledby="langToggle">
+            <a id="lang-es" role="menuitem"><img class="lang-flag" src="/assets/flags/es.svg" alt=""> Español</a>
+            <a id="lang-en" role="menuitem"><img class="lang-flag" src="/assets/flags/gb.svg" alt=""> English</a>
+            <a id="lang-fr" role="menuitem"><img class="lang-flag" src="/assets/flags/fr.svg" alt=""> Français</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -688,5 +706,43 @@ title: ""
   }
 })();
 </script>
+<script>
+/* Construye los href /, /en/* y /fr/* manteniendo la ruta actual */
+(function(){
+  function normalize(p){
+    if (!p) return '/';
+    if (!p.startsWith('/')) p = '/' + p;
+    if (!/\.[a-z0-9]+$/i.test(p) && !p.endsWith('/')) p += '/';
+    return p;
+  }
+  const path = location.pathname;
+  const m = path.match(/^\/(en|fr)(\/|$)/);
+  const curr = m ? m[1] : 'es';
+  const rest = m ? path.slice(m[0].length) : path;
+  const basePath = normalize(rest);
+
+  const es = document.getElementById('lang-es');
+  const en = document.getElementById('lang-en');
+  const fr = document.getElementById('lang-fr');
+  if (es) es.href = basePath;          // /lo-que-sea/
+  if (en) en.href = '/en' + basePath;  // /en/lo-que-sea/
+  if (fr) fr.href = '/fr' + basePath;  // /fr/lo-que-sea/
+
+  // Muestra bandera/código actuales en el botón
+  const map = {
+    es: ['/assets/flags/es.svg','ES'],
+    en: ['/assets/flags/gb.svg','EN'],
+    fr: ['/assets/flags/fr.svg','FR']
+  };
+  const img = document.getElementById('langCurrentFlag');
+  const code = document.getElementById('langCurrentCode');
+  if (img && code && map[curr]) {
+    img.src = map[curr][0];
+    img.alt = map[curr][1];
+    code.textContent = map[curr][1];
+  }
+})();
+</script>
+
 </body>
 </html>

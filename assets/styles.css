@@ -354,6 +354,14 @@ header.site-header:focus-within{
   width:6px; height:6px; border-radius:50%;
   background:var(--brand, #a37d4c); transform:translateY(-50%);
 }
+@media (min-width:961px){
+  .lang-switch .sub-toggle{ display:inline-flex !important; }
+}
+/* === Selector de idioma === */
+.lang-flag{ width:18px; height:18px; border-radius:2px; object-fit:cover; box-shadow:0 0 0 1px rgba(0,0,0,.12) }
+.lang-switch .sub-toggle{ display:inline-flex; align-items:center; gap:.35rem }
+#submenu-lang a{ display:flex; align-items:center; gap:.5rem }
+
 /* ==========================
    7) Hero (home) y slider
    ========================== */

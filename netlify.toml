@@ -1,7 +1,11 @@
+# ============================
+# Netlify config (Casa Bardena Negra)
+# ============================
+
 [build]
   command = "npm run build"
   publish = "_site"
-  edge_functions = "netlify/edge-functions"   # <-- mueve aquí el directorio
+  edge_functions = "netlify/edge-functions"   # directorio de Edge Functions
 
 [build.environment]
   NODE_VERSION = "18"
@@ -12,26 +16,106 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# ejemplo: función que envía emails
 [functions."submission-created"]
   external_node_modules = ["nodemailer"]
 
-# ==== Redirects bonitos ====
+# ============================
+# Headers (seguridad + caché)
+# ============================
+
+# Seguridad base en todo el sitio
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Caché largo para assets versionados
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Caché largo para imágenes
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Tipos útiles
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+
+# ============================
+# Redirects bonitos / canonicals
+# ============================
+
+# Cualquier raíz: /algo.html → /algo/
 [[redirects]]
-  from = "/privacidad.html"
-  to = "/privacidad/"
+  from = "/:slug.html"
+  to = "/:slug/"
   status = 301
 
+# Subcarpetas: /cualquier/camino/pagina.html → /cualquier/camino/pagina/
 [[redirects]]
-  from = "/legal.html"
-  to = "/legal/"
+  from = "/*/:slug.html"
+  to = "/:splat/:slug/"
   status = 301
 
+# /index.html → /
 [[redirects]]
-  from = "/cookies.html"
-  to = "/cookies/"
+  from = "/index.html"
+  to = "/"
   status = 301
 
-# ==== Edge Functions ====
+# ============================
+# Edge Functions (i18n, etc.)
+# ============================
+
+# Ejecuta la Edge Function "i18n" en todo el sitio
 [[edge_functions]]
   path = "/*"
   function = "i18n"
+# (Si más adelante quieres evitar que corra en /assets/ o /images/, podemos
+#  afinar el patrón de rutas; ver docs de declaraciones de Edge Functions.)  # :contentReference[oaicite:1]{index=1}
+
+# ============================
+# Lighthouse plugin (auditoría)
+# ============================
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+  # Ajustes generales
+  [plugins.inputs.settings]
+    locale = "es"          # informe en español (por defecto es EN)
+    # preset = "desktop"   # opcional: auditar como escritorio (por defecto: móvil)
+
+  # Umbrales informativos (no rompen el deploy salvo que lo configures)
+  [plugins.inputs.thresholds]
+    performance = 0.80
+    accessibility = 0.90
+    seo = 0.90
+
+  # Rutas críticas (home + conversión + pesadas/representativas)
+  [[plugins.inputs.audits]] path = "/"
+  [[plugins.inputs.audits]] path = "/la-casa/"
+  [[plugins.inputs.audits]] path = "/entorno/"
+  [[plugins.inputs.audits]] path = "/reservas/"
+
+  # Subpáginas de Entorno (si existen en tu sitio)
+  # Añade cada subpágina explícitamente: el plugin NO hace crawling.
+  [[plugins.inputs.audits]] path = "/entorno/tudela/"
+  [[plugins.inputs.audits]] path = "/entorno/sendaviva/"
+  [[plugins.inputs.audits]] path = "/entorno/bardenas/"
+
+  # Páginas legales (opcionales; útiles para accesibilidad)
+  [[plugins.inputs.audits]] path = "/legal/"
+  [[plugins.inputs.audits]] path = "/privacidad/"
+  [[plugins.inputs.audits]] path = "/cookies/"

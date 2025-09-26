@@ -1,0 +1,17 @@
+{% set trail = breadcrumbs
+  or [ { "name":"Inicio", "url":"/" }, { "name": (title or (page.fileSlug | replace("-", " "))), "url": page.url } ] %}
+{% if (trail | length) > 1 %}
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "@id":"{{ site.url }}{{ page.url }}#breadcrumb",
+  "itemListElement":[
+    {% for item in trail %}
+    {% set u = item.url %}{% if u and (u.indexOf('http') != 0) %}{% set u = site.url + u %}{% endif %}
+    { "@type":"ListItem", "position": {{ loop.index }}, "name": {{ item.name | dump | safe }}, "item": {{ u | dump | safe }} }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}

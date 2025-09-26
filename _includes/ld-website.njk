@@ -1,0 +1,10 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "{{ site.url }}/#website",
+  "url": "{{ site.url }}/",
+  "name": {{ (site.name or "Casa rural") | dump | safe }},
+  "inLanguage": "{{ site.lang or 'es-ES' }}"
+}
+</script>

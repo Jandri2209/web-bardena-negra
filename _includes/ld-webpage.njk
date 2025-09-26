@@ -1,0 +1,26 @@
+{% set img = image or featuredImage or site.socialImage %}
+{% if img and (img.indexOf('http') != 0) %}{% set img = site.url + img %}{% endif %}
+
+{% set pageType = "WebPage" %}
+{# Mapéo de tus rutas reales #}
+{% if page.url == "/contacto/" or page.url == "/reservas/" %}
+  {% set pageType = "ContactPage" %}
+{% elif page.url == "/entorno/" or page.url == "/blog/" or page.url == "/recetas/" %}
+  {% set pageType = "CollectionPage" %}
+{% endif %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{ pageType }}",
+  "@id": "{{ site.url }}{{ page.url }}#webpage",
+  "url": "{{ site.url }}{{ page.url }}",
+  "name": {{ (title or site.defaultTitle) | dump | safe }},
+  "description": {{ (description or site.defaultDescription) | dump | safe }},
+  "inLanguage": "{{ site.lang or 'es-ES' }}",
+  "isPartOf": { "@id": "{{ site.url }}/#website" }{% if img %},
+  "primaryImageOfPage": { "@type": "ImageObject", "url": {{ img | dump | safe }} }{% endif %}{% if page.url != "/" %},
+  "breadcrumb": { "@id": "{{ site.url }}{{ page.url }}#breadcrumb" }{% endif %}{% if page.date %},
+  "datePublished": "{{ page.date | date('en-CA', { year:'numeric', month:'2-digit', day:'2-digit' }) }}"{% endif %}
+}
+</script>

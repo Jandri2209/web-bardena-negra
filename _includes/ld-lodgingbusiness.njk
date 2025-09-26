@@ -1,0 +1,55 @@
+{% set mapUrl = site.googleBusiness or ("https://www.google.com/maps?q=" + site.geo.lat + "," + site.geo.lng) %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["Organization","LodgingBusiness"],
+  "@id": {{ (site.url + "/#org") | dump | safe }},
+  "name": {{ site.name | dump | safe }},
+  "url": {{ (site.url + "/") | dump | safe }},
+  {% if site.logo %}"logo": {{ site.logo | dump | safe }},{% endif %}
+  {% if site.socialImage %}"image": {{ (site.url + site.socialImage) | dump | safe }},{% endif %}
+
+  "address": {
+    "@type":"PostalAddress",
+    "streetAddress": {{ site.address.streetAddress | dump | safe }},
+    "addressLocality": {{ site.address.addressLocality | dump | safe }},
+    "addressRegion": {{ site.address.addressRegion | dump | safe }},
+    "postalCode": {{ site.address.postalCode | dump | safe }},
+    "addressCountry": {{ site.address.addressCountry | dump | safe }}
+  },
+
+  "geo": {
+    "@type":"GeoCoordinates",
+    "latitude": {{ site.geo.lat | dump | safe }},
+    "longitude": {{ site.geo.lng | dump | safe }}
+  },
+
+  "hasMap": {{ mapUrl | dump | safe }},
+  {% if site.sameAs %}"sameAs": {{ site.sameAs | dump | safe }},{% endif %}
+  {% if site.license %}"license": {{ site.license | dump | safe }},{% endif %}
+
+  {% if site.amenities %}
+  "amenityFeature": [
+    {% for a in site.amenities %}
+    { "@type": "LocationFeatureSpecification", "name": {{ a | dump | safe }} }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ],
+  {% endif %}
+
+  {% if site.rules %}
+  "petsAllowed": {{ (site.rules.pets or "Consultar antes de reservar") | dump | safe }},
+  "smokingAllowed": {{ (site.rules.smoking or "Prohibido en el interior") | dump | safe }},
+  {% endif %}
+
+  {% if site.bookingHref %}
+  "offers": [{
+    "@type":"Offer",
+    "url": {{ site.bookingHref | dump | safe }}
+  }],
+  {% endif %}
+
+  "currenciesAccepted": "EUR",
+  "priceRange": "€€"
+}
+</script>
