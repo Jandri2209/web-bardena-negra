@@ -6,17 +6,19 @@ const ONE_YEAR = 365 * 24 * 60 * 60;
 const TRANSLATE_ENABLED = true;
 const DEFAULT_TTL = parseInt(Deno.env.get("I18N_CACHE_TTL") || "86400", 10);
 
+// Flags de entorno
 const NOCACHE = Deno.env.get("I18N_NOCACHE") === "1";
+const FORCE_OFF = Deno.env.get("I18N_FORCE_OFF") === "1";
 
 // DeepL
-const DEEPL_KEY = Deno.env.get("DEEPL_KEY") || ""; // ← pon esta env var en Netlify
+const DEEPL_KEY = Deno.env.get("DEEPL_KEY") || "";
 const DEEPL_ENDPOINT =
   Deno.env.get("DEEPL_ENDPOINT") || "https://api-free.deepl.com/v2/translate";
 
 // Marcador anti-recursión
 const INTERNAL_QS = "_i18n";
 
-// Bots/auditorías (no queremos redirecciones ni traducciones para ellos)
+// Bots/auditorías (no redirigir ni traducir)
 const BOT_UA_RX = /(lighthouse|chrome-lighthouse|headless|googlebot|pagespeed|netlifybot)/i;
 
 // -------------------- utils --------------------
@@ -26,12 +28,10 @@ function isHtmlRequest(req, path) {
     path.endsWith("/") || /\.html?$/i.test(path) || !/\.[a-z0-9]+$/i.test(path);
   return accept.includes("text/html") && looksHtmlPath;
 }
-
 function normalizeBasePath(p) {
   if (p === "" || p === "//") return "/";
   return p.startsWith("//") ? p.slice(1) : p;
 }
-
 function parseCookies(cookieHeader) {
   const out = {};
   (cookieHeader || "").split(";").forEach((pair) => {
@@ -41,11 +41,9 @@ function parseCookies(cookieHeader) {
   });
   return out;
 }
-
 function cookie(name, value, maxAgeSec) {
   return `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAgeSec}; SameSite=Lax; Secure`;
 }
-
 function bestMatch(acceptLanguage, supportedSet) {
   const prefs = (acceptLanguage || "")
     .split(",")
@@ -56,34 +54,36 @@ function bestMatch(acceptLanguage, supportedSet) {
     })
     .sort((a, b) => b.q - a.q)
     .map((x) => x.tag);
-
   for (const lang of prefs) {
     const base = lang.split("-")[0];
     if (supportedSet.has(base)) return base;
   }
   return "es";
 }
-
 function stripLangParam(u) {
   const n = new URL(u.toString());
   n.searchParams.delete("lang");
   n.searchParams.delete(INTERNAL_QS);
-  n.searchParams.delete("_nolang"); // limpia bypass manual
+  n.searchParams.delete("_nolang");
   return n;
 }
 
-function patchSeo(html, lang, url) {
-  const rest = url.pathname.split("/").slice(2).join("/"); // quita /en o /fr
+// setLangTag = true → también cambia <html lang="...">
+// setLangTag = false → solo inyecta hreflang + canonical (deja lang original)
+function patchSeo(html, lang, url, setLangTag = true) {
+  const rest = url.pathname.split("/").slice(2).join("/"); // quita /en|/fr
   const basePath = "/" + rest;
   const esHref = url.origin + (basePath === "/" ? "/" : basePath);
   const enHref = url.origin + "/en" + (basePath === "/" ? "/" : basePath);
   const frHref = url.origin + "/fr" + (basePath === "/" ? "/" : basePath);
 
-  let out = html.replace(
-    /<html([^>]*)\blang="[^"]*"([^>]*)>/i,
-    `<html$1 lang="${lang}"$2>`
-  );
-
+  let out = html;
+  if (setLangTag) {
+    out = out.replace(
+      /<html([^>]*)\blang="[^"]*"([^>]*)>/i,
+      `<html$1 lang="${lang}"$2>`
+    );
+  }
   if (!/rel=["']alternate["'][^>]+hreflang=/i.test(out)) {
     out = out.replace(
       /(<head[^>]*>)/i,
@@ -95,38 +95,35 @@ function patchSeo(html, lang, url) {
 `
     );
   }
-
   const selfHref = url.origin + url.pathname + url.search;
   if (!/rel=["']canonical["']/i.test(out)) {
-    out = out.replace(
-      /(<head[^>]*>)/i,
-      `$1
+    out = out.replace(/(<head[^>]*>)/i, `$1
 <link rel="canonical" href="${selfHref}">
-`
-    );
+`);
   }
-
   return out;
 }
-
 function tidyTypography(lang, html) {
   html = html.replace(
     /(<(?:h[1-4]|li|p)[^>]*>\s*)([a-z])/g,
     (_, open, first) => open + first.toUpperCase()
   );
   if (lang === "fr") {
-    html = html
-      .replace(/\s+([;:?!»])/g, "\u00A0$1")
-      .replace(/«\s+/g, "«\u00A0");
+    html = html.replace(/\s+([;:?!»])/g, "\u00A0$1").replace(/«\s+/g, "«\u00A0");
   }
   return html;
 }
 
 // -------------------- DeepL (con chunking) --------------------
 async function translateHtml(html, lang, url) {
-  if (!TRANSLATE_ENABLED || !DEEPL_KEY) {
-    console.warn("[i18n] DeepL desactivado o DEEPL_KEY ausente");
-    return { ok: false, text: patchSeo(html, lang, url), dbg: "NO_KEY_OR_OFF" };
+  if (FORCE_OFF || !TRANSLATE_ENABLED || !DEEPL_KEY) {
+    console.warn("[i18n] DeepL desactivado (FORCE_OFF) o clave ausente");
+    // No marcamos lang="en|fr" si no se traduce: dejamos el lang original (es)
+    return {
+      ok: false,
+      text: patchSeo(html, lang, url, false),
+      dbg: FORCE_OFF ? "FORCED_OFF" : "NO_KEY_OR_OFF",
+    };
   }
 
   const target = lang.toUpperCase(); // 'EN' | 'FR'
@@ -192,7 +189,8 @@ async function translateHtml(html, lang, url) {
   }
 
   const out = translatedParts.join("");
-  return { ok: allOk, text: patchSeo(out, lang, url), dbg: allOk ? "OK" : "PARTIAL" };
+  // aquí sí seteamos lang="en|fr"
+  return { ok: allOk, text: patchSeo(out, lang, url, true), dbg: allOk ? "OK" : "PARTIAL" };
 }
 
 // -------------------- handler --------------------
@@ -215,7 +213,7 @@ export default async (request, context) => {
   if (url.searchParams.has("_nolang")) return context.next();
   if (url.searchParams.has(INTERNAL_QS)) return context.next();
 
-  // ======== BYPASS PARA BOTS/AUDITORÍAS (siempre ES SIN REDIRECCIÓN) ========
+  // Bots/auditorías: servir ES sin redirecciones ni traducción
   if (BOT_UA_RX.test(ua)) {
     if (/^\/(en|fr)(\/|$)/.test(path)) {
       const rest = path.split("/").slice(2).join("/");
@@ -226,10 +224,8 @@ export default async (request, context) => {
       originUrl.searchParams.delete("lang");
       originUrl.searchParams.delete(INTERNAL_QS);
       originUrl.searchParams.delete("_nolang");
-      // Servimos ES sin tocar headers/cookies
       return fetch(new Request(originUrl.toString(), request));
     }
-    // Si ya es ES, seguimos normal (sin redirigir ni traducir)
     return context.next();
   }
 
@@ -238,7 +234,7 @@ export default async (request, context) => {
   const cookies = parseCookies(request.headers.get("cookie") || "");
   const wantsHtml = isHtmlRequest(request, path);
 
-  // 1) Selector manual: ?lang=en|fr|es → redirección limpia
+  // 1) Selector manual ?lang=en|fr|es → redirección limpia
   const qlang = url.searchParams.get("lang");
   if (!hasPrefix && wantsHtml && qlang && /^(en|fr|es)$/i.test(qlang)) {
     const forced = qlang.toLowerCase();
@@ -249,7 +245,7 @@ export default async (request, context) => {
     return Response.redirect(stripLangParam(new URL(dest)), 302);
   }
 
-  // 2) Autodetección si no hay cookie/lang → redirección SITE-WIDE
+  // 2) Autodetección si no hay cookie/lang
   if (!hasPrefix && wantsHtml && !cookies.lang) {
     const pick = bestMatch(request.headers.get("accept-language") || "", SUPPORTED);
     if (pick === "en")
@@ -258,14 +254,14 @@ export default async (request, context) => {
       return Response.redirect(stripLangParam(new URL(url.origin + "/fr" + path + url.search)), 302);
   }
 
-  // 3) Persistencia por cookie: si ya tiene lang=en|fr y entra sin prefijo → redirige SIEMPRE
+  // 3) Persistencia cookie: si ya tiene lang=en|fr y entra sin prefijo → redirige
   const wanted = cookies.lang;
   if (!hasPrefix && wantsHtml && (wanted === "en" || wanted === "fr")) {
     const dest = `${url.origin}/${wanted}${path === "/" ? "/" : path}${url.search}`;
     return Response.redirect(stripLangParam(new URL(dest)), 302);
   }
 
-  // 4) Pide ES al origen (si estás en /en|/fr/, reescribe a base ES)
+  // 4) Pedimos ES al origen cuando nos piden /en|/fr/
   let originRes;
   if (hasPrefix) {
     const rest = path.split("/").slice(2).join("/");
@@ -287,10 +283,10 @@ export default async (request, context) => {
   const ct = originRes.headers.get("content-type") || "";
   if (!ct.includes("text/html")) return originRes;
 
-  // Si vienes en ES, devolvemos tal cual
+  // En ES, devolvemos tal cual
   if (!hasPrefix) return originRes;
 
-  // 5) Traducir
+  // 5) Traducimos (o parcheamos SEO si está OFF)
   const html = await originRes.text();
   const { ok, text: translatedRaw, dbg } = await translateHtml(html, prefix, url);
   const text = tidyTypography(prefix, translatedRaw);
@@ -300,16 +296,15 @@ export default async (request, context) => {
   const headers = new Headers(originRes.headers);
   headers.delete("content-length");
   headers.set("content-type", "text/html; charset=utf-8");
-  headers.set("Vary", "Accept-Language, Cookie");
   headers.set("X-I18N-DeepL", dbg);
+  headers.set("X-I18N-Debug", hasPrefix ? `translate:${prefix}` : "pass:es");
 
   if (NOCACHE || !ok || status >= 400) {
     headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
-    headers.set("CDN-Cache-Control", "no-store");
-    headers.set("Surrogate-Control", "no-store");
+    headers.set("Netlify-CDN-Cache-Control", "no-store");
   } else {
     headers.set("Cache-Control", `public, max-age=${DEFAULT_TTL}`);
-    headers.set("CDN-Cache-Control", `public, max-age=${DEFAULT_TTL}`);
+    headers.set("Netlify-CDN-Cache-Control", `public, max-age=${DEFAULT_TTL}`);
   }
 
   // Cookie lang persistente
