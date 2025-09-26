@@ -89,33 +89,61 @@
 # Lighthouse plugin (auditoría)
 # ============================
 
+# ============================
+# Lighthouse plugin (auditoría)
+# ============================
+
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
 
-  # Ajustes generales
   [plugins.inputs.settings]
-    locale = "es"          # informe en español (por defecto es EN)
+    locale = "es"
     # preset = "desktop"   # opcional: auditar como escritorio (por defecto: móvil)
 
-  # Umbrales informativos (no rompen el deploy salvo que lo configures)
   [plugins.inputs.thresholds]
     performance = 0.80
     accessibility = 0.90
     seo = 0.90
 
-  # Rutas críticas (home + conversión + pesadas/representativas)
-  [[plugins.inputs.audits]] path = "/"
-  [[plugins.inputs.audits]] path = "/la-casa/"
-  [[plugins.inputs.audits]] path = "/entorno/"
-  [[plugins.inputs.audits]] path = "/reservas/"
+  # — Básicas —
+  [[plugins.inputs.audits]]
+    path = "/"
+    output_path = "reports/lh-home.html"
 
-  # Subpáginas de Entorno (si existen en tu sitio)
-  # Añade cada subpágina explícitamente: el plugin NO hace crawling.
-  [[plugins.inputs.audits]] path = "/entorno/tudela/"
-  [[plugins.inputs.audits]] path = "/entorno/sendaviva/"
-  [[plugins.inputs.audits]] path = "/entorno/bardenas/"
+  [[plugins.inputs.audits]]
+    path = "/la-casa/"
+    output_path = "reports/lh-la-casa.html"
 
-  # Páginas legales (opcionales; útiles para accesibilidad)
-  [[plugins.inputs.audits]] path = "/legal/"
-  [[plugins.inputs.audits]] path = "/privacidad/"
-  [[plugins.inputs.audits]] path = "/cookies/"
+  [[plugins.inputs.audits]]
+    path = "/entorno/"
+    output_path = "reports/lh-entorno.html"
+
+  [[plugins.inputs.audits]]
+    path = "/reservas/"
+    output_path = "reports/lh-reservas.html"
+
+  # — Subpáginas de Entorno (borra las que no existan) —
+  [[plugins.inputs.audits]]
+    path = "/entorno/tudela/"
+    output_path = "reports/lh-entorno-tudela.html"
+
+  [[plugins.inputs.audits]]
+    path = "/entorno/sendaviva/"
+    output_path = "reports/lh-entorno-sendaviva.html"
+
+  [[plugins.inputs.audits]]
+    path = "/entorno/bardenas/"
+    output_path = "reports/lh-entorno-bardenas.html"
+
+  # — Legales (opcionales) —
+  [[plugins.inputs.audits]]
+    path = "/legal/"
+    output_path = "reports/lh-legal.html"
+
+  [[plugins.inputs.audits]]
+    path = "/privacidad/"
+    output_path = "reports/lh-privacidad.html"
+
+  [[plugins.inputs.audits]]
+    path = "/cookies/"
+    output_path = "reports/lh-cookies.html"
