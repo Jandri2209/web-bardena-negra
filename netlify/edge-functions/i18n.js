@@ -234,26 +234,32 @@ export default async (request, context) => {
   const cookies = parseCookies(request.headers.get("cookie") || "");
   const wantsHtml = isHtmlRequest(request, path);
 
-  // 1) Selector manual ?lang=en|fr|es → set-cookie + redirect limpio
+  // 1) Selector manual ?lang=en|fr|es → set-cookie + redirect limpio (sin duplicar prefijos)
   const qlang = url.searchParams.get("lang");
   if (wantsHtml && qlang && /^(en|fr|es)$/i.test(qlang)) {
     const forced = qlang.toLowerCase();
 
-    // Construye destino (con o sin prefijo)
-    const targetPath =
-      forced === "en" || forced === "fr"
-        ? `/${forced}${path === "/" ? "/" : path}`
-        : (path === "/" ? "/" : path);
+    // Quita prefijo actual si lo hay para construir una "base" neutra
+    const m = path.match(/^\/(en|fr)(\/|$)/);
+    let base = m ? path.slice(m[0].length) : path; // después de /en/ o /fr/
+    if (!/\.[a-z0-9]+$/i.test(base) && !base.endsWith("/")) base += "/";
+    if (!base.startsWith("/")) base = "/" + base;
+    if (base === "") base = "/";
 
-    const destUrl = stripLangParam(new URL(url.origin + targetPath + url.search));
+    // Destino final según idioma forzado
+    const destPath = (forced === "es")
+      ? base                           // sin prefijo
+      : `/${forced}${base === "/" ? "/" : base}`; // con /en o /fr
 
-    // ESCRIBE cookie lang (para ES ponemos 'es' → desactiva la pegajosidad)
+    // Redirección “limpia” (quitamos ?lang, marcadores internos, etc.)
+    const destUrl = stripLangParam(new URL(url.origin + destPath + url.search));
+
+    // Cookie lang (también para ES → ‘es’, desactiva pegajosidad)
     const headers = new Headers({ Location: destUrl.toString() });
     headers.append("set-cookie", cookie("lang", forced, ONE_YEAR));
 
     return new Response(null, { status: 302, headers });
-}
-
+  }
   // 2) Autodetección siempre (también con FORCE_OFF)
   if (!hasPrefix && wantsHtml && !cookies.lang) {
     const pick = bestMatch(request.headers.get("accept-language") || "", SUPPORTED);
