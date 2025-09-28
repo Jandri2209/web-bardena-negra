@@ -763,12 +763,17 @@ title: ""
   }
   function go(lang, e){
     if (e) e.preventDefault();
+    const SUPPORTED = ['es','en','fr'];
     if (!SUPPORTED.includes(lang)) return;
+
+    const next = new URL(buildUrl(lang), window.location.origin);
+    // Señal temporal para el Edge: fija cookie "lang" y redirige limpio
+    next.searchParams.set('lang', lang);
+
+    // opcional: tu cookie auxiliar para evitar rebotes de ES en otros proxies
     if (lang === 'es') setLangprefES();
-    const url = buildUrl(lang);
-    // si el handler está en un <a>, de paso dejamos el href correcto
-    if (this && this.setAttribute) this.setAttribute('href', url);
-    window.location.assign(url); // fuerza navegación siempre
+
+    window.location.assign(next.toString());
   }
 
   // ESCRITORIO: enlaza y fuerza navegación
