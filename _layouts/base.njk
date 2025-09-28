@@ -740,61 +740,67 @@ title: ""
 </script>
 <script>
 (function(){
-  // Idiomas soportados (si añades EU: añade 'eu' en SUPPORTED y en la RegExp)
   const SUPPORTED = ['es','en','fr'];
 
   function stripLang(path){
-    // Quita /en o /fr al inicio (evita /fren)
     return path.replace(/^\/(en|fr)(?=\/|$)/i, '') || '/';
   }
   function ensureSlash(p){
-    if (/\.[a-z0-9]+$/i.test(p)) return p;    // si es archivo, no tocar
+    if (/\.[a-z0-9]+$/i.test(p)) return p; // archivo -> no tocar
     return p.endsWith('/') ? p : p + '/';
   }
   function buildUrl(lang){
     const { pathname, search, hash } = window.location;
     const rest = ensureSlash(stripLang(pathname));
     const qs = new URLSearchParams(search);
-    qs.delete('lang');                         // limpiamos restos previos
+    qs.delete('lang');
     const query = qs.toString();
     const prefix = (lang === 'es') ? '' : '/' + lang;
     return prefix + rest + (query ? '?' + query : '') + hash;
   }
-
-  // Si usas una redirección en Edge que respeta langpref (Nuria), esto evita rebotes al ES
   function setLangprefES(){
-    const days = 30;
-    document.cookie = `langpref=es; Max-Age=${days*86400}; Path=/; SameSite=Lax`;
+    document.cookie = 'langpref=es; Max-Age=' + (30*86400) + '; Path=/; SameSite=Lax';
+  }
+  function go(lang, e){
+    if (e) e.preventDefault();
+    if (!SUPPORTED.includes(lang)) return;
+    if (lang === 'es') setLangprefES();
+    const url = buildUrl(lang);
+    // si el handler está en un <a>, de paso dejamos el href correcto
+    if (this && this.setAttribute) this.setAttribute('href', url);
+    window.location.assign(url); // fuerza navegación siempre
   }
 
-  // Desktop: escribe href en los <a id="lang-xx">
-  ['es','en','fr'].forEach(code=>{
-    const a = document.getElementById('lang-'+code);
-    if (a){
-      a.setAttribute('href', buildUrl(code));
-      a.addEventListener('click', ()=>{ if(code==='es') setLangprefES(); });
-    }
+  // ESCRITORIO: enlaza y fuerza navegación
+  [['es','lang-es'], ['en','lang-en'], ['fr','lang-fr']].forEach(([code, id])=>{
+    const a = document.getElementById(id);
+    if (!a) return;
+    a.setAttribute('href', buildUrl(code));
+    a.addEventListener('click', go.bind(a, code));
   });
 
-  // Móvil: navega con los botones data-set-language
+  // MÓVIL: botones
   document.querySelectorAll('[data-set-language]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const code = btn.getAttribute('data-set-language');
-      if (!SUPPORTED.includes(code)) return;
-      if (code === 'es') setLangprefES();
-      window.location.href = buildUrl(code);
-    });
+    btn.addEventListener('click', go.bind(btn, btn.getAttribute('data-set-language')));
   });
 
-  // Marca activo (grid móvil) y sincroniza flag/código del botón de cabecera
+  // Activo en móvil (clase correcta: .lang-seg)
   const curr = (location.pathname.match(/^\/(en|fr)(?=\/|$)/i)?.[1] || 'es').toLowerCase();
-  const activeBtn = document.querySelector(`.lang-grid [data-set-language="${curr}"]`);
-  activeBtn && (activeBtn.classList.add('is-active'), activeBtn.setAttribute('aria-current','true'));
+  const activeBtn = document.querySelector(`.lang-seg [data-set-language="${curr}"]`);
+  if (activeBtn){
+    activeBtn.classList.add('is-active');
+    activeBtn.setAttribute('aria-current','true');
+  }
 
+  // Sincroniza chip (bandera + código) en escritorio
   const img = document.getElementById('langCurrentFlag');
   const code = document.getElementById('langCurrentCode');
   const flagSrc = { es:'/assets/flags/es.svg', en:'/assets/flags/gb.svg', fr:'/assets/flags/fr.svg' }[curr];
-  if (img && code && flagSrc){ img.src = flagSrc; img.alt = curr.toUpperCase(); code.textContent = curr.toUpperCase(); }
+  if (img && code && flagSrc){
+    img.src = flagSrc;
+    img.alt = curr.toUpperCase();
+    code.textContent = curr.toUpperCase();
+  }
 })();
 </script>
 <script>
