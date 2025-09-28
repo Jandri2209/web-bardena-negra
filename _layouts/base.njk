@@ -84,20 +84,17 @@ title: ""
         </div>
 
         <a href="/reservas/" class="cta">Reservar</a>
-        <!-- Idiomas -->
-        <div class="nav-item has-submenu lang-switch">
-          <button class="sub-toggle" id="langToggle"
-                  aria-label="Cambiar idioma" aria-haspopup="menu"
-                  aria-expanded="false" aria-controls="submenu-lang">
-            <img class="lang-flag" id="langCurrentFlag" src="/assets/flags/es.svg" alt="ES">
-            <span class="lang-code" id="langCurrentCode">ES</span>
-            <span class="chev" aria-hidden="true">▾</span>
+        <!-- Idiomas (móvil) -->
+        <div class="lang-grid" aria-label="Idioma">
+          <button type="button" class="lang-btn" data-set-language="es">
+            <img src="/assets/flags/es.svg" alt="" class="flag"> <span>Español</span>
           </button>
-          <div class="submenu" id="submenu-lang" role="menu" aria-labelledby="langToggle">
-            <a id="lang-es" role="menuitem"><img class="lang-flag" src="/assets/flags/es.svg" alt=""> Español</a>
-            <a id="lang-en" role="menuitem"><img class="lang-flag" src="/assets/flags/gb.svg" alt=""> English</a>
-            <a id="lang-fr" role="menuitem"><img class="lang-flag" src="/assets/flags/fr.svg" alt=""> Français</a>
-          </div>
+          <button type="button" class="lang-btn" data-set-language="en">
+            <img src="/assets/flags/gb.svg" alt="" class="flag"> <span>English</span>
+          </button>
+          <button type="button" class="lang-btn" data-set-language="fr">
+            <img src="/assets/flags/fr.svg" alt="" class="flag"> <span>Français</span>
+          </button>
         </div>
       </nav>
     </div>
@@ -718,40 +715,62 @@ title: ""
 })();
 </script>
 <script>
-/* Construye los href /, /en/* y /fr/* manteniendo la ruta actual */
 (function(){
-  function normalize(p){
-    if (!p) return '/';
-    if (!p.startsWith('/')) p = '/' + p;
-    if (!/\.[a-z0-9]+$/i.test(p) && !p.endsWith('/')) p += '/';
-    return p;
+  // Idiomas soportados (si añades EU: añade 'eu' en SUPPORTED y en la RegExp)
+  const SUPPORTED = ['es','en','fr'];
+
+  function stripLang(path){
+    // Quita /en o /fr al inicio (evita /fren)
+    return path.replace(/^\/(en|fr)(?=\/|$)/i, '') || '/';
   }
-  const path = location.pathname;
-  const m = path.match(/^\/(en|fr)(\/|$)/);
-  const curr = m ? m[1] : 'es';
-  const rest = m ? path.slice(m[0].length) : path;
-  const basePath = normalize(rest);
+  function ensureSlash(p){
+    if (/\.[a-z0-9]+$/i.test(p)) return p;    // si es archivo, no tocar
+    return p.endsWith('/') ? p : p + '/';
+  }
+  function buildUrl(lang){
+    const { pathname, search, hash } = window.location;
+    const rest = ensureSlash(stripLang(pathname));
+    const qs = new URLSearchParams(search);
+    qs.delete('lang');                         // limpiamos restos previos
+    const query = qs.toString();
+    const prefix = (lang === 'es') ? '' : '/' + lang;
+    return prefix + rest + (query ? '?' + query : '') + hash;
+  }
 
-  const es = document.getElementById('lang-es');
-  const en = document.getElementById('lang-en');
-  const fr = document.getElementById('lang-fr');
-  if (es) es.href = basePath + (basePath.includes('?') ? '&' : '?') + 'lang=es';
-  if (en) en.href = '/en' + basePath + (basePath.includes('?') ? '&' : '?') + 'lang=en';
-  if (fr) fr.href = '/fr' + basePath + (basePath.includes('?') ? '&' : '?') + 'lang=fr';
+  // Si usas una redirección en Edge que respeta langpref (Nuria), esto evita rebotes al ES
+  function setLangprefES(){
+    const days = 30;
+    document.cookie = `langpref=es; Max-Age=${days*86400}; Path=/; SameSite=Lax`;
+  }
 
-  // Muestra bandera/código actuales en el botón
-  const map = {
-    es: ['/assets/flags/es.svg','ES'],
-    en: ['/assets/flags/gb.svg','EN'],
-    fr: ['/assets/flags/fr.svg','FR']
-  };
+  // Desktop: escribe href en los <a id="lang-xx">
+  ['es','en','fr'].forEach(code=>{
+    const a = document.getElementById('lang-'+code);
+    if (a){
+      a.setAttribute('href', buildUrl(code));
+      a.addEventListener('click', ()=>{ if(code==='es') setLangprefES(); });
+    }
+  });
+
+  // Móvil: navega con los botones data-set-language
+  document.querySelectorAll('[data-set-language]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const code = btn.getAttribute('data-set-language');
+      if (!SUPPORTED.includes(code)) return;
+      if (code === 'es') setLangprefES();
+      window.location.href = buildUrl(code);
+    });
+  });
+
+  // Marca activo (grid móvil) y sincroniza flag/código del botón de cabecera
+  const curr = (location.pathname.match(/^\/(en|fr)(?=\/|$)/i)?.[1] || 'es').toLowerCase();
+  const activeBtn = document.querySelector(`.lang-grid [data-set-language="${curr}"]`);
+  activeBtn && (activeBtn.classList.add('is-active'), activeBtn.setAttribute('aria-current','true'));
+
   const img = document.getElementById('langCurrentFlag');
   const code = document.getElementById('langCurrentCode');
-  if (img && code && map[curr]) {
-    img.src = map[curr][0];
-    img.alt = map[curr][1];
-    code.textContent = map[curr][1];
-  }
+  const flagSrc = { es:'/assets/flags/es.svg', en:'/assets/flags/gb.svg', fr:'/assets/flags/fr.svg' }[curr];
+  if (img && code && flagSrc){ img.src = flagSrc; img.alt = curr.toUpperCase(); code.textContent = curr.toUpperCase(); }
 })();
 </script>
 

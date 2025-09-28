@@ -1197,7 +1197,24 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 @media (max-width:960px){
   .page-hero.sm{ height:auto; min-height:calc(220px + var(--header-h)); }
 }
-
+/* Mostrar grid solo en móvil; ocultar dropdown en móvil */
+@media (max-width:960px){
+  .nav-links .lang-switch{ display:none; }
+  .lang-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem;
+    margin:.6rem 0 0; padding:.6rem 0 0; border-top:1px solid rgba(0,0,0,.08);
+  }
+  .lang-btn{
+    display:flex; align-items:center; justify-content:center; gap:.5rem;
+    padding:.48rem .6rem; border:1px solid rgba(0,0,0,.18); border-radius:10px;
+    background:#fff; font:inherit; cursor:pointer;
+  }
+  .lang-btn:hover{ background:#f5faf7; }
+  .lang-btn.is-active{ border-color:#16a34a; background:#eef9f0; font-weight:600; }
+  .lang-btn .flag{ width:18px; height:18px; border-radius:2px; }
+}
+/* En escritorio, ocultar la grid móvil */
+@media (min-width:961px){ .lang-grid{ display:none } }
 
 /* Extra fino móviles muy estrechos */
 @media (max-width:380px){
