@@ -4,7 +4,7 @@ title: "Sendaviva: entradas, qué ver y consejos en familia"
 description: "Parque familiar junto a Bardenas con atracciones, espectáculos y animales. Dónde comprar entradas, plan de día y recomendaciones prácticas."
 permalink: "/entorno/sendaviva/"
 ---
-<section class="page-hero full-bleed tierra sm"
+<section class="page-hero full-bleed tierra sm center-mobile"
          style="background-image:url('/images/sendaviva-hero.jpg')"
          aria-label="Sendaviva: parque familiar junto a Bardenas">
   <div class="overlay" aria-hidden="true"></div>

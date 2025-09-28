@@ -1158,6 +1158,46 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
     padding-inline:16px;
   }
 }
+/* MÓVIL: héroes CON imagen → centrado HORIZONTAL por defecto */
+@media (max-width:960px){
+  .page-hero:not(.noimg) .inner,
+  .page-hero:not(.noimg) .container.inner{
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:flex-end;            /* sigue anclado ABAJO por defecto */
+    align-items:center !important;       /* ← centra el BLOQUE */
+    text-align:center !important;        /* ← centra el TEXTO */
+    margin-inline:auto !important;
+    padding: calc(var(--header-h) + 12px) 20px 40px;
+    padding-left:  calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+  }
+
+  .page-hero:not(.noimg) h1{
+    max-width:28ch;
+    margin:0 auto !important;
+    color:#fff;                          /* asegura contraste */
+  }
+
+  .page-hero:not(.noimg) .page-lead{
+    max-width:34ch;
+    margin:.35rem auto 0 !important;
+  }
+
+  .page-hero:not(.noimg) .kicker{ text-align:center; }
+
+  /* —— UTILIDADES VERTICALES (opt-in en móvil) —— */
+  /* Úsalas en el <section> del hero cuando quieras cambiar el anclaje vertical */
+  .page-hero.center-mobile .inner{ justify-content:center !important; }     /* centrado vertical */
+  .page-hero.top-mobile    .inner{ justify-content:flex-start !important; } /* anclado arriba  */
+}
+
+/* (Opcional) Si activas .center-mobile con frecuencia en héroes "sm",
+   quizá prefieras que no dependan de vh en móvil para que respiren como .auto */
+@media (max-width:960px){
+  .page-hero.sm{ height:auto; min-height:calc(220px + var(--header-h)); }
+}
+
 
 /* Extra fino móviles muy estrechos */
 @media (max-width:380px){

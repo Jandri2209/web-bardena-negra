@@ -5,7 +5,7 @@ description: "Cómo visitar las Bardenas Reales desde la casa: rutas esenciales 
 permalink: "/entorno/bardenas/"
 ---
 <!-- HERO con imagen de fondo -->
-<section class="page-hero full-bleed tierra sm"
+<section class="page-hero full-bleed tierra sm center-mobile"
          style="background-image:url('/images/bardenas-anochecer.jpg')"
          aria-label="Bardenas Reales: Castildetierra y badlands">
   <div class="overlay" aria-hidden="true"></div>
