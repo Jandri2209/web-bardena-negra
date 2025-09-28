@@ -1209,44 +1209,39 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 @media (max-width:960px){
   .page-hero.sm{ height:auto; min-height:calc(220px + var(--header-h)); }
 }
-/* ===== Idioma (móvil): segmentado en FILAS ===== */
+/* Móvil (≤960px): lista segmentada en FILAS + menos aire */
 @media (max-width:960px){
-  /* el dropdown de desktop sigue oculto en móvil */
-  .nav-links .lang-switch{ display:none; }
+  /* Oculta el dropdown de idiomas de desktop */
+  .nav-links .lang-switch{ display:none !important; }
 
-  /* contenedor/título igual que antes (déjalos como los tenías) */
+  /* Bloque y título, con menos márgenes para no dejar hueco */
+  .lang-block{
+    margin:.4rem 0 0; padding:.45rem 0 0;
+    border-top:1px solid rgba(255,255,255,.08);
+  }
+  .lang-title{
+    margin:0 0 .3rem; padding:0 .2rem;
+    font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+    color:rgba(255,255,255,.6);
+  }
 
-  /* Cambios clave: apilar vertical y separar con borde superior */
+  /* Segmentado en vertical */
   .lang-seg{
-    display:flex;
-    flex-direction:column;          /* ← antes era en fila */
-    width:100%;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.14);
-    border-radius:12px;
-    overflow:hidden;
+    display:flex; flex-direction:column; width:100%;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:12px; overflow:hidden;
   }
   .seg-btn{
-    flex:0 0 auto;                  /* ya no necesitamos flex:1 */
-    min-width:0;
-    width:100%;
-    display:flex; align-items:center; justify-content:center; gap:.4rem;
-    padding:.58rem .7rem;
-    background:transparent; color:#eaeaea;
-    border:0; font:inherit; cursor:pointer; line-height:1; white-space:nowrap;
+    width:100%; flex:0 0 auto; min-width:0;
+    display:flex; align-items:center; justify-content:flex-start; gap:.5rem;
+    padding:.5rem .65rem; background:transparent; color:#eaeaea;
+    border:0; font:inherit; cursor:pointer; line-height:1.1; white-space:nowrap;
   }
-  /* override: quita el borde-left y usa borde-top entre filas */
-  .seg-btn + .seg-btn{
-    border-left:0 !important;
-    border-top:1px solid rgba(255,255,255,.12);
-  }
+  .seg-btn + .seg-btn{ border-top:1px solid rgba(255,255,255,.1); } /* separador entre filas */
   .seg-btn .flag{ width:16px; height:16px; border-radius:2px; }
   .seg-btn .code{ font-weight:600; font-size:.85rem; letter-spacing:.03em; }
-
-  .seg-btn.is-active{
-    background:rgba(22,163,74,.18);
-    color:#fff;
-  }
+  .seg-btn.is-active{ background:rgba(22,163,74,.18); color:#fff; }
 }
 /* En escritorio seguimos usando el dropdown existente */
 @media (min-width:961px){ .lang-block{ display:none } }
@@ -1336,4 +1331,21 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 @media (min-width:961px){
   .feature{ grid-template-columns:48px minmax(0,1fr); padding:1rem; }
   .icon-24{ inline-size:40px; block-size:40px; }
+}
+
+/* Desktop (≥961px): volver a mostrar el botón de idioma */
+@media (min-width:961px){
+  .nav-links .lang-switch{ display:inline-flex !important; align-items:center; }
+  /* Muchos estilos ocultan .sub-toggle en desktop; reactivamos SOLO el de idioma */
+  .lang-switch .sub-toggle{
+    display:inline-flex !important;
+    align-items:center; gap:.35rem;
+    padding:.35rem .55rem;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:10px;
+    background:rgba(255,255,255,.06);
+  }
+  .lang-switch .sub-toggle:hover{ background:rgba(255,255,255,.1); }
+  .lang-switch .lang-flag{ width:16px; height:16px; border-radius:2px; }
+  .lang-switch .lang-code{ font-weight:600; font-size:.85rem; letter-spacing:.03em; }
 }
