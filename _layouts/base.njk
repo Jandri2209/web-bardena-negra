@@ -84,17 +84,26 @@ title: ""
         </div>
 
         <a href="/reservas/" class="cta">Reservar</a>
-        <!-- Idiomas (móvil) -->
-        <div class="lang-grid" aria-label="Idioma">
-          <button type="button" class="lang-btn" data-set-language="es">
-            <img src="/assets/flags/es.svg" alt="" class="flag"> <span>Español</span>
-          </button>
-          <button type="button" class="lang-btn" data-set-language="en">
-            <img src="/assets/flags/gb.svg" alt="" class="flag"> <span>English</span>
-          </button>
-          <button type="button" class="lang-btn" data-set-language="fr">
-            <img src="/assets/flags/fr.svg" alt="" class="flag"> <span>Français</span>
-          </button>
+        <!-- Idioma (móvil) — bloque compacto y profesional -->
+        <div class="lang-block" role="group" aria-labelledby="lang-title">
+          <p id="lang-title" class="lang-title">Idioma</p>
+          <div class="lang-seg">
+            <button type="button" class="seg-btn" data-set-language="es">
+              <img src="/assets/flags/es.svg" alt="" class="flag">
+              <span class="code">ES</span>
+              <span class="sr-only">Español</span>
+            </button>
+            <button type="button" class="seg-btn" data-set-language="en">
+              <img src="/assets/flags/gb.svg" alt="" class="flag">
+              <span class="code">EN</span>
+              <span class="sr-only">English</span>
+            </button>
+            <button type="button" class="seg-btn" data-set-language="fr">
+              <img src="/assets/flags/fr.svg" alt="" class="flag">
+              <span class="code">FR</span>
+              <span class="sr-only">Français</span>
+            </button>
+          </div>
         </div>
       </nav>
     </div>
@@ -771,6 +780,13 @@ title: ""
   const code = document.getElementById('langCurrentCode');
   const flagSrc = { es:'/assets/flags/es.svg', en:'/assets/flags/gb.svg', fr:'/assets/flags/fr.svg' }[curr];
   if (img && code && flagSrc){ img.src = flagSrc; img.alt = curr.toUpperCase(); code.textContent = curr.toUpperCase(); }
+})();
+</script>
+<script>
+(function(){
+  const curr = (location.pathname.match(/^\/(en|fr)(?=\/|$)/i)?.[1] || 'es').toLowerCase();
+  const btn = document.querySelector('.lang-seg .seg-btn[data-set-language="'+curr+'"]');
+  if (btn){ btn.classList.add('is-active'); btn.setAttribute('aria-current','true'); }
 })();
 </script>
 

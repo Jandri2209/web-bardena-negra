@@ -328,6 +328,18 @@ header.site-header:focus-within{
   /* algo más de aire en items de submenú en móvil */
   .nav .submenu a{ padding:.6rem 0; }
 }
+/* Caret por defecto (apuntando abajo) */
+.sub-toggle .chev{
+  transform: translateY(-1px);
+  transition: transform .18s ease;
+}
+
+/* Cuando el submenú está abierto, gira 180º (apunta arriba) */
+@media (max-width:960px){
+  .sub-toggle[aria-expanded="true"] .chev{
+    transform: translateY(-1px) rotate(180deg);
+  }
+}
 
 /* --------- Estado ACTIVO / Rama actual --------- */
 .has-submenu.is-current-branch > .nav-link{
@@ -1197,24 +1209,53 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 @media (max-width:960px){
   .page-hero.sm{ height:auto; min-height:calc(220px + var(--header-h)); }
 }
-/* Mostrar grid solo en móvil; ocultar dropdown en móvil */
+/* ===== Idioma (móvil): título + control segmentado ===== */
 @media (max-width:960px){
+  /* Oculta el dropdown de idiomas en móvil (manténlo para desktop) */
   .nav-links .lang-switch{ display:none; }
-  .lang-grid{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem;
-    margin:.6rem 0 0; padding:.6rem 0 0; border-top:1px solid rgba(0,0,0,.08);
+
+  .lang-block{
+    margin:.75rem 0 0; padding:.75rem 0 0;
+    border-top:1px solid rgba(255,255,255,.08);
   }
-  .lang-btn{
-    display:flex; align-items:center; justify-content:center; gap:.5rem;
-    padding:.48rem .6rem; border:1px solid rgba(0,0,0,.18); border-radius:10px;
-    background:#fff; font:inherit; cursor:pointer;
+  .lang-title{
+    margin:0 0 .4rem; padding:0 .25rem;
+    font-size:.73rem; letter-spacing:.14em; text-transform:uppercase;
+    color:rgba(255,255,255,.6);
   }
-  .lang-btn:hover{ background:#f5faf7; }
-  .lang-btn.is-active{ border-color:#16a34a; background:#eef9f0; font-weight:600; }
-  .lang-btn .flag{ width:18px; height:18px; border-radius:2px; }
+
+  /* Segmentado: 3 botones = 1 fila, sin desbordar */
+  .lang-seg{
+    display:flex; width:100%;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:12px; overflow:hidden;
+  }
+  .seg-btn{
+    flex:1 1 0; min-width:0;   /* ← nunca crece más que el contenedor */
+    display:flex; align-items:center; justify-content:center; gap:.4rem;
+    padding:.5rem .65rem; background:transparent; color:#eaeaea;
+    border:0; font:inherit; cursor:pointer;
+    line-height:1; white-space:nowrap;
+  }
+  .seg-btn + .seg-btn{ border-left:1px solid rgba(255,255,255,.12); }
+  .seg-btn .flag{ width:16px; height:16px; border-radius:2px; }
+  .seg-btn .code{ font-weight:600; font-size:.85rem; letter-spacing:.03em; }
+
+  /* Estado activo (se pinta vía JS añadiendo .is-active) */
+  .seg-btn.is-active{
+    background:rgba(22,163,74,.18);   /* verde suave de marca */
+    color:#fff;
+  }
+
+  /* Accesible */
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
 }
-/* En escritorio, ocultar la grid móvil */
-@media (min-width:961px){ .lang-grid{ display:none } }
+/* En escritorio seguimos usando el dropdown existente */
+@media (min-width:961px){ .lang-block{ display:none } }
 
 /* Extra fino móviles muy estrechos */
 @media (max-width:380px){
