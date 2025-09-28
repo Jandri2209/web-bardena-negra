@@ -281,7 +281,7 @@ header.site-header:focus-within{
   }
 
   /* sin caret en desktop (como querías) */
-  .nav .sub-toggle{ display:none !important; }
+  .nav .has-submenu:not(.lang-switch) .sub-toggle{ display:none !important; }
 }
 
 /* ======== COMPARTIDO (móvil/desktop) ======== */

@@ -90,19 +90,34 @@ title: ""
           <div class="lang-seg">
             <button type="button" class="seg-btn" data-set-language="es">
               <img src="/assets/flags/es.svg" alt="" class="flag">
-              <span class="code">ES</span>
+              <span class="code">Español</span>
               <span class="sr-only">Español</span>
             </button>
             <button type="button" class="seg-btn" data-set-language="en">
               <img src="/assets/flags/gb.svg" alt="" class="flag">
-              <span class="code">EN</span>
+              <span class="code">English</span>
               <span class="sr-only">English</span>
             </button>
             <button type="button" class="seg-btn" data-set-language="fr">
               <img src="/assets/flags/fr.svg" alt="" class="flag">
-              <span class="code">FR</span>
+              <span class="code">Français</span>
               <span class="sr-only">Français</span>
             </button>
+          </div>
+        </div>
+        <!-- Idiomas (ESCRITORIO) -->
+        <div class="nav-item has-submenu lang-switch">
+          <button class="sub-toggle" id="langToggle"
+                  aria-label="Cambiar idioma" aria-haspopup="menu"
+                  aria-expanded="false" aria-controls="submenu-lang">
+            <img class="lang-flag" id="langCurrentFlag" src="/assets/flags/es.svg" alt="ES">
+            <span class="lang-code" id="langCurrentCode">ES</span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
+          <div class="submenu" id="submenu-lang" role="menu" aria-labelledby="langToggle">
+            <a id="lang-es" role="menuitem"><img class="lang-flag" src="/assets/flags/es.svg" alt=""> Español</a>
+            <a id="lang-en" role="menuitem"><img class="lang-flag" src="/assets/flags/gb.svg" alt=""> English</a>
+            <a id="lang-fr" role="menuitem"><img class="lang-flag" src="/assets/flags/fr.svg" alt=""> Français</a>
           </div>
         </div>
       </nav>
