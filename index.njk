@@ -404,15 +404,13 @@ permalink: "/"
     {# JSON-LD #}
     <script type="application/ld+json">
     {
-      "@context":"https://schema.org",
-      "@type":"LodgingBusiness",
-      "name":"Casa Rural Bardena Negra",
-      "url":"{{ site and site.url or '' }}/",
-      "aggregateRating":{
-        "@type":"AggregateRating",
-        "ratingValue":"{{ avg | round(1) }}",
-        "bestRating":"5",
-        "reviewCount":"{{ count }}"
+      "@context": "https://schema.org",
+      "@id": {{ (site.url + "/#org") | dump | safe }},
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ avg | round(1) }}",
+        "bestRating": "5",
+        "reviewCount": "{{ count }}"
       }
     }
     </script>

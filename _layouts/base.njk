@@ -9,23 +9,33 @@ title: ""
   <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
   <meta name="description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
   {% if noindex %}<meta name="robots" content="noindex">{% endif %}
-  {% if page.url == "/" %}
+  {# --- Preloads por página (LCP) --- #}
   {% if page.url == "/" %}
   <link rel="preload" as="image"
         href="/images/home-hero-1-1280.webp"
-        fetchpriority="high"
         imagesrcset="/images/home-hero-1-960.webp 960w, /images/home-hero-1-1280.webp 1280w, /images/home-hero-1-1920.webp 1920w"
         imagesizes="(max-width: 900px) 100vw, 1200px">
   {% endif %}
-  {% endif %}
+
   {% if page.url == "/entorno/tudela/" %}
-  <link rel="preload" as="image" href="/images/plaza-tudela-1280.webp" fetchpriority="high">
+  <link rel="preload" as="image"
+        href="/images/plaza-tudela-1280.webp"
+        imagesrcset="/images/plaza-tudela-960.webp 960w, /images/plaza-tudela-1280.webp 1280w, /images/plaza-tudela-1920.webp 1920w"
+        imagesizes="(max-width: 900px) 100vw, 1200px">
   {% endif %}
+
   {% if page.url == "/entorno/sendaviva/" %}
-  <link rel="preload" as="image" href="/images/sendaviva-hero-1280.webp" fetchpriority="high">
+  <link rel="preload" as="image"
+        href="/images/sendaviva-hero-1280.webp"
+        imagesrcset="/images/sendaviva-hero-960.webp 960w, /images/sendaviva-hero-1280.webp 1280w, /images/sendaviva-hero-1920.webp 1920w"
+        imagesizes="(max-width: 900px) 100vw, 1200px">
   {% endif %}
+
   {% if page.url == "/entorno/bardenas/" %}
-  <link rel="preload" as="image" href="/images/bardenas-anochecer-1280.webp" fetchpriority="high">
+  <link rel="preload" as="image"
+        href="/images/bardenas-anochecer-1280.webp"
+        imagesrcset="/images/bardenas-anochecer-960.webp 960w, /images/bardenas-anochecer-1280.webp 1280w, /images/bardenas-anochecer-1920.webp 1920w"
+        imagesizes="(max-width: 900px) 100vw, 1200px">
   {% endif %}
   <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +75,7 @@ title: ""
             <notranslate><span class="chev" aria-hidden="true">▾</span></notranslate>
           </button>
           <div class="submenu" id="submenu-casa" role="menu" aria-labelledby="link-casa">
-            <a href="/la-casa/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “La casa”</strong></a></notranslate>
+            <a href="/la-casa/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “La casa”</strong></notranslate></a>
             <a href="/la-casa/faq/" role="menuitem">Preguntas frecuentes</a>
             <a href="/la-casa/galeria/" role="menuitem">Galería</a>
             <a href="/la-casa/equipamiento/" role="menuitem">Equipamiento</a>
@@ -83,7 +93,7 @@ title: ""
             <notranslate><span class="chev" aria-hidden="true">▾</span></notranslate>
           </button>
           <div class="submenu" id="submenu-entorno" role="menu" aria-labelledby="link-entorno">
-            <a href="/entorno/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “Entorno”</strong></a></notranslate>
+            <a href="/entorno/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “Entorno”</strong></notranslate></a>
             <a href="/entorno/bardenas/" role="menuitem">Bardenas Reales</a>
             <a href="/entorno/tudela/"   role="menuitem">Tudela</a>
             <a href="/entorno/sendaviva/" role="menuitem">Sendaviva</a>
@@ -208,25 +218,6 @@ title: ""
       </nav>
     </div>
   </footer>
-
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
-    "name": "{{ site.name }}",
-    "url": "{{ site.url }}",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "{{ site.address.streetAddress }}",
-      "addressLocality": "{{ site.address.addressLocality }}",
-      "postalCode": "{{ site.address.postalCode }}",
-      "addressRegion": "{{ site.address.addressRegion }}",
-      "addressCountry": "ES"
-    },
-    "geo": { "@type": "GeoCoordinates", "latitude": {{ site.geo.lat }}, "longitude": {{ site.geo.lng }} }
-  }
-  </script>
 
   <!-- Header scroll + menú -->
   <script>

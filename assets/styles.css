@@ -406,20 +406,28 @@ header.site-header:focus-within{
 .hero-slider .overlay{ position:absolute; inset:0; z-index:2 }  /* oscurecedor encima de las fotos */
 .hero-slider .inner{ position:relative; z-index:3 }              /* texto por encima */
 
-/* Slides: MISMA ANIMACIÓN que tenías */
+/* Slides + animación (igual que tenías) */
 .hero-slider .slide{
   position:absolute; inset:0;
   opacity:0; animation:heroFade 12s infinite; z-index:1;
   will-change:opacity;
 }
-.hero-slider .slide:nth-child(1){ animation-delay:0s }
+.hero-slider .slide:nth-child(1){ animation-delay:0s }  /* se anula justo abajo */
 .hero-slider .slide:nth-child(2){ animation-delay:4s }
 .hero-slider .slide:nth-child(3){ animation-delay:8s }
+
+/* CLAVE LCP: el primer slide visible y sin animación */
+.hero-slider .slide:first-child{
+  opacity:1;
+  animation:none;
+}
 
 @keyframes heroFade{
   0%{opacity:0} 6%{opacity:1} 30%{opacity:1} 36%{opacity:0} 100%{opacity:0}
 }
-@media (prefers-reduced-motion: reduce){ .hero-slider .slide{ animation:none } }
+@media (prefers-reduced-motion: reduce){
+  .hero-slider .slide{ animation:none }
+}
 
 /* Imagen del slide (rellena todo el hero) */
 .hero-slider .slide picture,
@@ -434,6 +442,7 @@ header.site-header:focus-within{
   .hero{ height:72vh; min-height:480px }
   .hero .inner{ justify-content:center; text-align:center; padding:0 16px }
 }
+
 
 /* ==========================
    8) Hero de página (internas)
