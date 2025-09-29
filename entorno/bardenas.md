@@ -5,9 +5,25 @@ description: "Cómo visitar las Bardenas Reales desde la casa: rutas esenciales 
 permalink: "/entorno/bardenas/"
 ---
 <!-- HERO con imagen de fondo -->
-<section class="page-hero full-bleed tierra sm center-mobile"
-         style="background-image:url('/images/bardenas-anochecer.jpg')"
-         aria-label="Bardenas Reales: Castildetierra y badlands">
+<section class="page-hero full-bleed tierra sm center-mobile" aria-label="Bardenas Reales: Castildetierra y badlands">
+  <!-- Imagen LCP: responsive + WebP -->
+  <picture>
+    <source type="image/webp"
+      srcset="/images/bardenas-anochecer-960.webp 960w,
+              /images/bardenas-anochecer-1280.webp 1280w,
+              /images/bardenas-anochecer-1920.webp 1920w"
+      sizes="(max-width: 900px) 100vw, 1200px">
+    <img class="hero-bg"
+      src="/images/bardenas-anochecer-1280.jpg"
+      srcset="/images/bardenas-anochecer-960.jpg 960w,
+              /images/bardenas-anochecer-1280.jpg 1280w,
+              /images/bardenas-anochecer-1920.jpg 1920w"
+      sizes="(max-width: 900px) 100vw, 1200px"
+      alt="Castildetierra al atardecer en las Bardenas Reales"
+      width="1920" height="1280"
+      decoding="async" fetchpriority="high">
+  </picture>
+
   <div class="overlay" aria-hidden="true"></div>
   <div class="inner container">
     <p class="kicker">Entorno</p>

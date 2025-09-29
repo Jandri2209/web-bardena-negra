@@ -6,12 +6,65 @@ permalink: "/"
 ---
 
 <!-- HERO SLIDER full-bleed -->
-<section class="hero hero-slider full-bleed">
-  <div class="slide" style="background-image:url('/images/hero.webp')"></div>
-  <div class="slide" style="background-image:url('/images/hero-2.webp')"></div>
-  <div class="slide" style="background-image:url('/images/hero-3.webp')"></div>
-  <div class="overlay" aria-hidden="true"></div>
+<section class="hero hero-slider full-bleed" aria-label="Galería de portada">
+  <div class="slide">
+    <picture>
+      <source type="image/webp"
+        srcset="/images/home-hero-1-960.webp 960w,
+                /images/home-hero-1-1280.webp 1280w,
+                /images/home-hero-1-1920.webp 1920w"
+        sizes="(max-width: 900px) 100vw, 1200px">
+      <img class="hero-bg"
+           src="/images/home-hero-1-1280.jpg"
+           srcset="/images/home-hero-1-960.jpg 960w,
+                   /images/home-hero-1-1280.jpg 1280w,
+                   /images/home-hero-1-1920.jpg 1920w"
+           sizes="(max-width: 900px) 100vw, 1200px"
+           alt="Cocina con mesa redonda y jardín exterior"
+           width="1920" height="1277"
+           decoding="async" fetchpriority="high">
+    </picture>
+  </div>
 
+  <div class="slide">
+    <picture>
+      <source type="image/webp"
+        srcset="/images/home-hero-2-960.webp 960w,
+                /images/home-hero-2-1280.webp 1280w,
+                /images/home-hero-2-1920.webp 1920w"
+        sizes="(max-width: 900px) 100vw, 1200px">
+      <img class="hero-bg"
+           src="/images/home-hero-2-1280.jpg"
+           srcset="/images/home-hero-2-960.jpg 960w,
+                   /images/home-hero-2-1280.jpg 1280w,
+                   /images/home-hero-2-1920.jpg 1920w"
+           sizes="(max-width: 900px) 100vw, 1200px"
+           alt="Salón-comedor con vigas de madera"
+           width="1920" height="1280"
+           loading="lazy" decoding="async">
+    </picture>
+  </div>
+
+  <div class="slide">
+    <picture>
+      <source type="image/webp"
+        srcset="/images/home-hero-3-960.webp 960w,
+                /images/home-hero-3-1280.webp 1280w,
+                /images/home-hero-3-1920.webp 1920w"
+        sizes="(max-width: 900px) 100vw, 1200px">
+      <img class="hero-bg"
+           src="/images/home-hero-3-1280.jpg"
+           srcset="/images/home-hero-3-960.jpg 960w,
+                   /images/home-hero-3-1280.jpg 1280w,
+                   /images/home-hero-3-1920.jpg 1920w"
+           sizes="(max-width: 900px) 100vw, 1200px"
+           alt="Salón con sofá y TV"
+           width="1920" height="1280"
+           loading="lazy" decoding="async">
+    </picture>
+  </div>
+
+  <div class="overlay" aria-hidden="true"></div>
   <div class="inner container">
     <div>
       <p class="kicker">Fustiñana · Navarra</p>
@@ -92,16 +145,61 @@ permalink: "/"
 <section class="container" style="margin-top:2rem">
   <div class="grid cols-3">
     <figure style="border-radius:8px;overflow:hidden">
-      <img src="/images/salon-sofa-cama.jpg" alt="Salón-comedor de Casa Bardena Negra" style="display:block;width:100%;height:auto">
+      <picture>
+        <source type="image/webp"
+          srcset="/images/salon-sofa-cama-480.webp 480w,
+                  /images/salon-sofa-cama-640.webp 640w,
+                  /images/salon-sofa-cama-960.webp 960w"
+          sizes="(max-width: 900px) 100vw, 33vw">
+        <img src="/images/salon-sofa-cama-640.jpg"
+             srcset="/images/salon-sofa-cama-480.jpg 480w,
+                     /images/salon-sofa-cama-640.jpg 640w,
+                     /images/salon-sofa-cama-960.jpg 960w"
+             sizes="(max-width: 900px) 100vw, 33vw"
+             alt="Salón-comedor de Casa Bardena Negra"
+             width="800" height="533"
+             loading="lazy" decoding="async" />
+      </picture>
     </figure>
+
     <figure style="border-radius:8px;overflow:hidden">
-      <img src="/images/cocina-equipada.jpg" alt="Cocina totalmente equipada" style="display:block;width:100%;height:auto">
+      <picture>
+        <source type="image/webp"
+          srcset="/images/cocina-equipada-480.webp 480w,
+                  /images/cocina-equipada-640.webp 640w,
+                  /images/cocina-equipada-960.webp 960w"
+          sizes="(max-width: 900px) 100vw, 33vw">
+        <img src="/images/cocina-equipada-640.jpg"
+             srcset="/images/cocina-equipada-480.jpg 480w,
+                     /images/cocina-equipada-640.jpg 640w,
+                     /images/cocina-equipada-960.jpg 960w"
+             sizes="(max-width: 900px) 100vw, 33vw"
+             alt="Cocina totalmente equipada"
+             width="800" height="533"
+             loading="lazy" decoding="async" />
+      </picture>
     </figure>
+
     <figure style="border-radius:8px;overflow:hidden">
-      <img src="/images/terraza.jpg" alt="Jardín con terraza y barbacoa" style="display:block;width:100%;height:auto">
+      <picture>
+        <source type="image/webp"
+          srcset="/images/terraza-480.webp 480w,
+                  /images/terraza-640.webp 640w"
+          sizes="(max-width: 900px) 100vw, 33vw">
+        <img src="/images/terraza-640.jpg"
+             srcset="/images/terraza-480.jpg 480w,
+                     /images/terraza-640.jpg 640w"
+             sizes="(max-width: 900px) 100vw, 33vw"
+             alt="Jardín con terraza y barbacoa"
+             width="670" height="447"
+             loading="lazy" decoding="async" />
+      </picture>
     </figure>
   </div>
-  <p style="text-align:center;margin-top:.8rem"><a href="/la-casa/galeria/" class="btn alt">Abrir galería completa</a></p>
+
+  <p style="text-align:center;margin-top:.8rem">
+    <a href="/la-casa/galeria/" class="btn alt">Abrir galería completa</a>
+  </p>
 </section>
 
 <!-- ENTORNO -->

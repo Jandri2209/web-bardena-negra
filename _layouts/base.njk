@@ -10,15 +10,22 @@ title: ""
   <meta name="description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
   {% if noindex %}<meta name="robots" content="noindex">{% endif %}
   {% if page.url == "/" %}
-  <link rel="preload" as="image" href="/images/hero.webp" fetchpriority="high">
-  <link rel="preload" as="image" href="/images/hero-2.webp" fetchpriority="high">
-  <link rel="preload" as="image" href="/images/hero-3.webp" fetchpriority="high">
+  {% if page.url == "/" %}
+  <link rel="preload" as="image"
+        href="/images/home-hero-1-1280.webp"
+        fetchpriority="high"
+        imagesrcset="/images/home-hero-1-960.webp 960w, /images/home-hero-1-1280.webp 1280w, /images/home-hero-1-1920.webp 1920w"
+        imagesizes="(max-width: 900px) 100vw, 1200px">
+  {% endif %}
+  {% endif %}
+  {% if page.url == "/entorno/tudela/" %}
+  <link rel="preload" as="image" href="/images/plaza-tudela-1280.webp" fetchpriority="high">
   {% endif %}
   {% if page.url == "/entorno/sendaviva/" %}
-  <link rel="preload" as="image" href="/images/sendaviva.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/sendaviva-hero-1280.webp" fetchpriority="high">
   {% endif %}
   {% if page.url == "/entorno/bardenas/" %}
-  <link rel="preload" as="image" href="/images/bardenas.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/bardenas-anochecer-1280.webp" fetchpriority="high">
   {% endif %}
   <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

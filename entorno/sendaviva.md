@@ -4,9 +4,25 @@ title: "Sendaviva: entradas, qué ver y consejos en familia"
 description: "Parque familiar junto a Bardenas con atracciones, espectáculos y animales. Dónde comprar entradas, plan de día y recomendaciones prácticas."
 permalink: "/entorno/sendaviva/"
 ---
-<section class="page-hero full-bleed tierra sm center-mobile"
-         style="background-image:url('/images/sendaviva-hero.jpg')"
-         aria-label="Sendaviva: parque familiar junto a Bardenas">
+<section class="page-hero full-bleed tierra sm center-mobile" aria-label="Sendaviva: parque familiar junto a Bardenas">
+  <!-- Imagen LCP: responsive + WebP -->
+  <picture>
+    <source type="image/webp"
+      srcset="/images/sendaviva-hero-960.webp 960w,
+              /images/sendaviva-hero-1280.webp 1280w,
+              /images/sendaviva-hero-1920.webp 1920w"
+      sizes="(max-width: 900px) 100vw, 1200px">
+    <img class="hero-bg"
+      src="/images/sendaviva-hero-1280.jpg"
+      srcset="/images/sendaviva-hero-960.jpg 960w,
+              /images/sendaviva-hero-1280.jpg 1280w,
+              /images/sendaviva-hero-1920.jpg 1920w"
+      sizes="(max-width: 900px) 100vw, 1200px"
+      alt="Personas en una atracción de caída libre en Sendaviva"
+      width="1920" height="1254"
+      decoding="async" fetchpriority="high">
+  </picture>
+
   <div class="overlay" aria-hidden="true"></div>
   <div class="inner container">
     <p class="kicker">Entorno</p>
