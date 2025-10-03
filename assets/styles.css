@@ -541,6 +541,21 @@ main > section.container.prose:first-of-type .card:first-child{ margin-top:0 !im
 .chip.is-active{ border-color:var(--accent); color:#fff; background:var(--accent) }
 .gallery-h2{ margin:1rem 0 .6rem }
 
+/* Galería destacada: 3 thumbs iguales */
+.gallery-equal > figure{
+  border-radius:8px; overflow:hidden; margin:0;
+  aspect-ratio: 3 / 2;      /* alto uniforme para las 3 */
+  position:relative;
+}
+.gallery-equal > figure picture,
+.gallery-equal > figure img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover;          /* recorta suavemente si alguna se sale */
+}
+@media (max-width: 900px){
+  .gallery-equal > figure{ aspect-ratio: 4 / 3; } /* opcional en móvil */
+}
+
 /* ==========================
    12) Inventario (equipamiento interno)
    ========================== */
