@@ -60,7 +60,9 @@ permalink: "/reservas/"
         </p>
         <p class="field">
           <label for="telefono">Teléfono (opcional)</label>
-          <input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" pattern="^[0-9+()\\s-]{7,}$">
+          <input id="telefono" name="telefono" type="tel"
+                 autocomplete="tel" inputmode="tel"
+                 pattern="^[0-9 +()\-\.\s]{7,}$">
           <span class="help">Para avisos de última hora</span>
         </p>
       </div>
@@ -79,7 +81,7 @@ permalink: "/reservas/"
       </p>
 
       <p class="inline">
-        <input id="privacy" type="checkbox" required>
+        <input id="privacy" name="privacy" type="checkbox" value="accepted" required>
         <label for="privacy">He leído y acepto la <a href="/privacidad/">política de privacidad</a>.</label>
       </p>
 
