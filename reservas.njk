@@ -9,12 +9,13 @@ permalink: "/reservas/"
   <div class="card">
     <h1>Solicitar disponibilidad</h1>
 
-    <form name="reserva"
+    <form id="reserva-form" name="reserva"
       method="POST"
       action="/gracias/"
-      data-netlify="true"
+      data-netlify="true" netlify
       netlify-honeypot="bot-field"
-      accept-charset="UTF-8">
+      accept-charset="UTF-8"
+      autocomplete="off">
 
       <input type="hidden" name="form-name" value="reserva">
 
@@ -91,6 +92,16 @@ permalink: "/reservas/"
       <p><button class="btn" type="submit">Enviar consulta</button></p>
     </form>
   </div>
+  <!-- Overlay para cuando el usuario vuelve atrás -->
+<div id="bf-overlay" hidden
+     style="position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:9999">
+  <div class="card" style="max-width:560px;text-align:center;background:#fff;padding:24px;border-radius:14px">
+    <h2 style="margin-top:0">Formulario caducado</h2>
+    <p>Has vuelto a esta página desde el historial. Para evitar reenvíos accidentales,
+       recarga el formulario.</p>
+    <button id="bf-reload" class="btn" type="button">Recargar formulario</button>
+  </div>
+</div>
 
   <div class="card">
     <h2>¿Prefieres reservar ya?</h2>
@@ -189,6 +200,53 @@ $ninos.addEventListener("change", updateCapacity);
 // Inicial
 updateCapacity();
 </script>
+<script>
+(function () {
+  const form = document.getElementById("reserva-form");
+  const overlay = document.getElementById("bf-overlay");
+  const btnReload = document.getElementById("bf-reload");
+
+  // Marcamos en sessionStorage cuando el usuario ENVÍA el formulario
+  if (form) {
+    form.addEventListener("submit", () => {
+      try { sessionStorage.setItem("reserva-submitted", "1"); } catch(_) {}
+    });
+  }
+
+  // Mostrar aviso si se vuelve por atrás (bfcache / historial)
+  function cameFromHistory(evt) {
+    // 1) Safari/Firefox: pageshow.persisted
+    if (evt && evt.persisted) return true;
+    // 2) Navegadores modernos: Navigation Timing
+    const nav = (performance && performance.getEntriesByType)
+      ? performance.getEntriesByType("navigation")[0]
+      : null;
+    return !!(nav && nav.type === "back_forward");
+  }
+
+  window.addEventListener("pageshow", (evt) => {
+    const submitted = (() => { try { return sessionStorage.getItem("reserva-submitted") === "1"; } catch(_) { return false; }})();
+    if (submitted && cameFromHistory(evt)) {
+      // Limpiamos campos para que no queden datos a la vista
+      try { form && form.reset(); } catch(_) {}
+      // Mostramos overlay pidiendo recargar
+      if (overlay) overlay.hidden = false;
+    } else {
+      // Carga "normal": limpiamos la marca para no molestar en visitas futuras
+      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
+    }
+  });
+
+  // Botón "Recargar"
+  if (btnReload) {
+    btnReload.addEventListener("click", () => {
+      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
+      location.reload();
+    });
+  }
+})();
+</script>
+
 
 
 
