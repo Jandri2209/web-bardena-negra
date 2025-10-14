@@ -9,6 +9,9 @@ title: ""
   <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
   <meta name="description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
   {% if noindex %}<meta name="robots" content="noindex">{% endif %}
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/images/logo-180.png">
+  <link rel="manifest" href="/site.webmanifest">
   {# --- Preloads por página (LCP) --- #}
   {% if page.url == "/" %}
   <link rel="preload" as="image"
@@ -47,13 +50,21 @@ title: ""
   {% if page.url == "/" %}{% include "ld-lodgingbusiness.njk" %}{% endif %}
   <link rel="stylesheet" href="{{ '/assets/styles.css' | v(build) }}">
   <script src="{{ '/assets/lucide.min.js' | v(build) }}" defer></script>
-  <meta name="theme-color" content="{{ site.brandColor or '#a37d4c' }}">
+  <meta name="theme-color" content="{{ site.brandColor or '#7a5c2e' }}">
+  <meta property="og:image" content="{{ socialImage or '/images/logo-1200x630.png' }}">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
   <header class="site-header" id="siteHeader">
     <div class="container nav">
       <a href="/" class="brand" aria-label="{{ site.name }} — Inicio">
-        <span class="mark">BN</span>
+        <img
+          class="brand-logo"
+          src="/images/logo-64.png"
+          srcset="/images/logo-64.png 1x, /images/logo-192.png 3x, /images/logo-512.png 8x"
+          width="36" height="36" decoding="async" alt="">
         <span class="font-primary" style="letter-spacing:.04em">{{ site.shortName }}</span>
       </a>
 
@@ -106,17 +117,17 @@ title: ""
           <p id="lang-title" class="lang-title">Idioma</p>
           <div class="lang-seg">
             <button type="button" class="seg-btn" data-set-language="es">
-              <img src="/assets/flags/es.svg" alt="" class="flag">
+              <img src="/assets/flags/es.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
               <span class="code">Español</span>
               <span class="sr-only">Español</span>
             </button>
             <button type="button" class="seg-btn" data-set-language="en">
-              <img src="/assets/flags/gb.svg" alt="" class="flag">
+              <img src="/assets/flags/gb.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
               <span class="code">English</span>
               <span class="sr-only">English</span>
             </button>
             <button type="button" class="seg-btn" data-set-language="fr">
-              <img src="/assets/flags/fr.svg" alt="" class="flag">
+              <img src="/assets/flags/fr.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
               <span class="code">Français</span>
               <span class="sr-only">Français</span>
             </button>

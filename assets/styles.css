@@ -12,8 +12,8 @@
   /* Colores base */
   --bg:#fffdfa;           /* fondo marfil cálido */
   --ink:#0a0a0a;          /* texto principal */
-  --accent:#a37d4c;       /* dorado principal */
-  --accent-hover:#967142; /* dorado hover */
+  --accent:#7a5c2e;
+  --accent-hover:#6c5028;  /* dorado hover */
   --muted:#6b6b6b;        /* texto atenuado */
 
   /* Tonos tierra (héroes sin imagen) */
@@ -135,12 +135,14 @@ header .nav{
   display:flex; align-items:center; justify-content:space-between;
   padding:.9rem 0; min-height:var(--header-h);
 }
-header .brand{ display:flex; align-items:center; gap:.65rem; color:#fff }
-header .brand .mark{
-  width:34px; height:34px; border-radius:50%;
-  background:var(--accent);
-  display:inline-flex; align-items:center; justify-content:center;
-  color:#fff; font-weight:900;
+.brand .brand-logo{
+  width:36px; height:36px; border-radius:50%;
+  display:inline-block; vertical-align:middle;
+  /* margin-right:.6rem;  ← quítalo */
+  object-fit:contain;
+}
+@media (min-width: 960px){
+  .brand .brand-logo{ width:40px; height:40px; }
 }
 header .nav-links{ display:flex; align-items:center; gap:1rem }
 header .nav-links a{
@@ -642,7 +644,13 @@ footer.site-footer a:hover{ text-decoration:underline }
 .brand-icon.booking{ --logo:url('/images/brands/booking.svg') }
 .brand-icon.airbnb { --logo:url('/images/brands/airbnb.svg') }
 .brand-icon.google { --logo:url('/images/brands/google.svg') }
-.brand-icon.erural { --logo:url('/images/brands/escapada_rural.png') }
+.brand-icon.erural{
+  --logo: image-set(
+    url('/images/brands/escapada_rural.png') 1x,
+    url('/images/brands/escapada_rural@2x.png') 2x
+  );
+  background-image: var(--logo);
+}
 
 /* Col 3: Mapa + placeholder (UNIFICADO • antes había duplicados) */
 .f-map{

@@ -1,7 +1,9 @@
 {
   "name": "Casa Bardena Negra",
+  "logo": "/images/logo-512.png",
+  "socialImage": "/images/logo-1200x630.png",
   "shortName": "Bardena Negra",
-  "url": "https://tu-dominio.example",
+  "url": "",
   "brandColor": "#7a5c2e",
   "bookingHref": "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra",
   "contactHref": "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra",
@@ -16,6 +18,9 @@
     "lat": 42.022199404183,
     "lng": -1.487488746965
   },
+  "email": "casaruralbardenanegra@gmail.com",
+  "telephone": "+34699399285",
+  "googleBusiness": "https://maps.google.com/?q=Calle+Virgen+de+la+Pe%C3%B1a+44,+Fusti%C3%B1ana",
   "license": "UVTR1391",
   "capacity": {
     "standard": 8,
@@ -89,6 +94,7 @@
   "sameAs": [
     "https://www.escapadarural.com/casa-rural/navarra/casa-bardena-negra",
     "https://www.booking.com/hotel/es/casa-bardena-negra-comodo-alojamiento-para-visitar-las-bardenas-y-sendaviva.html",
-    "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra"
+    "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra",
+    "https://www.instagram.com/casa_rural_bardena_negra"
   ]
 }

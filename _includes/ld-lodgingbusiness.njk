@@ -1,14 +1,21 @@
 {% set mapUrl = site.googleBusiness or ("https://www.google.com/maps?q=" + site.geo.lat + "," + site.geo.lng) %}
+{% set logo = site.logo or '/images/logo-512.png' %}
+{% if logo.indexOf('http') != 0 %}{% set logo = site.url + logo %}{% endif %}
+{% set social = site.socialImage or '/images/logo-1200x630.png' %}
+{% if social.indexOf('http') != 0 %}{% set social = site.url + social %}{% endif %}
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": ["Organization","LodgingBusiness"],
-  "@id": {{ (site.url + "/#org") | dump | safe }},
+  "@id": "{{ site.url }}/#org",
   "name": {{ site.name | dump | safe }},
-  "url": {{ (site.url + "/") | dump | safe }},
-  {% if site.logo %}"logo": {{ site.logo | dump | safe }},{% endif %}
-  {% if site.socialImage %}"image": {{ (site.url + site.socialImage) | dump | safe }},{% endif %}
+  "url": "{{ site.url }}/",
+
+  "logo": { "@type":"ImageObject", "url": {{ logo | dump | safe }}, "width":512, "height":512 },
+  "image":[
+    { "@type":"ImageObject", "url": {{ social | dump | safe }}, "width":1200, "height":630 }
+  ],
 
   "address": {
     "@type":"PostalAddress",
@@ -18,38 +25,32 @@
     "postalCode": {{ site.address.postalCode | dump | safe }},
     "addressCountry": {{ site.address.addressCountry | dump | safe }}
   },
-
-  "geo": {
-    "@type":"GeoCoordinates",
-    "latitude": {{ site.geo.lat | dump | safe }},
-    "longitude": {{ site.geo.lng | dump | safe }}
-  },
-
+  "geo": { "@type":"GeoCoordinates", "latitude": {{ site.geo.lat | dump | safe }}, "longitude": {{ site.geo.lng | dump | safe }} },
   "hasMap": {{ mapUrl | dump | safe }},
+
+  {% if site.telephone %}"telephone": {{ site.telephone | dump | safe }},{% endif %}
+  {% if site.email %}"email": {{ site.email | dump | safe }},{% endif %}
   {% if site.sameAs %}"sameAs": {{ site.sameAs | dump | safe }},{% endif %}
   {% if site.license %}"license": {{ site.license | dump | safe }},{% endif %}
 
   {% if site.amenities %}
   "amenityFeature": [
     {% for a in site.amenities %}
-    { "@type": "LocationFeatureSpecification", "name": {{ a | dump | safe }} }{% if not loop.last %},{% endif %}
+    { "@type":"LocationFeatureSpecification", "name": {{ a | dump | safe }}, "value": true }{% if not loop.last %},{% endif %}
     {% endfor %}
   ],
   {% endif %}
 
   {% if site.rules %}
-  "petsAllowed": {{ (site.rules.pets or "Consultar antes de reservar") | dump | safe }},
-  "smokingAllowed": {{ (site.rules.smoking or "Prohibido en el interior") | dump | safe }},
+  "petsAllowed": {{ (site.rules.pets or false) | dump | safe }},
+  "smokingAllowed": {{ (site.rules.smoking or false) | dump | safe }},
   {% endif %}
 
   {% if site.bookingHref %}
-  "offers": [{
-    "@type":"Offer",
-    "url": {{ site.bookingHref | dump | safe }}
-  }],
+  "offers": [{ "@type":"Offer", "url": {{ site.bookingHref | dump | safe }} }],
   {% endif %}
 
-  "currenciesAccepted": "EUR",
-  "priceRange": "€€"
+  "currenciesAccepted":"EUR",
+  "priceRange":"€€"
 }
 </script>

@@ -1,10 +1,11 @@
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": "{{ site.url }}/#website",
-  "url": "{{ site.url }}/",
+  "@context":"https://schema.org",
+  "@type":"WebSite",
+  "@id":"{{ site.url }}/#website",
+  "url":"{{ site.url }}/",
   "name": {{ (site.name or "Casa rural") | dump | safe }},
-  "inLanguage": "{{ site.lang or 'es-ES' }}"
+  "inLanguage":"{{ site.lang or 'es-ES' }}",
+  "publisher": { "@id":"{{ site.url }}/#org" }
 }
 </script>
