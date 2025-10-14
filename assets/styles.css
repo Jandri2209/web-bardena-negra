@@ -135,7 +135,7 @@ header.site-header{
 header.site-header .brand,
 header.site-header .brand:link,
 header.site-header .brand:visited{
-  color: var(--accent); /* #7a5c2e */
+  color: #fff; /* #7a5c2e */
 }
 header .nav{
   display:flex; align-items:center; justify-content:space-between;
