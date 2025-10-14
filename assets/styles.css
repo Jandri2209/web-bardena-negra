@@ -131,6 +131,12 @@ header.site-header{
   transition: transform .28s ease, background .25s ease, box-shadow .25s ease;
   backdrop-filter:saturate(120%) blur(6px);
 }
+/* Marca SIEMPRE marrón (también con header transparente) */
+header.site-header .brand,
+header.site-header .brand:link,
+header.site-header .brand:visited{
+  color: var(--accent); /* #7a5c2e */
+}
 header .nav{
   display:flex; align-items:center; justify-content:space-between;
   padding:.9rem 0; min-height:var(--header-h);
