@@ -4,6 +4,9 @@ const pluginSitemap = require("@quasibit/eleventy-plugin-sitemap");
 module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPassthroughCopy("images");
+  eleventyConfig.addPassthroughCopy("favicon.ico");
+  eleventyConfig.addPassthroughCopy("/images/logo-180.png");
+  eleventyConfig.addPassthroughCopy("site.webmanifest");
 
   eleventyConfig.addPlugin(pluginSitemap, {
     sitemap: { hostname: site.url }

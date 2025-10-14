@@ -135,15 +135,21 @@ header .nav{
   display:flex; align-items:center; justify-content:space-between;
   padding:.9rem 0; min-height:var(--header-h);
 }
-.brand .brand-logo{
-  width:36px; height:36px; border-radius:50%;
-  display:inline-block; vertical-align:middle;
-  /* margin-right:.6rem;  ← quítalo */
-  object-fit:contain;
+.brand{
+  display:flex; align-items:center; gap:.6rem;
+  line-height:1;
 }
-@media (min-width: 960px){
-  .brand .brand-logo{ width:40px; height:40px; }
+.brand-logo{
+  width:40px; height:40px; border-radius:50%;
+  object-fit:cover; /* rellena el círculo con el centro del logo */
 }
+.brand-name{
+  letter-spacing:.04em; font-weight:600;
+}
+@media (max-width: 959px){
+  .brand-logo{ width:36px; height:36px; }
+}
+
 header .nav-links{ display:flex; align-items:center; gap:1rem }
 header .nav-links a{
   color:#eaeaea; letter-spacing:.14em; text-transform:uppercase;

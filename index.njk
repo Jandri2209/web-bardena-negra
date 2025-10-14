@@ -184,17 +184,17 @@ permalink: "/"
       <picture>
         <source type="image/webp"
           srcset="/images/terraza-480.webp 480w,
-                  /images/terraza-640.webp 640w"
-                  /images/terraza-960.webp 960"
+                  /images/terraza-640.webp 640w,
+                  /images/terraza-960.webp 960w"
           sizes="(max-width: 900px) 100vw, 33vw">
         <img src="/images/terraza-640.jpg"
-             srcset="/images/terraza-480.jpg 480w,
-                     /images/terraza-640.jpg 640w,
-                     /images/terraza-960.jpg 960w"
-             sizes="(max-width: 900px) 100vw, 33vw"
-             alt="Jardín con terraza y barbacoa"
-             width="480" height="480"
-             loading="lazy" decoding="async" />
+            srcset="/images/terraza-480.jpg 480w,
+                    /images/terraza-640.jpg 640w,
+                    /images/terraza-960.jpg 960w"
+            sizes="(max-width: 900px) 100vw, 33vw"
+            alt="Jardín con terraza y barbacoa"
+            width="480" height="480"
+            loading="lazy" decoding="async" />
       </picture>
     </figure>
   </div>
@@ -414,6 +414,16 @@ permalink: "/"
         "bestRating": "5",
         "reviewCount": "{{ count }}"
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "@id":"{{ (site.url + '/#org') | safe }}",
+      "name":"Casa Bardena Negra",
+      "url":"{{ site.url }}/",
+      "logo":"{{ site.url }}/images/logo-512.png"
     }
     </script>
 
