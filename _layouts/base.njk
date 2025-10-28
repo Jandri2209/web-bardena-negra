@@ -826,6 +826,22 @@ title: ""
   if (btn){ btn.classList.add('is-active'); btn.setAttribute('aria-current','true'); }
 })();
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const weirdSpaces = /[\u00A0\u202F\u2009\u200A\u2007]/g; // NBSP, narrow NBSP, thin, hair, figure
+  document.querySelectorAll('header .nav-links a, header .nav a.nav-link').forEach(a => {
+    const t = (a.textContent || '').trim();
+    if (!t) return;
+    // HOME / ACCUEIL (una sola palabra): quita espacios internos accidentales
+    if (t.split(/\s+/).length === 1) {
+      a.textContent = t.replace(/\s+/g,'').replace(weirdSpaces,'');
+    } else {
+      // Compuestas (LA CASA): normaliza a espacio simple
+      a.textContent = t.replace(weirdSpaces, ' ').replace(/\s{2,}/g,' ');
+    }
+  });
+});
+</script>
 
 </body>
 </html>

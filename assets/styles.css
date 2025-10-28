@@ -380,12 +380,8 @@ header.site-header:focus-within{
   width:6px; height:6px; border-radius:50%;
   background:var(--brand, #a37d4c); transform:translateY(-50%);
 }
-@media (min-width:961px){
-  .lang-switch .sub-toggle{ display:inline-flex !important; }
-}
 /* === Selector de idioma === */
 .lang-flag{ width:18px; height:18px; border-radius:2px; object-fit:cover; box-shadow:0 0 0 1px rgba(0,0,0,.12) }
-.lang-switch .sub-toggle{ display:inline-flex; align-items:center; gap:.35rem }
 #submenu-lang a{ display:flex; align-items:center; gap:.5rem }
 
 /* ==========================
@@ -1276,12 +1272,8 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 .lang-block{ display:none; }
 /* Móvil (≤960px): lista segmentada en FILAS + menos aire */
 @media (max-width:960px){
-  /* Oculta el dropdown de idiomas de desktop */
-  .nav-links .lang-switch{ display:none !important; }
-
   /* Bloque y título */
   .lang-block{
-    display:block;                /* <- clave */
     margin:.4rem 0 0; padding:.45rem 0 0;
     border-top:1px solid rgba(255,255,255,.08);
   }
@@ -1402,7 +1394,6 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
 
 /* Desktop (≥961px): volver a mostrar el botón de idioma */
 @media (min-width:961px){
-  .nav-links .lang-switch{ display:inline-flex !important; align-items:center; }
   /* Muchos estilos ocultan .sub-toggle en desktop; reactivamos SOLO el de idioma */
   .lang-switch .sub-toggle{
     display:inline-flex !important;
@@ -1417,3 +1408,35 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   .lang-switch .lang-code{ font-weight:600; font-size:.85rem; letter-spacing:.03em; }
 }
 
+/* ========== NAV: sin cortes de palabras en escritorio ========== */
+@media (min-width:961px){
+  header .nav-links a,
+  .nav .nav-link{
+    white-space: nowrap;
+    word-break: normal;
+  }
+}
+
+/* EN/FR: baja el tracking para que no “explote” la tipografía */
+html[lang="fr"] header .nav-links a,
+html[lang="en"] header .nav-links a,
+html[lang="fr"] .nav .nav-link,
+html[lang="en"] .nav .nav-link{
+  letter-spacing: .08em; /* tu valor normal es .14em */
+}
+
+/* ========== IDIOMAS: blindaje responsive (evita duplicados) ========== */
+/* Desktop: oculta el bloque móvil sí o sí */
+@media (min-width:961px){
+  .lang-block{ display:none !important; }
+}
+/* Móvil: oculta el dropdown de escritorio y muestra el bloque móvil */
+@media (max-width:960px){
+  .nav-links .lang-switch{ display:none !important; }
+  .lang-block{ display:block !important; }
+}
+
+/* (por si alguna regla previa lo anulaba) mantener visible el botón de idioma en desktop */
+@media (min-width:961px){
+  .nav-links .lang-switch{ display:inline-flex !important; align-items:center; }
+}
