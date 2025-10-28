@@ -820,13 +820,6 @@ title: ""
 })();
 </script>
 <script>
-(function(){
-  const curr = (location.pathname.match(/^\/(en|fr)(?=\/|$)/i)?.[1] || 'es').toLowerCase();
-  const btn = document.querySelector('.lang-seg .seg-btn[data-set-language="'+curr+'"]');
-  if (btn){ btn.classList.add('is-active'); btn.setAttribute('aria-current','true'); }
-})();
-</script>
-<script>
 document.addEventListener('DOMContentLoaded', () => {
   const weirdSpaces = /[\u00A0\u202F\u2009\u200A\u2007]/g; // NBSP, narrow NBSP, thin, hair, figure
   document.querySelectorAll('header .nav-links a, header .nav a.nav-link').forEach(a => {
