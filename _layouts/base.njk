@@ -410,6 +410,7 @@ title: ""
         const a = document.createElement('a');
         a.href = u;
         let p = a.pathname || "/";
+        p = p.replace(/^\/(en|fr)(?=\/|$)/i, "");
         p = p.replace(/\/index\.html?$/i, "");
         if (!p.endsWith("/")) p += "/";
         return p;
