@@ -1412,3 +1412,14 @@ section[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
   .lang-switch .lang-flag{ width:16px; height:16px; border-radius:2px; }
   .lang-switch .lang-code{ font-weight:600; font-size:.85rem; letter-spacing:.03em; }
 }
+
+/* Idiomas: visibilidad inequívoca */
+@media (min-width: 961px){
+  header.site-header .lang-block{ display:none !important; }
+  header.site-header .lang-switch{ display:inline-flex !important; }
+}
+@media (max-width: 960px){
+  header.site-header .lang-switch{ display:none !important; }
+  header.site-header .lang-block{ display:flex !important; }
+}
+
