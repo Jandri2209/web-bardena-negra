@@ -93,15 +93,15 @@ permalink: "/reservas/"
     </form>
   </div>
   <!-- Overlay para cuando el usuario vuelve atrás -->
-<div id="bf-overlay" hidden
-     style="position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:9999">
-  <div class="card" style="max-width:560px;text-align:center;background:#fff;padding:24px;border-radius:14px">
-    <h2 style="margin-top:0">Formulario caducado</h2>
-    <p>Has vuelto a esta página desde el historial. Para evitar reenvíos accidentales,
-       recarga el formulario.</p>
-    <button id="bf-reload" class="btn" type="button">Recargar formulario</button>
+  <div id="bf-overlay" hidden
+      style="position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:9999">
+    <div class="card" style="max-width:560px;text-align:center;background:#fff;padding:24px;border-radius:14px">
+      <h2 style="margin-top:0">Formulario caducado</h2>
+      <p>Has vuelto a esta página desde el historial. Para evitar reenvíos accidentales,
+        recarga el formulario.</p>
+      <button id="bf-reload" class="btn" type="button">Recargar formulario</button>
+    </div>
   </div>
-</div>
 
   <div class="card">
     <h2>¿Prefieres reservar ya?</h2>
@@ -202,62 +202,55 @@ updateCapacity();
 </script>
 <script>
 (function () {
-  const form = document.getElementById("reserva-form");
-  const overlay = document.getElementById("bf-overlay");
-  const btnReload = document.getElementById("bf-reload");
-  const KEY = "reserva-submitted";
+  const form     = document.getElementById("reserva-form");
+  const overlay  = document.getElementById("bf-overlay");
+  const btnReload= document.getElementById("bf-reload");
 
-  // Marca al ENVIAR (solo en esta pestaña)
-  form?.addEventListener("submit", () => {
-    try { sessionStorage.setItem(KEY, String(Date.now())); } catch {}
-  });
+  let actuallySubmitted = false;
 
-  function isBackOrBFCache(evt){
-    // 1) Restaurado desde BFCache (Safari/Firefox/Chrome)
-    if (evt && evt.persisted) return true;
-
-    // 2) Navigation Timing (moderno)
-    try {
-      const nav = performance.getEntriesByType?.("navigation")?.[0];
-      if (nav?.type === "back_forward") return true;
-      // Trato "reload" como NO back/forward para evitar falsos positivos
-      if (nav?.type === "reload") return false;
-    } catch {}
-
-    // 3) Legacy (Chrome antiguo)
-    try {
-      if (performance?.navigation?.type === 2) return true;
-    } catch {}
-
-    return false;
+  // Marca solo cuando REALMENTE se envía
+  if (form) {
+    form.addEventListener("submit", () => {
+      actuallySubmitted = true;
+      try { sessionStorage.setItem("reserva-submitted", "1"); } catch(_) {}
+    });
   }
 
+  // pageshow: se dispara también cuando la página vuelve desde BFCache
   window.addEventListener("pageshow", (evt) => {
-    let submitted = false;
-    try { submitted = !!sessionStorage.getItem(KEY); } catch {}
+    const fromBFCache = !!(evt && evt.persisted);  // criterio único y robusto
+    const submitted = (() => {
+      try { return sessionStorage.getItem("reserva-submitted") === "1"; }
+      catch(_) { return false; }
+    })();
 
-    if (submitted && isBackOrBFCache(evt)) {
-      // Volviste atrás después de enviar: limpia campos y muestra aviso
-      form?.reset();
+    if (fromBFCache && submitted) {
+      try { form && form.reset(); } catch(_) {}
       if (overlay) overlay.hidden = false;
     } else {
-      // Carga normal: borra la marca para no molestar más en esta pestaña
-      try { sessionStorage.removeItem(KEY); } catch {}
+      // Navegación normal o recarga: limpia y asegúrate de ocultar
+      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
       if (overlay) overlay.hidden = true;
     }
   });
 
-  // Botón "Recargar formulario": oculta overlay, limpia marca y fuerza navegación limpia
-  btnReload?.addEventListener("click", () => {
-    try { sessionStorage.removeItem(KEY); } catch {}
-    overlay && (overlay.hidden = true);
-    form?.reset();
-    const url = new URL(location.href);
-    url.searchParams.set("_", Date.now()); // cache-buster
-    location.replace(url.toString());      // navegación limpia (evita BFCache)
+  // “Recargar formulario”: limpia y navega SIN parámetros raros
+  if (btnReload) {
+    btnReload.addEventListener("click", () => {
+      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
+      window.location.assign(window.location.pathname); // sin ?_=
+    });
+  }
+
+  // Seguridad extra: si abandonas la página sin enviar, no dejes la marca
+  window.addEventListener("pagehide", () => {
+    if (!actuallySubmitted) {
+      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
+    }
   });
 })();
 </script>
+
 
 
 
