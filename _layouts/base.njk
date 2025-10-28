@@ -118,21 +118,21 @@ title: ""
         <div class="lang-block" role="group" aria-labelledby="lang-title">
           <p id="lang-title" class="lang-title">Idioma</p>
           <div class="lang-seg">
-            <button type="button" class="seg-btn" data-set-language="es">
+            <a class="seg-btn" data-set-language="es" href="?lang=es">
               <img src="/assets/flags/es.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
               <span class="code">Español</span>
               <span class="sr-only">Español</span>
-            </button>
-            <button type="button" class="seg-btn" data-set-language="en">
+            </a>
+            <a class="seg-btn" data-set-language="en" href="?lang=en">
               <img src="/assets/flags/gb.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
               <span class="code">English</span>
               <span class="sr-only">English</span>
-            </button>
-            <button type="button" class="seg-btn" data-set-language="fr">
+            </a>
+            <a class="seg-btn" data-set-language="fr" href="?lang=fr">
               <img src="/assets/flags/fr.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
               <span class="code">Français</span>
               <span class="sr-only">Français</span>
-            </button>
+            </a>
           </div>
         </div>
         <!-- Idiomas (ESCRITORIO) -->
@@ -823,18 +823,24 @@ title: ""
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const weirdSpaces = /[\u00A0\u202F\u2009\u200A\u2007]/g; // NBSP, narrow NBSP, thin, hair, figure
-  document.querySelectorAll('header .nav-links a, header .nav a.nav-link').forEach(a => {
-    const t = (a.textContent || '').trim();
-    if (!t) return;
-    // HOME / ACCUEIL (una sola palabra): quita espacios internos accidentales
-    if (t.split(/\s+/).length === 1) {
-      a.textContent = t.replace(/\s+/g,'').replace(weirdSpaces,'');
-    } else {
-      // Compuestas (LA CASA): normaliza a espacio simple
-      a.textContent = t.replace(weirdSpaces, ' ').replace(/\s{2,}/g,' ');
-    }
-  });
+  const weirdSpaces = /[\u00A0\u202F\u2009\u200A\u2007]/g;
+  document
+    .querySelectorAll('header .nav-links a, header .nav a.nav-link')
+    .forEach(a => {
+      // No toques enlaces con banderas, ni botones segmentados, ni elementos del submenú de idiomas
+      if (
+        a.closest('.lang-block') ||
+        a.closest('.lang-switch') ||
+        a.classList.contains('seg-btn') ||
+        a.querySelector('img')
+      ) return;
+
+      const t = (a.textContent || '').trim();
+      if (!t) return;
+      a.textContent = (t.split(/\s+/).length === 1)
+        ? t.replace(/\s+/g,'').replace(weirdSpaces,'')
+        : t.replace(weirdSpaces, ' ').replace(/\s{2,}/g,' ');
+    });
 });
 </script>
 
