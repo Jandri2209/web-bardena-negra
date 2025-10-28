@@ -817,6 +817,8 @@ title: ""
     img.alt = curr.toUpperCase();
     code.textContent = curr.toUpperCase();
   }
+  // Marcar activo en el submenú de escritorio (sin puntito)
+  document.getElementById('lang-' + curr)?.classList.add('is-active');
 })();
 </script>
 <script>

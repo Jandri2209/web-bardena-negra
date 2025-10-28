@@ -1440,22 +1440,19 @@ html[lang="en"] .nav .nav-link{
 @media (min-width:961px){
   .nav-links .lang-switch{ display:inline-flex !important; align-items:center; }
 }
-/* === Submenú de idiomas: sin viñetas y con banderas visibles === */
-#submenu-lang, #submenu-lang ul { margin: 0; padding: 0; list-style: none; }
-#submenu-lang li { list-style: none; }
+/* ===== FIX: submenú de IDIOMAS sin puntito heredado ===== */
+.nav .lang-switch .submenu a::before { content: none !important; display: none !important; }
 
-#submenu-lang a{
+/* Resalte del idioma activo (sin pseudo-elemento) */
+.nav .lang-switch .submenu a.is-active{
+  font-weight: 700;
+  background: var(--menu-hover);
+  border-radius: 6px;
+}
+
+/* Asegura layout y alineado bonito */
+.nav .lang-switch .submenu a{
   display: flex; align-items: center; gap: .5rem;
+  padding: .45rem .6rem;
 }
 
-/* Acepta <img class="lang-flag"> o <span class="lang-flag"> con background */
-#submenu-lang img.lang-flag,
-#submenu-lang .lang-flag{
-  width: 18px; height: 18px; flex: 0 0 18px;
-  display: inline-block; border-radius: 2px; object-fit: cover;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.12);
-}
-
-/* Asegura que el caret del idioma NO se oculte en desktop */
-.nav .has-submenu:not(.lang-switch) .sub-toggle{ display:none !important; }
-.nav .lang-switch .sub-toggle{ display:inline-flex !important; }
