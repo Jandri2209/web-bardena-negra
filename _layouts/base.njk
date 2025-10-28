@@ -57,7 +57,7 @@ title: ""
   <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-  <header class="site-header notranslate" id="siteHeader">
+  <header class="site-header" id="siteHeader">
     <div class="container nav">
       <a href="/" class="brand" aria-label="{{ site.name }} — Inicio">
         <img
@@ -118,21 +118,21 @@ title: ""
         <div class="lang-block" role="group" aria-labelledby="lang-title">
           <p id="lang-title" class="lang-title">Idioma</p>
           <div class="lang-seg">
-            <button type="button" class="seg-btn" data-set-language="es">
+            <a class="seg-btn" data-set-language="es" href="?lang=es">
               <img src="/assets/flags/es.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
               <span class="code">Español</span>
               <span class="sr-only">Español</span>
-            </button>
-            <button type="button" class="seg-btn" data-set-language="en">
+            </a>
+            <a class="seg-btn" data-set-language="en" href="?lang=en">
               <img src="/assets/flags/gb.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
               <span class="code">English</span>
               <span class="sr-only">English</span>
-            </button>
-            <button type="button" class="seg-btn" data-set-language="fr">
+            </a>
+            <a class="seg-btn" data-set-language="fr" href="?lang=fr">
               <img src="/assets/flags/fr.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
               <span class="code">Français</span>
               <span class="sr-only">Français</span>
-            </button>
+            </a>
           </div>
         </div>
         <!-- Idiomas (ESCRITORIO) -->
@@ -145,9 +145,9 @@ title: ""
             <span class="chev" aria-hidden="true">▾</span>
           </button>
           <div class="submenu" id="submenu-lang" role="menu" aria-labelledby="langToggle">
-            <a id="lang-es" role="menuitem"><img class="lang-flag" src="/assets/flags/es.svg" alt=""> Español</a>
-            <a id="lang-en" role="menuitem"><img class="lang-flag" src="/assets/flags/gb.svg" alt=""> English</a>
-            <a id="lang-fr" role="menuitem"><img class="lang-flag" src="/assets/flags/fr.svg" alt=""> Français</a>
+            <a id="lang-es" href="?lang=es" role="menuitem"><img class="lang-flag" src="/assets/flags/es.svg" alt=""> Español</a>
+            <a id="lang-en" href="?lang=en" role="menuitem"><img class="lang-flag" src="/assets/flags/gb.svg" alt=""> English</a>
+            <a id="lang-fr" href="?lang=fr" role="menuitem"><img class="lang-flag" src="/assets/flags/fr.svg" alt=""> Français</a>
           </div>
         </div>
       </nav>
