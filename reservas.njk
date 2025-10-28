@@ -92,16 +92,6 @@ permalink: "/reservas/"
       <p><button class="btn" type="submit">Enviar consulta</button></p>
     </form>
   </div>
-  <!-- Overlay para cuando el usuario vuelve atrás -->
-  <div id="bf-overlay" hidden
-      style="position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:9999">
-    <div class="card" style="max-width:560px;text-align:center;background:#fff;padding:24px;border-radius:14px">
-      <h2 style="margin-top:0">Formulario caducado</h2>
-      <p>Has vuelto a esta página desde el historial. Para evitar reenvíos accidentales,
-        recarga el formulario.</p>
-      <button id="bf-reload" class="btn" type="button">Recargar formulario</button>
-    </div>
-  </div>
 
   <div class="card">
     <h2>¿Prefieres reservar ya?</h2>
@@ -202,54 +192,28 @@ updateCapacity();
 </script>
 <script>
 (function () {
-  const form     = document.getElementById("reserva-form");
-  const overlay  = document.getElementById("bf-overlay");
-  const btnReload= document.getElementById("bf-reload");
+  const form = document.getElementById('reserva-form');
+  const btn  = form ? form.querySelector('button[type="submit"]') : null;
 
-  let actuallySubmitted = false;
-
-  // Marca solo cuando REALMENTE se envía
-  if (form) {
-    form.addEventListener("submit", () => {
-      actuallySubmitted = true;
-      try { sessionStorage.setItem("reserva-submitted", "1"); } catch(_) {}
+  if (form && btn) {
+    form.addEventListener('submit', () => {
+      btn.dataset.txt = btn.textContent;
+      btn.textContent = 'Enviando…';
+      btn.disabled = true;
     });
   }
 
-  // pageshow: se dispara también cuando la página vuelve desde BFCache
-  window.addEventListener("pageshow", (evt) => {
-    const fromBFCache = !!(evt && evt.persisted);  // criterio único y robusto
-    const submitted = (() => {
-      try { return sessionStorage.getItem("reserva-submitted") === "1"; }
-      catch(_) { return false; }
-    })();
-
-    if (fromBFCache && submitted) {
-      try { form && form.reset(); } catch(_) {}
-      if (overlay) overlay.hidden = false;
-    } else {
-      // Navegación normal o recarga: limpia y asegúrate de ocultar
-      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
-      if (overlay) overlay.hidden = true;
-    }
-  });
-
-  // “Recargar formulario”: limpia y navega SIN parámetros raros
-  if (btnReload) {
-    btnReload.addEventListener("click", () => {
-      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
-      window.location.assign(window.location.pathname); // sin ?_=
-    });
-  }
-
-  // Seguridad extra: si abandonas la página sin enviar, no dejes la marca
-  window.addEventListener("pagehide", () => {
-    if (!actuallySubmitted) {
-      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
+  // Si el usuario regresa desde el historial (BFCache), deja el form limpio.
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted && form && btn) {
+      form.reset();
+      btn.disabled = false;
+      if (btn.dataset.txt) btn.textContent = btn.dataset.txt;
     }
   });
 })();
 </script>
+
 
 
 
