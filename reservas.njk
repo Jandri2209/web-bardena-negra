@@ -205,47 +205,60 @@ updateCapacity();
   const form = document.getElementById("reserva-form");
   const overlay = document.getElementById("bf-overlay");
   const btnReload = document.getElementById("bf-reload");
+  const KEY = "reserva-submitted";
 
-  // Marcamos en sessionStorage cuando el usuario ENVÍA el formulario
-  if (form) {
-    form.addEventListener("submit", () => {
-      try { sessionStorage.setItem("reserva-submitted", "1"); } catch(_) {}
-    });
-  }
+  // Marca al ENVIAR (solo en esta pestaña)
+  form?.addEventListener("submit", () => {
+    try { sessionStorage.setItem(KEY, String(Date.now())); } catch {}
+  });
 
-  // Mostrar aviso si se vuelve por atrás (bfcache / historial)
-  function cameFromHistory(evt) {
-    // 1) Safari/Firefox: pageshow.persisted
+  function isBackOrBFCache(evt){
+    // 1) Restaurado desde BFCache (Safari/Firefox/Chrome)
     if (evt && evt.persisted) return true;
-    // 2) Navegadores modernos: Navigation Timing
-    const nav = (performance && performance.getEntriesByType)
-      ? performance.getEntriesByType("navigation")[0]
-      : null;
-    return !!(nav && nav.type === "back_forward");
+
+    // 2) Navigation Timing (moderno)
+    try {
+      const nav = performance.getEntriesByType?.("navigation")?.[0];
+      if (nav?.type === "back_forward") return true;
+      // Trato "reload" como NO back/forward para evitar falsos positivos
+      if (nav?.type === "reload") return false;
+    } catch {}
+
+    // 3) Legacy (Chrome antiguo)
+    try {
+      if (performance?.navigation?.type === 2) return true;
+    } catch {}
+
+    return false;
   }
 
   window.addEventListener("pageshow", (evt) => {
-    const submitted = (() => { try { return sessionStorage.getItem("reserva-submitted") === "1"; } catch(_) { return false; }})();
-    if (submitted && cameFromHistory(evt)) {
-      // Limpiamos campos para que no queden datos a la vista
-      try { form && form.reset(); } catch(_) {}
-      // Mostramos overlay pidiendo recargar
+    let submitted = false;
+    try { submitted = !!sessionStorage.getItem(KEY); } catch {}
+
+    if (submitted && isBackOrBFCache(evt)) {
+      // Volviste atrás después de enviar: limpia campos y muestra aviso
+      form?.reset();
       if (overlay) overlay.hidden = false;
     } else {
-      // Carga "normal": limpiamos la marca para no molestar en visitas futuras
-      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
+      // Carga normal: borra la marca para no molestar más en esta pestaña
+      try { sessionStorage.removeItem(KEY); } catch {}
+      if (overlay) overlay.hidden = true;
     }
   });
 
-  // Botón "Recargar"
-  if (btnReload) {
-    btnReload.addEventListener("click", () => {
-      try { sessionStorage.removeItem("reserva-submitted"); } catch(_) {}
-      location.reload();
-    });
-  }
+  // Botón "Recargar formulario": oculta overlay, limpia marca y fuerza navegación limpia
+  btnReload?.addEventListener("click", () => {
+    try { sessionStorage.removeItem(KEY); } catch {}
+    overlay && (overlay.hidden = true);
+    form?.reset();
+    const url = new URL(location.href);
+    url.searchParams.set("_", Date.now()); // cache-buster
+    location.replace(url.toString());      // navegación limpia (evita BFCache)
+  });
 })();
 </script>
+
 
 
 
