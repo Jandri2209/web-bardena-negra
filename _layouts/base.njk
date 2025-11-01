@@ -77,12 +77,14 @@ title: ""
   <meta property="og:site_name" content="{{ site.name }}">
   <meta property="og:title" content="{{ title or site.name }}">
   <meta property="og:description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}">
-  <meta property="og:type" content="{{ page.url == '/' ? 'website' : 'article' }}">
+  <meta property="og:type" content="{{ 'website' if page and page.url == '/' else 'article' }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:image" content="{{ socialImage or '/images/logo-1200x630.png' }}">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="{{ docLang == 'es' ? 'es_ES' : (docLang == 'en' ? 'en_GB' : 'fr_FR') }}">
+  {% set ogLocale = 'es_ES' %}
+  {% if docLang == 'en' %}{% set ogLocale = 'en_GB' %}{% elif docLang == 'fr' %}{% set ogLocale = 'fr_FR' %}{% endif %}
+  <meta property="og:locale" content="{{ ogLocale }}">
   <meta property="og:locale:alternate" content="es_ES">
   <meta property="og:locale:alternate" content="en_GB">
   <meta property="og:locale:alternate" content="fr_FR">
