@@ -19,7 +19,8 @@ title: ""
 
   {# --- HREFLANG (ES, EN, FR) --- #}
   {% for lang in ['es','en','fr'] %}
-    {% set prefix = (lang == 'es') ? '' : '/' + lang %}
+    {% set prefix = '' %}
+    {% if lang != 'es' %}{% set prefix = '/' + lang %}{% endif %}
     <link rel="alternate" hreflang="{{ lang }}" href="{{ site.url }}{{ prefix }}{{ _p }}">
   {% endfor %}
   <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ _p }}">
