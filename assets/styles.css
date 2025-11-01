@@ -1456,5 +1456,24 @@ html[lang="en"] .nav .nav-link{
   padding: .45rem .6rem;
 }
 
+/* Línea de rating compacta y centrada */
+.rating-inline{
+  display:flex;
+  align-items:center;
+  gap:.8rem 1rem;
+  width:max-content;     /* se encoge al contenido */
+  max-width:100%;
+  margin:0 auto;         /* centrado en la .container */
+}
 
+/* Logos a la derecha del bloque de rating */
+.rating-logos{
+  display:flex;
+  align-items:center;
+  gap:.45rem;
+}
 
+/* Mobile: apila y centra el texto */
+@media (max-width:600px){
+  .rating-inline{ flex-direction:column; text-align:center; }
+}
