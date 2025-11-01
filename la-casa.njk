@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 title: "La Casa · Equipamiento y estancias"
-description: "4 dormitorios, 2 baños, salón-comedor y cocina equipada. Jardín con barbacoa. A/A en todas las habitaciones."
+description: "Casa rural en Fustiñana (Navarra) para 8–10 personas, ideal para visitar Bardenas Reales y la Ribera de Navarra. A/A en todas las habitaciones, jardín y barbacoa."
 permalink: "/la-casa/"
 ---
 
@@ -11,10 +11,24 @@ permalink: "/la-casa/"
   <div class="inner container">
     <h1 class="font-primary" style="color:#fff;margin:0">La Casa</h1>
     <p class="page-lead">
-      Casa completa y luminosa con capacidad para <strong>10</strong>, perfecta para explorar la Ribera de Navarra.
+      Casa rural en Fustiñana, luminosa y completa, con capacidad para <strong>10</strong>,
+      ideal para escapadas <a href="/entorno/bardenas/">cerca de Bardenas Reales</a> y por la
+      <a href="/entorno/">Ribera de Navarra</a>.
     </p>
   </div>
 </section>
+
+{% if site.aggregateRating and site.aggregateRating.ratingValue and site.aggregateRating.reviewCount %}
+<section class="container" style="margin:1rem 0 0">
+  <div class="card" style="text-align:center">
+    <p style="margin:.2rem 0">
+      ⭐ {{ site.aggregateRating.ratingValue }}/5 · {{ site.aggregateRating.reviewCount }} reseñas
+      en Booking/Google/Airbnb
+    </p>
+  </div>
+</section>
+{% endif %}
+
 
 
 <!-- Distribución + equipamiento breve -->
@@ -126,6 +140,26 @@ permalink: "/la-casa/"
   </div>
 </section>
 
+<section class="container" style="margin-top:1.6rem">
+  <div class="card">
+    <h2 class="font-primary" style="margin-top:0">Dudas rápidas</h2>
+    <ul class="link-list">
+      <li><a href="/la-casa/faq/#checkin">¿Horarios de check-in y check-out?</a></li>
+      <li><a href="/la-casa/faq/#ac">¿Hay aire acondicionado?</a></li>
+      <li><a href="/la-casa/faq/#mascotas">¿Se admiten mascotas?</a></li>
+      <li><a href="/la-casa/faq/#bardenas">¿Distancia a Bardenas/Sendaviva/Tudela?</a></li>
+    </ul>
+    <p style="margin:.8rem 0 0"><a class="btn alt" href="/la-casa/faq/">Ver todas las preguntas</a></p>
+  </div>
+</section>
+
+<section class="container" aria-label="Reserva rápida" style="margin:1.6rem 0 0">
+  <div class="card" style="text-align:center">
+    <p class="lead" style="margin:.2rem 0 1rem">¿Fechas en mente?</p>
+    <a class="btn" href="/reservas/">Ver disponibilidad</a>
+  </div>
+</section>
+
 <!-- Galería principal -->
 <section class="container" style="margin-top:2rem">
   <div class="gallery-grid">
@@ -161,6 +195,13 @@ permalink: "/la-casa/"
     </figure>
   </div>
   <p style="text-align:center;margin-top:.8rem"><a href="/la-casa/galeria/" class="btn alt">Abrir galería completa</a></p>
+</section>
+
+<section class="container" aria-label="Reserva" style="margin:1.6rem 0 0">
+  <div class="card" style="text-align:center">
+    <p class="lead" style="margin:.2rem 0 1rem">¿Te cuadra la casa?</p>
+    <a class="btn" href="/reservas/">Solicitar reserva</a>
+  </div>
 </section>
 
 <!-- Normas -->

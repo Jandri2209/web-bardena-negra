@@ -1,8 +1,20 @@
 {% set mapUrl = site.googleBusiness or ("https://www.google.com/maps?q=" + site.geo.lat + "," + site.geo.lng) %}
 {% set logo = site.logo or '/images/logo-512.png' %}
+{% set hero1 = site.url + '/images/home-hero-1-1280.jpg' %}
 {% if logo.indexOf('http') != 0 %}{% set logo = site.url + logo %}{% endif %}
 {% set social = site.socialImage or '/images/logo-1200x630.png' %}
 {% if social.indexOf('http') != 0 %}{% set social = site.url + social %}{% endif %}
+
+{% set __sum = 0 %}{% set __cnt = 0 %}
+{% if reviews and (reviews | length) %}
+  {% for r in reviews %}
+    {% if r.rating and (r.ratingMax or 5) %}
+      {% set __sum = __sum + (r.rating / (r.ratingMax or 5) * 5) %}
+      {% set __cnt = __cnt + 1 %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% set __avg = (__cnt and (__sum / __cnt)) or 0 %}
 
 <script type="application/ld+json">
 {
@@ -13,8 +25,9 @@
   "url": "{{ site.url }}/",
 
   "logo": { "@type":"ImageObject", "url": {{ logo | dump | safe }}, "width":512, "height":512 },
-  "image":[
-    { "@type":"ImageObject", "url": {{ social | dump | safe }}, "width":1200, "height":630 }
+  "image": [
+    { "@type":"ImageObject", "url": {{ social | dump | safe }}, "width":1200, "height":630 },
+    { "@type":"ImageObject", "url": {{ hero1  | dump | safe }}, "width":1280, "height":720 }
   ],
 
   "address": {
@@ -26,31 +39,52 @@
     "addressCountry": {{ site.address.addressCountry | dump | safe }}
   },
   "geo": { "@type":"GeoCoordinates", "latitude": {{ site.geo.lat | dump | safe }}, "longitude": {{ site.geo.lng | dump | safe }} },
-  "hasMap": {{ mapUrl | dump | safe }},
+  "hasMap": {{ mapUrl | dump | safe }}{% if site.telephone or site.email or site.sameAs or site.license or site.amenities or site.rules or site.priceRange or site.bookingHref or (__cnt>0) or site.aggregateRating %},{% endif %}
 
-  {% if site.telephone %}"telephone": {{ site.telephone | dump | safe }},{% endif %}
-  {% if site.email %}"email": {{ site.email | dump | safe }},{% endif %}
-  {% if site.sameAs %}"sameAs": {{ site.sameAs | dump | safe }},{% endif %}
-  {% if site.license %}"license": {{ site.license | dump | safe }},{% endif %}
+  {% if site.telephone %}"telephone": {{ site.telephone | dump | safe }}{% if site.email or site.sameAs or site.license or site.amenities or site.rules or site.priceRange or site.bookingHref or (__cnt>0) or site.aggregateRating %},{% endif %}{% endif %}
+  {% if site.email %}"email": {{ site.email | dump | safe }}{% if site.sameAs or site.license or site.amenities or site.rules or site.priceRange or site.bookingHref or (__cnt>0) or site.aggregateRating %},{% endif %}{% endif %}
+  {% if site.sameAs %}"sameAs": {{ site.sameAs | dump | safe }}{% if site.license or site.amenities or site.rules or site.priceRange or site.bookingHref or (__cnt>0) or site.aggregateRating %},{% endif %}{% endif %}
+  {% if site.license %}"identifier": {{ site.license | dump | safe }}{% if site.amenities or site.rules or site.priceRange or site.bookingHref or (__cnt>0) or site.aggregateRating %},{% endif %}{% endif %}
 
   {% if site.amenities %}
   "amenityFeature": [
     {% for a in site.amenities %}
     { "@type":"LocationFeatureSpecification", "name": {{ a | dump | safe }}, "value": true }{% if not loop.last %},{% endif %}
     {% endfor %}
-  ],
+  ]{% if site.rules or site.priceRange or site.bookingHref or (__cnt>0) or site.aggregateRating %},{% endif %}
   {% endif %}
 
+  {% set smokingRaw = (site.rules.smoking or '') | lower %}
+  {% set smokingAllowed = smokingRaw in ['si','sí','permitido','permitida','true','1'] %}
   {% if site.rules %}
   "petsAllowed": {{ (site.rules.pets or false) | dump | safe }},
-  "smokingAllowed": {{ (site.rules.smoking or false) | dump | safe }},
+  "smokingAllowed": {{ smokingAllowed | dump | safe }}{% if site.priceRange or site.bookingHref or (__cnt>0) or site.aggregateRating %},{% endif %}
   {% endif %}
 
-  {% if site.bookingHref %}
-  "offers": [{ "@type":"Offer", "url": {{ site.bookingHref | dump | safe }} }],
-  {% endif %}
+  "numberOfRooms": {{ (site.bedrooms | length) | dump | safe }},
+  "currenciesAccepted": "EUR"{% if site.priceRange %},
+  "priceRange": {{ site.priceRange | dump | safe }}{% endif %}{% if site.bookingHref %},
+  "offers": [{ "@type":"Offer", "url": {{ site.bookingHref | dump | safe }} }]{% endif %}
 
-  "currenciesAccepted":"EUR",
-  "priceRange":"€€"
+  {% if site.checkinTime %},
+  "checkinTime": {{ site.checkinTime | dump | safe }}{% endif %}
+  {% if site.checkoutTime %},
+  "checkoutTime": {{ site.checkoutTime | dump | safe }}{% endif %}
+
+  {% if __cnt > 0 %},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": {{ (__avg | round(1)) | dump | safe }},
+    "bestRating": 5,
+    "reviewCount": {{ __cnt | dump | safe }}
+  }
+  {% elseif site.aggregateRating and site.aggregateRating.ratingValue and site.aggregateRating.reviewCount %},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": {{ site.aggregateRating.ratingValue | dump | safe }},
+    "bestRating": 5,
+    "reviewCount": {{ site.aggregateRating.reviewCount | dump | safe }}
+  }
+  {% endif %}
 }
 </script>

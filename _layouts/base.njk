@@ -1,14 +1,33 @@
 ---
 title: ""
 ---
+{% set docLang = page.url and page.url.indexOf('/en/')==0 ? 'en'
+              : page.url and page.url.indexOf('/fr/')==0 ? 'fr'
+              : 'es' %}
 <!DOCTYPE html>
+<html lang="{{ docLang }}">
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
+  {# --- CANONICAL (normaliza /, /en/, /fr/) --- #}
+  {% set _p = page.url %}
+  {% if _p and _p.indexOf('/en/') == 0 %}{% set _p = '/' + _p.slice(4) %}{% endif %}
+  {% if _p and _p.indexOf('/fr/') == 0 %}{% set _p = '/' + _p.slice(4) %}{% endif %}
+  <link rel="canonical" href="{{ site.url }}{{ _p }}">
+
+  {# --- HREFLANG (ES, EN, FR) --- #}
+  {% for lang in ['es','en','fr'] %}
+    {% set prefix = (lang == 'es') ? '' : '/' + lang %}
+    <link rel="alternate" hreflang="{{ lang }}" href="{{ site.url }}{{ prefix }}{{ _p }}">
+  {% endfor %}
+  <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ _p }}">
   <meta name="description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
-  {% if noindex %}<meta name="robots" content="noindex">{% endif %}
+  {% if not noindex %}
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="googlebot" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  {% endif %}
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/images/logo-180.png">
   <link rel="manifest" href="/site.webmanifest">
@@ -51,10 +70,25 @@ title: ""
   <link rel="stylesheet" href="{{ '/assets/styles.css' | v(build) }}">
   <script src="{{ '/assets/lucide.min.js' | v(build) }}" defer></script>
   <meta name="theme-color" content="{{ site.brandColor or '#7a5c2e' }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:title" content="{{ title or site.name }}">
+  <meta property="og:description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}">
+  <meta property="og:type" content="{{ page.url == '/' ? 'website' : 'article' }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:image" content="{{ socialImage or '/images/logo-1200x630.png' }}">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="{{ docLang == 'es' ? 'es_ES' : (docLang == 'en' ? 'en_GB' : 'fr_FR') }}">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="fr_FR">
+
+  <!-- Opcional, pero recomendable aunque no tengáis cuenta -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title or site.name }}">
+  <meta name="twitter:description" content="{{ description or '' }}">
+  <meta name="twitter:image" content="{{ socialImage or '/images/logo-1200x630.png' }}">
+  <meta name="twitter:image:alt" content="{{ title or site.name }}">
 </head>
 <body>
   <header class="site-header" id="siteHeader">

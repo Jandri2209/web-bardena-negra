@@ -403,30 +403,6 @@ permalink: "/"
         <div class="drawer-list" style="display:grid;gap:.6rem"></div>
       </div>
     </div>
-    {# JSON-LD #}
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@id": {{ (site.url + "/#org") | dump | safe }},
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "{{ avg | round(1) }}",
-        "bestRating": "5",
-        "reviewCount": "{{ count }}"
-      }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Organization",
-      "@id":"{{ (site.url + '/#org') | safe }}",
-      "name":"Casa Bardena Negra",
-      "url":"{{ site.url }}/",
-      "logo":"{{ site.url }}/images/logo-512.png"
-    }
-    </script>
-
   {% else %}
     <div class="card">Pronto añadiremos reseñas verificadas de las plataformas.</div>
   {% endif %}

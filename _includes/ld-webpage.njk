@@ -8,6 +8,9 @@
 {% elif page.url == "/entorno/" or page.url == "/blog/" or page.url == "/recetas/" %}
   {% set pageType = "CollectionPage" %}
 {% endif %}
+{% if page.url == "/la-casa/" %}
+  {% set pageType = "AboutPage" %}
+{% endif %}
 
 <script type="application/ld+json">
 {
@@ -21,6 +24,7 @@
   "isPartOf": { "@id": "{{ site.url }}/#website" }{% if img %},
   "primaryImageOfPage": { "@type": "ImageObject", "url": {{ img | dump | safe }} }{% endif %}{% if page.url != "/" %},
   "breadcrumb": { "@id": "{{ site.url }}{{ page.url }}#breadcrumb" }{% endif %}{% if page.date %},
-  "datePublished": "{{ page.date | date('en-CA', { year:'numeric', month:'2-digit', day:'2-digit' }) }}"{% endif %}
+  "datePublished": "{{ page.date | date('en-CA', { year:'numeric', month:'2-digit', day:'2-digit' }) }}",
+  "dateModified": "{{ (page.lastModified or page.date) | date('en-CA', { year:'numeric', month:'2-digit', day:'2-digit' }) }}"{% endif %}
 }
 </script>

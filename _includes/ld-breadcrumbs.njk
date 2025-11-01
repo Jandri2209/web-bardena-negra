@@ -1,15 +1,30 @@
+{# trail por defecto: Inicio -> página actual #}
 {% set trail = breadcrumbs
   or [ { "name":"Inicio", "url":"/" }, { "name": (title or (page.fileSlug | replace("-", " "))), "url": page.url } ] %}
-{% if (trail | length) > 1 %}
+
+{# normaliza a URLs absolutas #}
+{% set norm = [] %}
+{% for item in trail %}
+  {% set name = item.name %}
+  {% set u = item.url or "/" %}
+  {% if u.indexOf('http') != 0 %}{% set u = site.url + u %}{% endif %}
+  {% if name %}{% set _ = norm.push({ name: name, url: u }) %}{% endif %}
+{% endfor %}
+
+{% if (norm | length) > 1 %}
 <script type="application/ld+json">
 {
-  "@context":"https://schema.org",
-  "@type":"BreadcrumbList",
-  "@id":"{{ site.url }}{{ page.url }}#breadcrumb",
-  "itemListElement":[
-    {% for item in trail %}
-    {% set u = item.url %}{% if u and (u.indexOf('http') != 0) %}{% set u = site.url + u %}{% endif %}
-    { "@type":"ListItem", "position": {{ loop.index }}, "name": {{ item.name | dump | safe }}, "item": {{ u | dump | safe }} }{% if not loop.last %},{% endif %}
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "{{ site.url }}{{ page.url or '/' }}#breadcrumb",
+  "itemListElement": [
+    {% for item in norm %}
+    {
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "name": {{ item.name | dump | safe }},
+      "item": {{ item.url | dump | safe }}
+    }{% if not loop.last %},{% endif %}
     {% endfor %}
   ]
 }

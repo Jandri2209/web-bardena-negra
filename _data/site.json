@@ -3,10 +3,14 @@
   "logo": "/images/logo-512.png",
   "socialImage": "/images/logo-1200x630.png",
   "shortName": "Bardena Negra",
-  "url": "",
+  "url": "https://bardenanegra.es",
   "brandColor": "#7a5c2e",
   "bookingHref": "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra",
   "contactHref": "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra",
+  "lang": "es-ES",
+  "checkinTime": "16:00",
+  "checkoutTime": "11:00",
+  "priceRange": "€€",
   "address": {
     "streetAddress": "Calle Virgen de la Peña 44",
     "addressLocality": "Fustiñana",
@@ -22,6 +26,7 @@
   "telephone": "+34699399285",
   "googleBusiness": "https://maps.google.com/?q=Calle+Virgen+de+la+Pe%C3%B1a+44,+Fusti%C3%B1ana",
   "license": "UVTR1391",
+  "aggregateRating": { "ratingValue": 4.9, "reviewCount": 49 },
   "capacity": {
     "standard": 8,
     "max": 10
@@ -95,6 +100,7 @@
     "https://www.escapadarural.com/casa-rural/navarra/casa-bardena-negra",
     "https://www.booking.com/hotel/es/casa-bardena-negra-comodo-alojamiento-para-visitar-las-bardenas-y-sendaviva.html",
     "https://www.rurive.com/casas-rurales/casa-rural-bardena-negra",
-    "https://www.instagram.com/casa_rural_bardena_negra"
+    "https://www.instagram.com/casa_rural_bardena_negra",
+    "https://www.google.com/maps/place/?q=place_id:ChIJ_X7SQE43Wg0RtvVYh9tlK1g"
   ]
 }

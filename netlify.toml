@@ -53,6 +53,19 @@
   [headers.values]
     Content-Type = "application/xml; charset=utf-8"
 
+# Forzar https y sin www
+[[redirects]]
+  from = "http://bardenanegra.es/*"
+  to = "https://bardenanegra.es/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.bardenanegra.es/*"
+  to = "https://bardenanegra.es/:splat"
+  status = 301
+  force = true
+
 # ============================
 # Redirects bonitos / canonicals
 # ============================
