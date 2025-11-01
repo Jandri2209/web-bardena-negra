@@ -1,12 +1,15 @@
 ---
 title: ""
 ---
-{% set docLang = page.url and page.url.indexOf('/en/')==0 ? 'en'
-              : page.url and page.url.indexOf('/fr/')==0 ? 'fr'
-              : 'es' %}
+{% set docLang = 'es' %}
+{% if page and page.url and page.url.indexOf('/en/') == 0 %}
+  {% set docLang = 'en' %}
+{% elif page and page.url and page.url.indexOf('/fr/') == 0 %}
+  {% set docLang = 'fr' %}
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="{{ docLang }}">
-<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
