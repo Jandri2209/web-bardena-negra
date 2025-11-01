@@ -20,11 +20,26 @@ permalink: "/la-casa/"
 
 {% if site.aggregateRating and site.aggregateRating.ratingValue and site.aggregateRating.reviewCount %}
 <section class="container" style="margin:1rem 0 0">
-  <div class="card" style="text-align:center">
-    <p style="margin:.2rem 0">
-      ⭐ {{ site.aggregateRating.ratingValue }}/5 · {{ site.aggregateRating.reviewCount }} reseñas
-      en Booking/Google/Airbnb
-    </p>
+  <div class="card rating-strip">
+    <div class="rating-big">
+      <div style="font-size:1.25rem">⭐</div>
+      <div>
+        <div class="value">{{ site.aggregateRating.ratingValue | round(1) }} / 5</div>
+        <div style="color:#6b7280">{{ site.aggregateRating.reviewCount }} reseñas</div>
+      </div>
+    </div>
+
+    <div class="logos">
+      <span class="platform-badge booking" aria-label="Booking">
+        <span class="icon" aria-hidden="true"></span><span class="sr-only">Booking</span>
+      </span>
+      <span class="platform-badge airbnb" aria-label="Airbnb">
+        <span class="icon" aria-hidden="true"></span><span class="sr-only">Airbnb</span>
+      </span>
+      <span class="platform-badge google" aria-label="Google">
+        <span class="icon" aria-hidden="true"></span><span class="sr-only">Google</span>
+      </span>
+    </div>
   </div>
 </section>
 {% endif %}
@@ -154,9 +169,12 @@ permalink: "/la-casa/"
 </section>
 
 <section class="container" aria-label="Reserva rápida" style="margin:1.6rem 0 0">
-  <div class="card" style="text-align:center">
-    <p class="lead" style="margin:.2rem 0 1rem">¿Fechas en mente?</p>
-    <a class="btn" href="/reservas/">Ver disponibilidad</a>
+  <div class="card cta-card">
+    <p class="lead">¿Fechas en mente?</p>
+    <div class="cta-actions">
+      <a class="btn alt" href="/la-casa/faq/#checkin">Preguntas frecuentes</a>
+      <a class="btn" href="/reservas/">Ver disponibilidad</a>
+    </div>
   </div>
 </section>
 
@@ -198,9 +216,11 @@ permalink: "/la-casa/"
 </section>
 
 <section class="container" aria-label="Reserva" style="margin:1.6rem 0 0">
-  <div class="card" style="text-align:center">
-    <p class="lead" style="margin:.2rem 0 1rem">¿Te cuadra la casa?</p>
-    <a class="btn" href="/reservas/">Solicitar reserva</a>
+  <div class="card cta-card">
+    <p class="lead">¿Te cuadra la casa?</p>
+    <div class="cta-actions">
+      <a class="btn" href="/reservas/">Solicitar reserva</a>
+    </div>
   </div>
 </section>
 
