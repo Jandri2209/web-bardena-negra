@@ -925,31 +925,6 @@ body.modal-open{ overflow:hidden }
 }
 .score-badge.booking{ background: var(--brand-booking); color:#fff; box-shadow:0 2px 10px rgba(0,0,0,.12) }
 
-.rating-strip{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .8rem;
-
-  /* ancho agradable y centrado */
-  width: clamp(20rem, 90vw, 560px);
-  margin: 0 auto;
-}
-
-.rating-strip .logos{
-  display:flex;
-  align-items:center;
-  gap:.5rem;
-}
-
-@media (max-width: 600px){
-  .rating-strip{
-    flex-direction: column;
-    text-align: center;
-    gap: .5rem;
-  }
-}
-
 /* ==========================
    17) Formularios (global)
    ========================== */

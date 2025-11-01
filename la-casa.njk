@@ -19,27 +19,25 @@ permalink: "/la-casa/"
 </section>
 
 {% if site.aggregateRating and site.aggregateRating.ratingValue and site.aggregateRating.reviewCount %}
-<section class="container center-children" aria-label="Reserva" style="margin:1.6rem 0 0">
-  <div class="card rating-strip">
-    <div class="rating-big">
-      <div style="font-size:1.25rem">⭐</div>
-      <div>
-        <div class="value">{{ site.aggregateRating.ratingValue | round(1) }} / 5</div>
-        <div style="color:#6b7280">{{ site.aggregateRating.reviewCount }} reseñas</div>
-      </div>
+<section class="container" id="resenas" style="margin-top:2.2rem">
+  <div class="rating-big">
+    <div style="font-size:1.25rem">⭐</div>
+    <div>
+      <div class="value">{{ site.aggregateRating.ratingValue | round(1) }} / 5</div>
+      <div style="color:#6b7280">{{ site.aggregateRating.reviewCount }} reseñas</div>
     </div>
+  </div>
 
-    <div class="logos">
-      <span class="platform-badge booking" aria-label="Booking">
-        <span class="icon" aria-hidden="true"></span><span class="sr-only">Booking</span>
-      </span>
-      <span class="platform-badge airbnb" aria-label="Airbnb">
-        <span class="icon" aria-hidden="true"></span><span class="sr-only">Airbnb</span>
-      </span>
-      <span class="platform-badge google" aria-label="Google">
-        <span class="icon" aria-hidden="true"></span><span class="sr-only">Google</span>
-      </span>
-    </div>
+  <div class="logos">
+    <span class="platform-badge booking" aria-label="Booking">
+      <span class="icon" aria-hidden="true"></span><span class="sr-only">Booking</span>
+    </span>
+    <span class="platform-badge airbnb" aria-label="Airbnb">
+      <span class="icon" aria-hidden="true"></span><span class="sr-only">Airbnb</span>
+    </span>
+    <span class="platform-badge google" aria-label="Google">
+      <span class="icon" aria-hidden="true"></span><span class="sr-only">Google</span>
+    </span>
   </div>
 </section>
 {% endif %}
