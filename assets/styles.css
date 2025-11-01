@@ -1464,3 +1464,21 @@ html[lang="en"] .nav .nav-link{
   padding: .45rem .6rem;
 }
 
+/* Utilidad: centrar hijos estrechos dentro de un .container */
+.container.center-children{
+  display:flex;
+}
+.container.center-children > *{
+  margin-left:auto;
+  margin-right:auto;
+}
+/* Título bonito para CTAs (como los h2 de las cards) */
+.cta-title{
+  font-family: "Gilda Display", Georgia, serif; /* igual que .font-primary */
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  line-height: 1.2;
+  margin: 0 0 .35rem;  /* mismo aire que en otras cards */
+  letter-spacing: .2px;
+  color: var(--ink);
+}
+
