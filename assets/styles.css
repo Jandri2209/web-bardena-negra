@@ -1477,3 +1477,37 @@ html[lang="en"] .nav .nav-link{
 @media (max-width:600px){
   .rating-inline{ flex-direction:column; text-align:center; }
 }
+/* ===== Lede bajo el hero ===== */
+.section-lede{
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+}
+.page-hero + .section-lede,
+.hero + .section-lede{
+  /* si hay hero, más aire arriba */
+  margin-top: clamp(2rem, 6vw, 3.5rem);
+}
+
+.card.lede{
+  padding: clamp(1rem, 3.2vw, 1.5rem);
+  border-radius: 1rem;          /* coherente con tus tarjetas */
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  background: #fff;
+}
+
+.lede-title{
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  line-height: 1.2;
+  margin: 0 0 .4rem;
+}
+
+.lede-text{
+  color: var(--muted);
+  max-width: 70ch;
+  margin: 0;
+}
+.lede-text strong{
+  color: var(--ink);
+  font-weight: 600;             /* sube énfasis sin gritar */
+}
