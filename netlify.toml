@@ -33,7 +33,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
-    Cache-control = "public, max-age=0, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 # Caché largo para assets versionados
 [[headers]]
@@ -152,7 +152,7 @@
   path = "/*"
   function = "i18n"
 # (Si más adelante quieres evitar que corra en /assets/ o /images/, podemos
-#  afinar el patrón de rutas; ver docs de declaraciones de Edge Functions.)  # :contentReference[oaicite:1]{index=1}
+#  afinar el patrón de rutas; ver docs de declaraciones de Edge Functions.)
 
 # ============================
 # Lighthouse plugin (auditoría)

@@ -14,21 +14,32 @@ title: ""
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{% if title %}{{ title }} · {% endif %}{{ site.name }}</title>
-  {# --- CANONICAL (normaliza /, /en/, /fr/) --- #}
-  {% set _p = page.url %}
-  {% if _p and _p.indexOf('/en/') == 0 %}{% set _p = '/' + _p.slice(4) %}{% endif %}
-  {% if _p and _p.indexOf('/fr/') == 0 %}{% set _p = '/' + _p.slice(4) %}{% endif %}
-  <link rel="canonical" href="{{ site.url }}{{ _p }}">
+  {# === Canonical: auto-referencial (mantiene el prefijo de idioma si lo hay) === #}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
 
-  {# --- HREFLANG (ES, EN, FR) --- #}
-  {% for lang in ['es','en','fr'] %}
-    {% set prefix = '' %}
-    {% if lang != 'es' %}{% set prefix = '/' + lang %}{% endif %}
-    <link rel="alternate" hreflang="{{ lang }}" href="{{ site.url }}{{ prefix }}{{ _p }}">
-  {% endfor %}
-  <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ _p }}">
+  {# === Alternates por idioma: la Edge sirve /en/ y /fr/ dinámicamente === #}
+  {# Base sin prefijo para construir las 3 URLs equivalentes #}
+  {% set basePath = page.url %}
+  {% if basePath and basePath.indexOf('/en/') == 0 %}{% set basePath = '/' + basePath.slice(4) %}{% endif %}
+  {% if basePath and basePath.indexOf('/fr/') == 0 %}{% set basePath = '/' + basePath.slice(4) %}{% endif %}
+
+  {# Opcional: excluye rutas no traducibles y páginas no indexables #}
+  {% set translatable = (not noindex)
+    and (basePath.indexOf('/admin/') != 0)
+    and (basePath != '/gracias/')
+    and (basePath != '/404/')
+    and (basePath != '/404.html') %}
+
+  {% if translatable %}
+    <link rel="alternate" hreflang="es-ES" href="{{ site.url }}{{ basePath }}">
+    <link rel="alternate" hreflang="en-GB" href="{{ site.url }}/en{{ basePath }}">
+    <link rel="alternate" hreflang="fr-FR" href="{{ site.url }}/fr{{ basePath }}">
+    <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ basePath }}">
+  {% endif %}
   <meta name="description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}"/>
-  {% if not noindex %}
+  {% if noindex %}
+    <meta name="robots" content="noindex, nofollow">
+  {% else %}
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="googlebot" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   {% endif %}
@@ -79,7 +90,9 @@ title: ""
   <meta property="og:description" content="{{ description or 'Alojamiento rural acogedor a un paso de las Bardenas Reales.' }}">
   <meta property="og:type" content="{{ 'website' if page and page.url == '/' else 'article' }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="og:image" content="{{ socialImage or '/images/logo-1200x630.png' }}">
+  {% set ogImage = socialImage or '/images/logo-1200x630.png' %}
+  {% if ogImage.indexOf('http') != 0 %}{% set ogImage = site.url + ogImage %}{% endif %}
+  <meta property="og:image" content="{{ ogImage }}">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
   {% set ogLocale = 'es_ES' %}
@@ -93,7 +106,7 @@ title: ""
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ title or site.name }}">
   <meta name="twitter:description" content="{{ description or '' }}">
-  <meta name="twitter:image" content="{{ socialImage or '/images/logo-1200x630.png' }}">
+  <meta name="twitter:image" content="{{ ogImage }}">
   <meta name="twitter:image:alt" content="{{ title or site.name }}">
 </head>
 <body>
