@@ -5,17 +5,18 @@ eleventyExcludeFromCollections: true
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {% for p in collections.all %}
-  {# Filtramos: nada de /en/ o /fr/, ni 404 ni gracias ni páginas con noindex #}
   {% set u = p.url or '' %}
+  {# Solo ES “base” (las versiones en/en y /fr las sirve la Edge) #}
   {% if u and (u.indexOf('/en/') != 0) and (u.indexOf('/fr/') != 0)
         and u != '/404/' and u != '/gracias/' and not p.data.noindex %}
   <url>
     <loc>{{ site.url }}{{ u }}</loc>
     {% if p.date %}
-      <lastmod>{{ (p.data.updated or p.date) | date('yyyy-LL-dd') }}</lastmod>
+      {# ISO yyyy-mm-dd sin locales #}
+      <lastmod>{{ (p.data.updated or p.date).toISOString().split('T')[0] }}</lastmod>
     {% endif %}
-    {% if u == '/' %}<priority>1.0</priority>{% else %}<priority>0.6</priority>{% endif %}
     <changefreq>weekly</changefreq>
+    <priority>{% if u == '/' %}1.0{% else %}0.6{% endif %}</priority>
   </url>
   {% endif %}
 {% endfor %}
