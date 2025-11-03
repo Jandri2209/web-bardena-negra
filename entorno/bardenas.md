@@ -3,6 +3,10 @@ layout: base.njk
 title: "Bardenas Reales: qué ver, rutas y consejos"
 description: "Cómo visitar las Bardenas Reales desde la casa: rutas esenciales (Castildetierra, circuito de la Blanca), mejores horas, seguridad y avisos oficiales."
 permalink: "/entorno/bardenas/"
+breadcrumbs:
+  - { name: "Inicio",  url: "/" }
+  - { name: "Entorno", url: "/entorno/" }
+  - { name: "Bardenas Reales", url: "/entorno/bardenas/" }
 ---
 <!-- HERO con imagen de fondo -->
 <section class="page-hero full-bleed tierra sm center-mobile" aria-label="Bardenas Reales: Castildetierra y badlands">
@@ -41,11 +45,25 @@ permalink: "/entorno/bardenas/"
 
     <h2>Lo esencial</h2>
     <ul>
-      <li><strong>Mejor primera toma de contacto:</strong> el <em>circuito perimetral de la Bardena Blanca</em>, una pista de ~25 km en coche (≈2 h con paradas) que rodea los puntos más icónicos, incluido <em>Castildetierra</em>.</li>
-      <li><strong>Foto imprescindible:</strong> la chimenea de hadas de <em>Castildetierra</em> y su entorno (aparcamiento señalizado al lado).</li>
+      <li><strong>Mejor primera toma de contacto:</strong> el <em>circuito perimetral de la Bardena Blanca</em>, una pista de ~25 km en coche (≈2 h con paradas) que rodea los puntos más icónicos, incluido <em><a href="#castildetierra">Castildetierra</a></em>.</li>
+      <li>
+        <strong>Foto imprescindible:</strong> la chimenea de hadas de
+        <span id="castildetierra" aria-hidden="true"></span>
+        <a href="https://www.google.com/maps/search/?api=1&query=42.21019%2C-1.5158"
+           target="_blank" rel="noopener"
+           aria-label="Cómo llegar a Castildetierra en Google Maps">
+          Castildetierra
+        </a>
+        y su entorno (aparcamiento señalizado al lado).
+      </li>
       <li><strong>Cuándo ir:</strong> primera hora de la mañana o últimas horas de la tarde para evitar calor y obtener mejor luz.</li>
       <li><strong>Preparación básica:</strong> agua, gorra, crema solar, calzado cerrado. Tras lluvias, el barro se adhiere mucho; revisa avisos antes de salir.</li>
     </ul>
+
+    <p class="mt-2">
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=42.21019%2C-1.5158" target="_blank" rel="noopener">Abrir en Google Maps</a>
+      <a class="btn alt" href="https://maps.apple.com/?q=42.21019,-1.5158" target="_blank" rel="noopener">Abrir en Apple Maps</a>
+    </p>
 
     <h2>Rutas y miradores recomendados</h2>
     <ul>
@@ -55,7 +73,12 @@ permalink: "/entorno/bardenas/"
 
     <h2>Antes de ir: avisos y normas</h2>
     <p>
-      Consulta los <a href="https://bardenasreales.es/avisos-y-recomendaciones/" target="_blank" rel="noopener">avisos oficiales</a> por eventos, cortes temporales o condiciones del terreno.
+      Consulta los
+      <a href="https://bardenasreales.es/avisos-y-recomendaciones/" target="_blank" rel="noopener"
+         aria-label="Avisos y recomendaciones oficiales del Parque Natural de Bardenas">
+        avisos oficiales
+      </a>
+      por eventos, cortes temporales o condiciones del terreno.
       Es un <em>Parque Natural</em>: respeta pistas, señalización y limitaciones, y no te salgas de los caminos.
       Más información en la <a href="https://bardenasreales.es/" target="_blank" rel="noopener">web oficial de Bardenas</a>.
     </p>
@@ -73,3 +96,22 @@ permalink: "/entorno/bardenas/"
     </p>
   </div>
 </section>
+
+<!-- JSON-LD: punto de interés (Castildetierra) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristAttraction",
+  "@id": "{{ site.url }}/entorno/bardenas/#castildetierra",
+  "name": "Castildetierra",
+  "description": "Formación icónica en las Bardenas Reales (Navarra).",
+  "image": "{{ site.url }}/images/bardenas-anochecer-1280.jpg",
+  "geo": { "@type": "GeoCoordinates", "latitude": 42.21019, "longitude": -1.5158 },
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=42.21019%2C-1.5158",
+  "sameAs": [
+    "https://maps.app.goo.gl/?q=42.21019,-1.5158",
+    "https://bardenasreales.es/"
+  ],
+  "url": "{{ site.url }}/entorno/bardenas/"
+}
+</script>

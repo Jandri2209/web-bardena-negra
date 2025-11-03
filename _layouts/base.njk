@@ -74,6 +74,26 @@ title: ""
         imagesrcset="/images/bardenas-anochecer-960.webp 960w, /images/bardenas-anochecer-1280.webp 1280w, /images/bardenas-anochecer-1920.webp 1920w"
         imagesizes="(max-width: 900px) 100vw, 1200px">
   {% endif %}
+  {% if page.url == "/entorno/olite/" %}
+  <link rel="preload" as="image"
+        href="/images/olite-castillo-1280.webp"
+        imagesrcset="/images/olite-castillo-960.webp 960w, /images/olite-castillo-1280.webp 1280w, /images/olite-castillo-1920.webp 1920w"
+        imagesizes="(max-width: 900px) 100vw, 1200px">
+  {% endif %}
+
+  {% if page.url == "/entorno/tarazona/" %}
+  <link rel="preload" as="image"
+        href="/images/tarazona-catedral-1280.webp"
+        imagesrcset="/images/tarazona-catedral-960.webp 960w, /images/tarazona-catedral-1280.webp 1280w, /images/tarazona-catedral-1920.webp 1920w"
+        imagesizes="(max-width: 900px) 100vw, 1200px">
+  {% endif %}
+
+  {% if page.url == "/entorno/moncayo/" %}
+  <link rel="preload" as="image"
+        href="/images/moncayo-hayedo-1280.webp"
+        imagesrcset="/images/moncayo-hayedo-960.webp 960w, /images/moncayo-hayedo-1280.webp 1280w, /images/moncayo-hayedo-1920.webp 1920w"
+        imagesizes="(max-width: 900px) 100vw, 1200px">
+  {% endif %}
   <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -163,6 +183,9 @@ title: ""
             <a href="/entorno/bardenas/" role="menuitem">Bardenas Reales</a>
             <a href="/entorno/tudela/"   role="menuitem">Tudela</a>
             <a href="/entorno/sendaviva/" role="menuitem">Sendaviva</a>
+            <a href="/entorno/olite/" role="menuitem">Olite</a>
+            <a href="/entorno/tarazona/" role="menuitem">Tarazona</a>
+            <a href="/entorno/moncayo/" role="menuitem">Moncayo</a>
           </div>
         </div>
 

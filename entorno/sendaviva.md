@@ -3,9 +3,13 @@ layout: base.njk
 title: "Sendaviva: entradas, qué ver y consejos en familia"
 description: "Parque familiar junto a Bardenas con atracciones, espectáculos y animales. Dónde comprar entradas, plan de día y recomendaciones prácticas."
 permalink: "/entorno/sendaviva/"
+breadcrumbs:
+  - { name: "Inicio",  url: "/" }
+  - { name: "Entorno", url: "/entorno/" }
+  - { name: "Sendaviva", url: "/entorno/sendaviva/" }
 ---
+
 <section class="page-hero full-bleed tierra sm center-mobile" aria-label="Sendaviva: parque familiar junto a Bardenas">
-  <!-- Imagen LCP: responsive + WebP -->
   <picture>
     <source type="image/webp"
       srcset="/images/sendaviva-hero-960.webp 960w,
@@ -41,8 +45,23 @@ permalink: "/entorno/sendaviva/"
 
     <h2>Entradas y calendario</h2>
     <p>
-      Compra anticipada y consulta días de apertura en la <a href="https://reservas.sendaviva.com/Entradas-Sendaviva" target="_blank" rel="noopener">web oficial de entradas</a>.
+      Compra anticipada y consulta días de apertura en la
+      <a href="https://reservas.sendaviva.com/Entradas-Sendaviva" target="_blank" rel="noopener">web oficial de entradas</a>.
       Los horarios y operativa pueden variar por motivos técnicos: revísalos el día anterior a tu visita.
+    </p>
+
+    <p class="mt-2">
+      <a class="btn"
+         href="https://www.google.com/maps/search/?api=1&query=Sendaviva"
+         target="_blank" rel="noopener"
+         aria-label="Cómo llegar a Sendaviva en Google Maps">
+        Cómo llegar (Google Maps)
+      </a>
+      <a class="btn alt"
+         href="https://maps.apple.com/?q=Sendaviva"
+         target="_blank" rel="noopener">
+        Abrir en Apple Maps
+      </a>
     </p>
 
     <h2>Plan de día recomendado</h2>
@@ -54,8 +73,8 @@ permalink: "/entorno/sendaviva/"
 
     <h2>Consejos prácticos</h2>
     <ul>
-      <li>Lleva gorra, agua y protector solar; hay sombras pero en verano el sol aprieta.</li>
-      <li>Si vas con carrito, planifica el orden de áreas para evitar subidas innecesarias.</li>
+      <li>Gorra, agua y protector solar; hay sombras pero en verano el sol aprieta.</li>
+      <li>Con carrito, planifica el orden de áreas para evitar subidas innecesarias.</li>
       <li>Combínalo con <a href="/entorno/bardenas/">Bardenas</a> o una tarde gastronómica en <a href="/entorno/tudela/">Tudela</a>.</li>
     </ul>
 
@@ -65,3 +84,21 @@ permalink: "/entorno/sendaviva/"
     </p>
   </div>
 </section>
+
+<!-- JSON-LD: parque (Sendaviva) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AmusementPark",
+  "@id": "{{ site.url }}/entorno/sendaviva/#sendaviva",
+  "name": "Sendaviva",
+  "description": "Parque familiar con atracciones, espectáculos y animales junto a las Bardenas Reales.",
+  "image": "{{ site.url }}/images/sendaviva-hero-1280.jpg",
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=Sendaviva",
+  "sameAs": [
+    "https://sendaviva.com/",
+    "https://reservas.sendaviva.com/Entradas-Sendaviva"
+  ],
+  "url": "{{ site.url }}/entorno/sendaviva/"
+}
+</script>

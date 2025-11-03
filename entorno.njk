@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 title: "Explora la Ribera de Navarra"
-description: "Guía práctica desde la casa: Bardenas Reales, Tudela y Sendaviva. Itinerarios 1–2 días, mapa, consejos y enlaces oficiales."
+description: "Guía práctica desde la casa: Bardenas Reales, Tudela, Sendaviva, Olite, Tarazona y Moncayo. Itinerarios 1–2 días, mapa, consejos y enlaces oficiales."
 permalink: "/entorno/"
 ---
 
@@ -9,7 +9,7 @@ permalink: "/entorno/"
   <div class="overlay" aria-hidden="true"></div>
   <div class="container inner">
     <h1 class="font-primary" style="color:#fff;margin:0">Explora la Ribera de Navarra</h1>
-    <p class="page-lead">Base perfecta para descubrir <strong>Bardenas Reales</strong>, <strong>Tudela</strong> y <strong>Sendaviva</strong>.</p>
+    <p class="page-lead">Base perfecta para descubrir <strong>Bardenas Reales</strong>, <strong>Tudela</strong>, <strong>Sendaviva</strong>, <strong>Olite</strong>, <strong>Tarazona</strong> y el <strong>Moncayo</strong>.</p>
   </div>
 </section>
 <nav class="entorno-subnav" aria-label="Secciones de la guía">
@@ -60,6 +60,22 @@ permalink: "/entorno/"
     <p>Parque familiar con atracciones, espectáculos y animales. ≈23 min.</p>
     <p><a href="/entorno/sendaviva/" class="text-link">Ver guía →</a> · <a href="https://sendaviva.com/" target="_blank" rel="noopener">Oficial</a></p>
   </article>
+  <article class="card">
+    <h3>Olite</h3>
+    <p>Palacio Real, casco medieval y bodegas. ≈40–45 min.</p>
+    <p><a href="/entorno/olite/" class="text-link">Ver guía →</a> · <a href="https://www.olite.es/" target="_blank" rel="noopener">Ayto.</a></p>
+  </article>
+
+  <article class="card">
+    <h3>Tarazona</h3>
+    <p>Catedral, mudéjar y plaza de toros vieja. ≈30–35 min.</p>
+    <p><a href="/entorno/tarazona/" class="text-link">Ver guía →</a> · <a href="https://www.tarazona.es/" target="_blank" rel="noopener">Ayto.</a></p>
+  </article>
+
+  <article class="card">
+    <h3>Moncayo</h3>
+    <p>Hayedos y miradores. ≈50–60 min.</p>
+    <p><a href="/entorno/moncayo/" class="text-link">Ver guía →</a> · <a href="https://www.rednaturaldearagon.com/parque-natural-del-moncayo/" target="_blank" rel="noopener">Oficial</a></p>
 </section>
 
 <section id="itinerarios" class="container entorno-section">
@@ -119,7 +135,7 @@ permalink: "/entorno/"
   <h2 class="font-primary section-title">Cómo llegar</h2>
   <p>Calle Virgen de la Peña 44, 31510 Fustiñana (Navarra)</p>
   <div class="figure">
-    <iframe title="Mapa de Fustiñana"
+    <iframe title="Mapa de Fustiñana" loading="lazy"
       style="width:100%;height:360px;border:1px solid rgba(0,0,0,.1);border-radius:12px"
       src="https://www.openstreetmap.org/export/embed.html?bbox={{ site.geo.lng-0.02 }},{{ site.geo.lat-0.02 }},{{ site.geo.lng+0.02 }},{{ site.geo.lat+0.02 }}&amp;layer=mapnik&amp;marker={{ site.geo.lat }},{{ site.geo.lng }}"></iframe>
   </div>
@@ -131,9 +147,22 @@ permalink: "/entorno/"
   "@type":"ItemList",
   "name":"Entorno - puntos de interés",
   "itemListElement":[
-    {"@type":"ListItem","position":1,"name":"Bardenas Reales","url":"{{ site.url }}/entorno/bardenas/"},
-    {"@type":"ListItem","position":2,"name":"Tudela","url":"{{ site.url }}/entorno/tudela/"},
-    {"@type":"ListItem","position":3,"name":"Sendaviva","url":"{{ site.url }}/entorno/sendaviva/"}
+  {"@type":"ListItem","position":1,"name":"Bardenas Reales","url":"{{ site.url }}/entorno/bardenas/"},
+  {"@type":"ListItem","position":2,"name":"Tudela","url":"{{ site.url }}/entorno/tudela/"},
+  {"@type":"ListItem","position":3,"name":"Sendaviva","url":"{{ site.url }}/entorno/sendaviva/"},
+  {"@type":"ListItem","position":4,"name":"Olite","url":"{{ site.url }}/entorno/olite/"},
+  {"@type":"ListItem","position":5,"name":"Tarazona","url":"{{ site.url }}/entorno/tarazona/"},
+  {"@type":"ListItem","position":6,"name":"Moncayo","url":"{{ site.url }}/entorno/moncayo/"}
+]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Inicio","item":"{{ site.url }}/"},
+    {"@type":"ListItem","position":2,"name":"Entorno","item":"{{ site.url }}/entorno/"}
   ]
 }
 </script>
