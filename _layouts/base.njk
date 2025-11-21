@@ -325,8 +325,7 @@ title: ""
 
       // Cierra el menú al navegar
       menu && menu.addEventListener('click', (e)=>{
-        const a = e.target.closest('a');
-        if (a) { header.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+        if(e.target.tagName === 'A'){ header.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
       });
     })();
   </script>
@@ -852,17 +851,18 @@ title: ""
   }
   function go(lang, e){
     if (e) e.preventDefault();
-    // buildUrl ya quita prefijos y limpia ?lang viejo
-    const next = new URL(buildUrl(lang), window.location.origin);
+    const SUPPORTED = ['es','en','fr'];
+    if (!SUPPORTED.includes(lang)) return;
 
-    // ES necesita forzar el reset de cookie en el Edge
-    if (lang === 'es') {
-      next.searchParams.set('lang', 'es');  // fuerza cookie=es y 302 a /... limpio
-    }
+    const next = new URL(buildUrl(lang), window.location.origin);
+    // Señal temporal para el Edge: fija cookie "lang" y redirige limpio
+    next.searchParams.set('lang', lang);
+
+    // opcional: tu cookie auxiliar para evitar rebotes de ES en otros proxies
+    if (lang === 'es') setLangprefES();
 
     window.location.assign(next.toString());
   }
-
 
   // ESCRITORIO: enlaza y fuerza navegación
   [['es','lang-es'], ['en','lang-en'], ['fr','lang-fr']].forEach(([code, id])=>{
