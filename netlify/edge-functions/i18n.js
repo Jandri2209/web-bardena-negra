@@ -10,7 +10,11 @@ const DEFAULT_TTL = parseInt(Deno.env.get("I18N_CACHE_TTL") || "86400", 10);
 const NOCACHE = Deno.env.get("I18N_NOCACHE") === "1";
 const FORCE_OFF = Deno.env.get("I18N_FORCE_OFF") === "1";
 
-const STRIP_QS = new Set(['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid','mc_cid','mc_eid']);
+// Parámetros de tracking a eliminar
+const STRIP_QS = new Set([
+  "utm_source","utm_medium","utm_campaign","utm_term","utm_content",
+  "gclid","fbclid","mc_cid","mc_eid"
+]);
 
 // DeepL
 const DEEPL_KEY = Deno.env.get("DEEPL_KEY") || "";
@@ -69,7 +73,6 @@ function stripLangParam(u) {
   n.searchParams.delete("_nolang");
   return n;
 }
-
 function stripTrackingParams(u) {
   const n = new URL(u.toString());
   for (const k of STRIP_QS) n.searchParams.delete(k);
@@ -112,10 +115,7 @@ function patchSeo(html, lang, url, setLangTag = true) {
   return out;
 }
 function tidyTypography(lang, html) {
-  html = html.replace(
-    /(<(?:h[1-4]|li|p)[^>]*>\s*)([a-z])/g,
-    (_, open, first) => open + first.toUpperCase()
-  );
+  html = html.replace(/(<(?:h[1-4]|li|p)[^>]*>\s*)([a-z])/g, (_, open, first) => open + first.toUpperCase());
   if (lang === "fr") {
     html = html.replace(/\s+([;:?!»])/g, "\u00A0$1").replace(/«\s+/g, "«\u00A0");
   }
@@ -126,12 +126,7 @@ function tidyTypography(lang, html) {
 async function translateHtml(html, lang, url) {
   if (FORCE_OFF || !TRANSLATE_ENABLED || !DEEPL_KEY) {
     console.warn("[i18n] DeepL desactivado (FORCE_OFF) o clave ausente");
-    // sin traducción: no tocamos <html lang>, solo hreflang/canonical
-    return {
-      ok: false,
-      text: patchSeo(html, lang, url, false),
-      dbg: FORCE_OFF ? "FORCED_OFF" : "NO_KEY_OR_OFF",
-    };
+    return { ok: false, text: patchSeo(html, lang, url, false), dbg: FORCE_OFF ? "FORCED_OFF" : "NO_KEY_OR_OFF" };
   }
 
   const target = lang.toUpperCase(); // 'EN' | 'FR'
@@ -197,7 +192,6 @@ async function translateHtml(html, lang, url) {
   }
 
   const out = translatedParts.join("");
-  // traducido: sí cambiamos <html lang="en|fr">
   return { ok: allOk, text: patchSeo(out, lang, url, true), dbg: allOk ? "OK" : "PARTIAL" };
 }
 
@@ -205,6 +199,7 @@ async function translateHtml(html, lang, url) {
 export default async (request, context) => {
   let url = new URL(request.url);
   url = stripTrackingParams(url);
+
   const path = url.pathname;
   const accept = request.headers.get("accept") || "";
   const ua = request.headers.get("user-agent") || "";
@@ -214,9 +209,7 @@ export default async (request, context) => {
   if (
     /\.(css|js|mjs|map|png|jpe?g|webp|avif|svg|ico|gif|json|xml|txt|pdf|woff2?|ttf)$/i.test(path) ||
     /^\/(assets|images|reports|admin|\.netlify)\//.test(path)
-  ) {
-    return context.next();
-  }
+  ) return context.next();
 
   // Bypass manual y anti-recursión
   if (url.searchParams.has("_nolang")) return context.next();
@@ -243,42 +236,41 @@ export default async (request, context) => {
   const cookies = parseCookies(request.headers.get("cookie") || "");
   const wantsHtml = isHtmlRequest(request, path);
 
-  // 1) Selector manual ?lang=en|fr|es → set-cookie + redirect limpio (sin duplicar prefijos)
+  // 1) Selector manual ?lang=en|fr|es → set-cookie + redirect limpio
   const qlang = url.searchParams.get("lang");
   if (wantsHtml && qlang && /^(en|fr|es)$/i.test(qlang)) {
     const forced = qlang.toLowerCase();
 
-    // Quita prefijo actual si lo hay para construir una "base" neutra
+    // Quita prefijo actual si lo hay para construir una base neutra
     const m = path.match(/^\/(en|fr)(\/|$)/);
-    let base = m ? path.slice(m[0].length) : path; // después de /en/ o /fr/
+    let base = m ? path.slice(m[0].length) : path;
     if (!/\.[a-z0-9]+$/i.test(base) && !base.endsWith("/")) base += "/";
     if (!base.startsWith("/")) base = "/" + base;
-    if (base === "") base = "/";
 
-    // Destino final según idioma forzado
-    const destPath = (forced === "es")
-      ? base                           // sin prefijo
-      : `/${forced}${base === "/" ? "/" : base}`; // con /en o /fr
+    // Destino final según idioma
+    const destPath = (forced === "es") ? base : `/${forced}${base === "/" ? "/" : base}`;
 
-    // Redirección “limpia” (quitamos ?lang, marcadores internos, etc.)
-    const destUrl = stripLangParam(new URL(url.origin + destPath + url.search));
+    // Reconstruimos query sin lang ni UTMs
+    const destUrl = new URL(url.origin + destPath);
+    for (const [k, v] of url.searchParams) {
+      if (k === "lang" || k === INTERNAL_QS || k === "_nolang" || STRIP_QS.has(k)) continue;
+      destUrl.searchParams.append(k, v);
+    }
 
-    // Cookie lang (también para ES → ‘es’, desactiva pegajosidad)
+    // Fijamos cookie solo aquí (flujo explícito de cambio)
     const headers = new Headers({ Location: destUrl.toString() });
     headers.append("set-cookie", cookie("lang", forced, ONE_YEAR));
-
     return new Response(null, { status: 302, headers });
   }
-  // 2) Autodetección siempre (también con FORCE_OFF)
+
+  // 2) Autodetección inicial
   if (!hasPrefix && wantsHtml && !cookies.lang) {
     const pick = bestMatch(request.headers.get("accept-language") || "", SUPPORTED);
-    if (pick === "en")
-      return Response.redirect(stripLangParam(new URL(url.origin + "/en" + path + url.search)), 302);
-    if (pick === "fr")
-      return Response.redirect(stripLangParam(new URL(url.origin + "/fr" + path + url.search)), 302);
+    if (pick === "en") return Response.redirect(stripLangParam(new URL(url.origin + "/en" + path + url.search)), 302);
+    if (pick === "fr") return Response.redirect(stripLangParam(new URL(url.origin + "/fr" + path + url.search)), 302);
   }
 
-  // 3) Persistencia cookie: desactivada si FORCE_OFF
+  // 3) Persistencia cookie (no aplica si FORCE_OFF)
   const wanted = cookies.lang;
   if (!FORCE_OFF && !hasPrefix && wantsHtml && (wanted === "en" || wanted === "fr")) {
     const dest = `${url.origin}/${wanted}${path === "/" ? "/" : path}${url.search}`;
@@ -310,7 +302,7 @@ export default async (request, context) => {
   // En ES, devolvemos tal cual
   if (!hasPrefix) return originRes;
 
-  // 5) Traducimos (o solo parcheamos SEO si está OFF/NO_KEY)
+  // 5) Traducimos (o solo parcheamos SEO)
   const html = await originRes.text();
   const { ok, text: translatedRaw, dbg } = await translateHtml(html, prefix, url);
   const text = tidyTypography(prefix, translatedRaw);
@@ -323,11 +315,14 @@ export default async (request, context) => {
   headers.set("X-I18N-DeepL", dbg);
   headers.set("X-I18N-Debug", hasPrefix ? `translate:${prefix}` : "pass:es");
 
-  headers.set("Cache-Control", "public, max-age=0, must-revalidate");
-  const ttl = DEFAULT_TTL; // en segundos
-  headers.set("Netlify-CDN-Cache-Control", `public, s-maxage=${ttl}, stale-while-revalidate=86400`);
-  headers.set("Netlify-Cache-Tag", `i18n,lang:${prefix}`);
-  headers.set("Cache-Tag", `i18n,lang:${prefix}`);
+  if (!ok || NOCACHE) {
+    headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
+    headers.set("Netlify-CDN-Cache-Control", "no-store");
+  } else {
+    headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+    const ttl = DEFAULT_TTL;
+    headers.set("Netlify-CDN-Cache-Control", `public, s-maxage=${ttl}, stale-while-revalidate=86400`);
+  }
 
   return new Response(text, { status, headers });
 };
