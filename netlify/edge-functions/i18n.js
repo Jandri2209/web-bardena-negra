@@ -330,4 +330,4 @@ export default async (request, context) => {
   return new Response(text, { status, headers });
 };
 
-export const config = { path: "/*", cache: "manual" };
+export const config = { path: "/*" };
