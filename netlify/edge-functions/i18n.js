@@ -323,9 +323,9 @@ export default async (request, context) => {
   }
 
   // Cookie lang: solo cuando NO está FORCE_OFF
-  if (!FORCE_OFF && hasPrefix) {
-    headers.append("set-cookie", cookie("lang", prefix, ONE_YEAR));
-  }
+  // if (!FORCE_OFF && hasPrefix) {
+  //   headers.append("set-cookie", cookie("lang", prefix, ONE_YEAR));
+  // }
 
   return new Response(text, { status, headers });
 };
