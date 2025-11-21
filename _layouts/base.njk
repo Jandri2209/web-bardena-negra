@@ -852,18 +852,10 @@ title: ""
   }
   function go(lang, e){
     if (e) e.preventDefault();
-    const SUPPORTED = ['es','en','fr'];
-    if (!SUPPORTED.includes(lang)) return;
-
-    const next = new URL(buildUrl(lang), window.location.origin);
-    // Señal temporal para el Edge: fija cookie "lang" y redirige limpio
-    next.searchParams.set('lang', lang);
-
-    // opcional: tu cookie auxiliar para evitar rebotes de ES en otros proxies
-    if (lang === 'es') setLangprefES();
-
-    window.location.assign(next.toString());
+    const next = buildUrl(lang);     // ruta canónica sin ?lang
+    window.location.assign(next);
   }
+
 
   // ESCRITORIO: enlaza y fuerza navegación
   [['es','lang-es'], ['en','lang-en'], ['fr','lang-fr']].forEach(([code, id])=>{
