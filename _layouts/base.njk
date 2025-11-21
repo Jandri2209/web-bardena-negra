@@ -158,7 +158,7 @@ title: ""
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-controls="submenu-casa">
-            <notranslate><span class="chev" aria-hidden="true">▾</span></notranslate>
+            <span translate="no" class="notranslate"><span class="chev" aria-hidden="true">▾</span></span>
           </button>
           <div class="submenu" id="submenu-casa" role="menu" aria-labelledby="link-casa">
             <a href="/la-casa/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “La casa”</strong></notranslate></a>
@@ -176,7 +176,7 @@ title: ""
                   aria-haspopup="menu"
                   aria-expanded="false"
                   aria-controls="submenu-entorno">
-            <notranslate><span class="chev" aria-hidden="true">▾</span></notranslate>
+            <span translate="no" class="notranslate"><span class="chev" aria-hidden="true">▾</span></span>
           </button>
           <div class="submenu" id="submenu-entorno" role="menu" aria-labelledby="link-entorno">
             <a href="/entorno/" role="menuitem" class="parent-link only-mobile"><notranslate><strong>Ver “Entorno”</strong></notranslate></a>
@@ -325,7 +325,8 @@ title: ""
 
       // Cierra el menú al navegar
       menu && menu.addEventListener('click', (e)=>{
-        if(e.target.tagName === 'A'){ header.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+        const a = e.target.closest('a');
+        if (a) { header.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
       });
     })();
   </script>

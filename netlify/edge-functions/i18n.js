@@ -10,6 +10,8 @@ const DEFAULT_TTL = parseInt(Deno.env.get("I18N_CACHE_TTL") || "86400", 10);
 const NOCACHE = Deno.env.get("I18N_NOCACHE") === "1";
 const FORCE_OFF = Deno.env.get("I18N_FORCE_OFF") === "1";
 
+const STRIP_QS = new Set(['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid','mc_cid','mc_eid']);
+
 // DeepL
 const DEEPL_KEY = Deno.env.get("DEEPL_KEY") || "";
 const DEEPL_ENDPOINT =
@@ -65,6 +67,12 @@ function stripLangParam(u) {
   n.searchParams.delete("lang");
   n.searchParams.delete(INTERNAL_QS);
   n.searchParams.delete("_nolang");
+  return n;
+}
+
+function stripTrackingParams(u) {
+  const n = new URL(u.toString());
+  for (const k of STRIP_QS) n.searchParams.delete(k);
   return n;
 }
 
@@ -151,7 +159,7 @@ async function translateHtml(html, lang, url) {
       target_lang: target,
       source_lang: "ES",
       tag_handling: "html",
-      ignore_tags: "script,style,noscript,code,pre,svg,notranslate",
+      ignore_tags: "script,style,noscript,code,pre,svg",
       split_sentences: "nonewlines",
       preserve_formatting: "1",
     });
@@ -195,7 +203,8 @@ async function translateHtml(html, lang, url) {
 
 // -------------------- handler --------------------
 export default async (request, context) => {
-  const url = new URL(request.url);
+  let url = new URL(request.url);
+  url = stripTrackingParams(url);
   const path = url.pathname;
   const accept = request.headers.get("accept") || "";
   const ua = request.headers.get("user-agent") || "";
@@ -219,7 +228,7 @@ export default async (request, context) => {
       const rest = path.split("/").slice(2).join("/");
       let basePath = normalizeBasePath(`/${rest}`);
       if (!/\.[a-z0-9]+$/i.test(basePath) && !basePath.endsWith("/")) basePath += "/";
-      const originUrl = new URL(request.url);
+      const originUrl = new URL(url.toString());
       originUrl.pathname = basePath;
       originUrl.searchParams.delete("lang");
       originUrl.searchParams.delete(INTERNAL_QS);
@@ -283,7 +292,7 @@ export default async (request, context) => {
     let basePath = normalizeBasePath(`/${rest}`);
     if (!/\.[a-z0-9]+$/i.test(basePath) && !basePath.endsWith("/")) basePath += "/";
 
-    const originUrl = new URL(request.url);
+    const originUrl = new URL(url.toString());
     originUrl.pathname = basePath;
     originUrl.searchParams.set(INTERNAL_QS, "1");
 
@@ -314,20 +323,13 @@ export default async (request, context) => {
   headers.set("X-I18N-DeepL", dbg);
   headers.set("X-I18N-Debug", hasPrefix ? `translate:${prefix}` : "pass:es");
 
-  if (NOCACHE || !ok || status >= 400) {
-    headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
-    headers.set("Netlify-CDN-Cache-Control", "no-store");
-  } else {
-    headers.set("Cache-Control", `public, max-age=${DEFAULT_TTL}`);
-    headers.set("Netlify-CDN-Cache-Control", `public, max-age=${DEFAULT_TTL}`);
-  }
-
-  // Cookie lang: solo cuando NO está FORCE_OFF
-  if (!FORCE_OFF && hasPrefix) {
-    headers.append("set-cookie", cookie("lang", prefix, ONE_YEAR));
-  }
+  headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+  const ttl = DEFAULT_TTL; // en segundos
+  headers.set("Netlify-CDN-Cache-Control", `public, s-maxage=${ttl}, stale-while-revalidate=86400`);
+  headers.set("Netlify-Cache-Tag", `i18n,lang:${prefix}`);
+  headers.set("Cache-Tag", `i18n,lang:${prefix}`);
 
   return new Response(text, { status, headers });
 };
 
-export const config = { path: "/*" };
+export const config = { path: "/*", cache: "manual" };
