@@ -6,6 +6,15 @@ const ONE_YEAR = 365 * 24 * 60 * 60;
 const TRANSLATE_ENABLED = true;
 const DEFAULT_TTL = parseInt(Deno.env.get("I18N_CACHE_TTL") || "86400", 10);
 
+const STRIP_QS = new Set(['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid','mc_cid','mc_eid']);
+
+function stripTrackingParams(u) {
+  const n = new URL(u.toString());
+  for (const k of STRIP_QS) n.searchParams.delete(k);
+  return n;
+}
+
+
 // Flags de entorno
 const NOCACHE = Deno.env.get("I18N_NOCACHE") === "1";
 const FORCE_OFF = Deno.env.get("I18N_FORCE_OFF") === "1";
@@ -195,7 +204,7 @@ async function translateHtml(html, lang, url) {
 
 // -------------------- handler --------------------
 export default async (request, context) => {
-  const url = new URL(request.url);
+  let url = new URL(request.url);
   const path = url.pathname;
   const accept = request.headers.get("accept") || "";
   const ua = request.headers.get("user-agent") || "";
@@ -209,6 +218,17 @@ export default async (request, context) => {
     return context.next();
   }
 
+  if (!url.searchParams.has("lang") && !url.searchParams.has("_i18n") && !url.searchParams.has("_nolang")) {
+    const cleaned = stripTrackingParams(url);
+    if (cleaned.toString() !== url.toString()) {
+      const headers = new Headers({ Location: cleaned.toString() });
+      // 301 canónico; cacheable y no interfiere con cookies
+      headers.set("Cache-Control","public, max-age=31536000");
+      return new Response(null, { status: 301, headers });
+    }
+    url = cleaned; // por si solo quitamos algo irrelevante (orden, espacios), seguimos con el limpio
+  }
+
   // Bypass manual y anti-recursión
   if (url.searchParams.has("_nolang")) return context.next();
   if (url.searchParams.has(INTERNAL_QS)) return context.next();
@@ -219,7 +239,7 @@ export default async (request, context) => {
       const rest = path.split("/").slice(2).join("/");
       let basePath = normalizeBasePath(`/${rest}`);
       if (!/\.[a-z0-9]+$/i.test(basePath) && !basePath.endsWith("/")) basePath += "/";
-      const originUrl = new URL(request.url);
+      const originUrl = new URL(url.toString());
       originUrl.pathname = basePath;
       originUrl.searchParams.delete("lang");
       originUrl.searchParams.delete(INTERNAL_QS);
