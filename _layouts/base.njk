@@ -852,8 +852,15 @@ title: ""
   }
   function go(lang, e){
     if (e) e.preventDefault();
-    const next = buildUrl(lang);     // ruta canónica sin ?lang
-    window.location.assign(next);
+    // buildUrl ya quita prefijos y limpia ?lang viejo
+    const next = new URL(buildUrl(lang), window.location.origin);
+
+    // ES necesita forzar el reset de cookie en el Edge
+    if (lang === 'es') {
+      next.searchParams.set('lang', 'es');  // fuerza cookie=es y 302 a /... limpio
+    }
+
+    window.location.assign(next.toString());
   }
 
 
