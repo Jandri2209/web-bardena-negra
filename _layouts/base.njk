@@ -7,6 +7,11 @@ title: ""
 {% elif page and page.url and page.url.indexOf('/fr/') == 0 %}
   {% set docLang = 'fr' %}
 {% endif %}
+{# Helpers pequeñas #}
+{% set t_home = {'es':'Inicio','en':'Home','fr':'Accueil'}[docLang] %}
+{% set t_house = {'es':'La casa','en':'The House','fr':'La Maison'}[docLang] %}
+{% set t_env = {'es':'Entorno','en':'Surroundings','fr':'Environs'}[docLang] %}
+{% set t_book = {'es':'Reservar','en':'Book','fr':'Réserver'}[docLang] %}
 
 <!DOCTYPE html>
 <html lang="{{ docLang }}">
@@ -147,12 +152,12 @@ title: ""
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="nav-links" id="navMenu" role="navigation" aria-label="Navegación principal">
-        <a href="/">Inicio</a>
+      <nav class="nav-links" id="navMenu" role="navigation" aria-label="Navegación principal" translate="no">
+        <a href="/">{{ t_home }}</a>
 
         <!-- La casa (padre + caret + submenú) -->
         <div class="nav-item has-submenu">
-          <a href="/la-casa/" class="nav-link" id="link-casa">La casa</a>
+          <a href="/la-casa/" class="nav-link" id="link-casa">{{ t_house }}</a>
           <button class="sub-toggle"
                   aria-label="Abrir submenú de La Casa"
                   aria-haspopup="menu"
@@ -170,7 +175,7 @@ title: ""
 
         <!-- Entorno (padre + caret + submenú) -->
         <div class="nav-item has-submenu">
-          <a href="/entorno/" class="nav-link" id="link-entorno">Entorno</a>
+          <a href="/entorno/" class="nav-link" id="link-entorno">{{ t_env }}</a>
           <button class="sub-toggle"
                   aria-label="Abrir submenú de Entorno"
                   aria-haspopup="menu"
@@ -189,43 +194,47 @@ title: ""
           </div>
         </div>
 
-        <a href="/reservas/" class="cta">Reservar</a>
+        <a href="/reservas/" class="cta">{{ t_book }}</a>
         <!-- Idioma (móvil) — bloque compacto y profesional -->
-        <div class="lang-block" role="group" aria-labelledby="lang-title">
-          <p id="lang-title" class="lang-title">Idioma</p>
-          <div class="lang-seg">
-            <a class="seg-btn" data-set-language="es" href="?lang=es">
-              <img src="/assets/flags/es.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
-              <span class="code">Español</span>
-              <span class="sr-only">Español</span>
-            </a>
-            <a class="seg-btn" data-set-language="en" href="?lang=en">
-              <img src="/assets/flags/gb.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
-              <span class="code">English</span>
-              <span class="sr-only">English</span>
-            </a>
-            <a class="seg-btn" data-set-language="fr" href="?lang=fr">
-              <img src="/assets/flags/fr.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
-              <span class="code">Français</span>
-              <span class="sr-only">Français</span>
-            </a>
+        <notranslate translate="no">
+          <div class="lang-block" role="group" aria-labelledby="lang-title">
+            <p id="lang-title" class="lang-title">Idioma</p>
+            <div class="lang-seg">
+              <a class="seg-btn" data-set-language="es" href="?lang=es">
+                <img src="/assets/flags/es.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
+                <span class="code">Español</span>
+                <span class="sr-only">Español</span>
+              </a>
+              <a class="seg-btn" data-set-language="en" href="?lang=en">
+                <img src="/assets/flags/gb.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
+                <span class="code">English</span>
+                <span class="sr-only">English</span>
+              </a>
+              <a class="seg-btn" data-set-language="fr" href="?lang=fr">
+                <img src="/assets/flags/fr.svg" width="16" height="16" loading="lazy" decoding="async" class="flag" alt="">
+                <span class="code">Français</span>
+                <span class="sr-only">Français</span>
+              </a>
+            </div>
           </div>
-        </div>
+        </notranslate>
         <!-- Idiomas (ESCRITORIO) -->
-        <div class="nav-item has-submenu lang-switch">
-          <button class="sub-toggle" id="langToggle"
-                  aria-label="Cambiar idioma" aria-haspopup="menu"
-                  aria-expanded="false" aria-controls="submenu-lang">
-            <img class="lang-flag" id="langCurrentFlag" src="/assets/flags/es.svg" alt="ES">
-            <span class="lang-code" id="langCurrentCode">ES</span>
-            <span class="chev" aria-hidden="true">▾</span>
-          </button>
-          <div class="submenu" id="submenu-lang" role="menu" aria-labelledby="langToggle">
-            <a id="lang-es" href="?lang=es" role="menuitem"><img class="lang-flag" src="/assets/flags/es.svg" alt=""> Español</a>
-            <a id="lang-en" href="?lang=en" role="menuitem"><img class="lang-flag" src="/assets/flags/gb.svg" alt=""> English</a>
-            <a id="lang-fr" href="?lang=fr" role="menuitem"><img class="lang-flag" src="/assets/flags/fr.svg" alt=""> Français</a>
+        <notranslate translate="no">
+          <div class="nav-item has-submenu lang-switch">
+            <button class="sub-toggle" id="langToggle"
+                    aria-label="Cambiar idioma" aria-haspopup="menu"
+                    aria-expanded="false" aria-controls="submenu-lang">
+              <img class="lang-flag" id="langCurrentFlag" src="/assets/flags/es.svg" alt="ES">
+              <span class="lang-code" id="langCurrentCode">ES</span>
+              <span class="chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="submenu" id="submenu-lang" role="menu" aria-labelledby="langToggle">
+              <a id="lang-es" href="?lang=es" role="menuitem"><img class="lang-flag" src="/assets/flags/es.svg" alt=""> Español</a>
+              <a id="lang-en" href="?lang=en" role="menuitem"><img class="lang-flag" src="/assets/flags/gb.svg" alt=""> English</a>
+              <a id="lang-fr" href="?lang=fr" role="menuitem"><img class="lang-flag" src="/assets/flags/fr.svg" alt=""> Français</a>
+            </div>
           </div>
-        </div>
+        </notranslate>
       </nav>
     </div>
   </header>
@@ -900,18 +909,17 @@ title: ""
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  if (document.documentElement.lang !== 'es') return; // ← guardia
   const weirdSpaces = /[\u00A0\u202F\u2009\u200A\u2007]/g;
   document
     .querySelectorAll('header .nav-links a, header .nav a.nav-link')
     .forEach(a => {
-      // No toques enlaces con banderas, ni botones segmentados, ni elementos del submenú de idiomas
       if (
         a.closest('.lang-block') ||
         a.closest('.lang-switch') ||
         a.classList.contains('seg-btn') ||
         a.querySelector('img')
       ) return;
-
       const t = (a.textContent || '').trim();
       if (!t) return;
       a.textContent = (t.split(/\s+/).length === 1)
