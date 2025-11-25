@@ -1511,3 +1511,7 @@ html[lang="en"] .nav .nav-link{
   color: var(--ink);
   font-weight: 600;             /* sube énfasis sin gritar */
 }
+/* Fijar la marca a la izquierda pase lo que pase */
+header .nav { justify-content: space-between; text-align: initial; }
+header .nav .brand { margin-right: auto; }
+header.site-header, header.site-header * { text-align: initial; }
