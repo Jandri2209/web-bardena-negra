@@ -1,12 +1,14 @@
 // netlify/edge-functions/i18n.js
-// Deno (Edge). Nada de require/fs.
+// Deno Edge + Netlify Blobs (KV). Sin require/fs.
 
 const SUPPORTED = new Set(["en", "fr"]);
 const ONE_YEAR = 365 * 24 * 60 * 60;
 const TRANSLATE_ENABLED = true;
 const DEFAULT_TTL = parseInt(Deno.env.get("I18N_CACHE_TTL") || "86400", 10);
 
-const STRIP_QS = new Set(['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid','mc_cid','mc_eid']);
+const STRIP_QS = new Set([
+  "utm_source","utm_medium","utm_campaign","utm_term","utm_content","gclid","fbclid","mc_cid","mc_eid"
+]);
 
 function stripTrackingParams(u) {
   const n = new URL(u.toString());
@@ -14,15 +16,13 @@ function stripTrackingParams(u) {
   return n;
 }
 
-
 // Flags de entorno
 const NOCACHE = Deno.env.get("I18N_NOCACHE") === "1";
 const FORCE_OFF = Deno.env.get("I18N_FORCE_OFF") === "1";
 
 // DeepL
 const DEEPL_KEY = Deno.env.get("DEEPL_KEY") || "";
-const DEEPL_ENDPOINT =
-  Deno.env.get("DEEPL_ENDPOINT") || "https://api-free.deepl.com/v2/translate";
+const DEEPL_ENDPOINT = Deno.env.get("DEEPL_ENDPOINT") || "https://api-free.deepl.com/v2/translate";
 
 // Marcador anti-recursión
 const INTERNAL_QS = "_i18n";
@@ -30,7 +30,7 @@ const INTERNAL_QS = "_i18n";
 // Bots/auditorías (no redirigir ni traducir)
 const BOT_UA_RX = /(lighthouse|chrome-lighthouse|headless|googlebot|pagespeed|netlifybot)/i;
 
-// -------------------- utils --------------------
+/* -------------------- utils -------------------- */
 function isHtmlRequest(req, path) {
   const accept = req.headers.get("accept") || "";
   const looksHtmlPath =
@@ -77,8 +77,8 @@ function stripLangParam(u) {
   return n;
 }
 
-// setLangTag = true → cambia <html lang="...">
-// setLangTag = false → solo hreflang + canonical (deja lang original)
+// setLangTag = true: cambia <html lang="...">
+// setLangTag = false: solo alternate/canonical (no toca <html lang>)
 function patchSeo(html, lang, url, setLangTag = true) {
   const rest = url.pathname.split("/").slice(2).join("/"); // quita /en|/fr
   const basePath = "/" + rest;
@@ -123,10 +123,44 @@ function tidyTypography(lang, html) {
   return html;
 }
 
-// -------------------- DeepL (con chunking) --------------------
+// Hash SHA-256 (hex) para versionar por HTML original (ES)
+async function sha256(input) {
+  const data = new TextEncoder().encode(input);
+  const buf = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+/* -------------------- KV (Netlify Blobs) helpers -------------------- */
+// Nota: en Edge, Netlify expone `context.blob`. Manejamos formatos posibles.
+async function kvGet(context, key) {
+  try {
+    const store = context?.blob || context?.blobs;
+    if (!store?.get) return null;
+    const v = await store.get(key);
+    if (!v) return null;
+    if (typeof v === "string") return v;
+    if (v instanceof ArrayBuffer) return new TextDecoder().decode(v);
+    if (v?.text) return await v.text();
+    if (v?.body) return await v.body?.text?.() ?? null;
+    return null;
+  } catch (_e) {
+    return null;
+  }
+}
+async function kvSet(context, key, value, ttlSec) {
+  try {
+    const store = context?.blob || context?.blobs;
+    if (!store?.set) return false;
+    await store.set(key, value, { expirationTtl: ttlSec });
+    return true;
+  } catch (_e) {
+    return false;
+  }
+}
+
+/* -------------------- DeepL (con chunking) -------------------- */
 async function translateHtml(html, lang, url) {
   if (FORCE_OFF || !TRANSLATE_ENABLED || !DEEPL_KEY) {
-    console.warn("[i18n] DeepL desactivado (FORCE_OFF) o clave ausente");
     // sin traducción: no tocamos <html lang>, solo hreflang/canonical
     return {
       ok: false,
@@ -202,7 +236,7 @@ async function translateHtml(html, lang, url) {
   return { ok: allOk, text: patchSeo(out, lang, url, true), dbg: allOk ? "OK" : "PARTIAL" };
 }
 
-// -------------------- handler --------------------
+/* -------------------- handler -------------------- */
 export default async (request, context) => {
   let url = new URL(request.url);
   const path = url.pathname;
@@ -222,11 +256,10 @@ export default async (request, context) => {
     const cleaned = stripTrackingParams(url);
     if (cleaned.toString() !== url.toString()) {
       const headers = new Headers({ Location: cleaned.toString() });
-      // 301 canónico; cacheable y no interfiere con cookies
-      headers.set("Cache-Control","public, max-age=31536000");
+      headers.set("Cache-Control","public, max-age=31536000"); // 1 año
       return new Response(null, { status: 301, headers });
     }
-    url = cleaned; // por si solo quitamos algo irrelevante (orden, espacios), seguimos con el limpio
+    url = cleaned;
   }
 
   // Bypass manual y anti-recursión
@@ -259,28 +292,23 @@ export default async (request, context) => {
   if (wantsHtml && qlang && /^(en|fr|es)$/i.test(qlang)) {
     const forced = qlang.toLowerCase();
 
-    // Quita prefijo actual si lo hay para construir una "base" neutra
     const m = path.match(/^\/(en|fr)(\/|$)/);
-    let base = m ? path.slice(m[0].length) : path; // después de /en/ o /fr/
+    let base = m ? path.slice(m[0].length) : path; // después de /en o /fr/
     if (!/\.[a-z0-9]+$/i.test(base) && !base.endsWith("/")) base += "/";
     if (!base.startsWith("/")) base = "/" + base;
     if (base === "") base = "/";
 
-    // Destino final según idioma forzado
     const destPath = (forced === "es")
-      ? base                           // sin prefijo
-      : `/${forced}${base === "/" ? "/" : base}`; // con /en o /fr
+      ? base
+      : `/${forced}${base === "/" ? "/" : base}`;
 
-    // Redirección “limpia” (quitamos ?lang, marcadores internos, etc.)
     const destUrl = stripLangParam(new URL(url.origin + destPath + url.search));
-
-    // Cookie lang (también para ES → ‘es’, desactiva pegajosidad)
     const headers = new Headers({ Location: destUrl.toString() });
     headers.append("set-cookie", cookie("lang", forced, ONE_YEAR));
-
     return new Response(null, { status: 302, headers });
   }
-  // 2) Autodetección siempre (también con FORCE_OFF)
+
+  // 2) Autodetección (si no hay prefix ni cookie)
   if (!hasPrefix && wantsHtml && !cookies.lang) {
     const pick = bestMatch(request.headers.get("accept-language") || "", SUPPORTED);
     if (pick === "en")
@@ -289,7 +317,7 @@ export default async (request, context) => {
       return Response.redirect(stripLangParam(new URL(url.origin + "/fr" + path + url.search)), 302);
   }
 
-  // 3) Persistencia cookie: desactivada si FORCE_OFF
+  // 3) Persistencia cookie (si no FORCE_OFF)
   const wanted = cookies.lang;
   if (!FORCE_OFF && !hasPrefix && wantsHtml && (wanted === "en" || wanted === "fr")) {
     const dest = `${url.origin}/${wanted}${path === "/" ? "/" : path}${url.search}`;
@@ -321,9 +349,33 @@ export default async (request, context) => {
   // En ES, devolvemos tal cual
   if (!hasPrefix) return originRes;
 
-  // 5) Traducimos (o solo parcheamos SEO si está OFF/NO_KEY)
-  const html = await originRes.text();
-  const { ok, text: translatedRaw, dbg } = await translateHtml(html, prefix, url);
+  // 5) KV: intentamos hit antes de llamar a DeepL
+  const esHtml = await originRes.text();
+  const restPath = url.pathname.split("/").slice(2).join("/") || "";
+  const baseKey = `i18n:v1:${prefix}:${"/" + restPath}`;
+  const htmlHash = await sha256(esHtml);
+  const kvKey = `${baseKey}#${htmlHash.slice(0, 16)}`;
+
+  let kvHit = false;
+  let translatedRaw;
+
+  const cached = await kvGet(context, kvKey);
+  if (cached) {
+    kvHit = true;
+    translatedRaw = cached;
+  } else {
+    const { ok, text, dbg } = await translateHtml(esHtml, prefix, url);
+    translatedRaw = text;
+
+    // Guardar en KV solo si DeepL fue OK y no estamos en NOCACHE
+    if (ok && !NOCACHE) {
+      await kvSet(context, kvKey, translatedRaw, DEFAULT_TTL);
+    }
+
+    // Añadimos el dbg en headers luego
+    originRes._i18n_dbg = dbg;
+  }
+
   const text = tidyTypography(prefix, translatedRaw);
 
   // 6) Headers y caché
@@ -331,21 +383,18 @@ export default async (request, context) => {
   const headers = new Headers(originRes.headers);
   headers.delete("content-length");
   headers.set("content-type", "text/html; charset=utf-8");
-  headers.set("X-I18N-DeepL", dbg);
   headers.set("X-I18N-Debug", hasPrefix ? `translate:${prefix}` : "pass:es");
+  headers.set("X-I18N-KV", kvHit ? "HIT" : "MISS");
+  if (originRes._i18n_dbg) headers.set("X-I18N-DeepL", originRes._i18n_dbg);
+  if (kvHit) headers.set("X-I18N-DeepL", "HIT_KV");
 
-  if (NOCACHE || !ok || status >= 400) {
+  if (NOCACHE || status >= 400) {
     headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
     headers.set("Netlify-CDN-Cache-Control", "no-store");
   } else {
     headers.set("Cache-Control", `public, max-age=${DEFAULT_TTL}`);
     headers.set("Netlify-CDN-Cache-Control", `public, max-age=${DEFAULT_TTL}`);
   }
-
-  // Cookie lang: solo cuando NO está FORCE_OFF
-  // if (!FORCE_OFF && hasPrefix) {
-  //   headers.append("set-cookie", cookie("lang", prefix, ONE_YEAR));
-  // }
 
   return new Response(text, { status, headers });
 };
